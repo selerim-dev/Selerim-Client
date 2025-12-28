@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { siteCopy } from '../../config/siteCopy';
 import { gradientMain } from '../../config/tokens';
 import GradientBorder from '../../components/GradientBorder';
-import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import { CheckCircleIcon, GlobeAltIcon, DevicePhoneMobileIcon } from '@heroicons/react/24/outline';
 import InstantQuoteForm from '../../components/InstantQuoteForm';
 
 export default function CaseStudies() {
@@ -31,7 +32,7 @@ export default function CaseStudies() {
             <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
               {siteCopy.work.intro.headline}
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-white/80">
+            <p className="mx-auto mt-6 max-w-2xl text-xl text-white/80">
               {siteCopy.work.intro.subheadline}
             </p>
           </div>
@@ -45,7 +46,14 @@ export default function CaseStudies() {
             {siteCopy.work.caseStudies.map((study, index) => (
               <GradientBorder key={index} hoverIntensity="high">
                 <div className="p-10">
-                  <h2 className="text-3xl font-bold text-white mb-6">{study.title}</h2>
+                  <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-3xl font-bold text-white">{study.title}</h2>
+                    {study.custom && (
+                      <span className="px-4 py-1 rounded-full bg-blue-500/20 text-blue-300 text-sm font-semibold">
+                        Custom Build
+                      </span>
+                    )}
+                  </div>
                   <div className="grid md:grid-cols-2 gap-8 mb-6">
                     <div>
                       <h3 className="text-xl font-semibold text-white mb-3">Problem</h3>
@@ -56,16 +64,56 @@ export default function CaseStudies() {
                       <p className="text-white/70">{study.solution}</p>
                     </div>
                   </div>
-                  <div className="grid md:grid-cols-2 gap-8">
+                  <div className="grid md:grid-cols-2 gap-8 mb-6">
                     <div>
                       <h3 className="text-xl font-semibold text-white mb-3">Outcome</h3>
-                      <p className="text-white font-semibold">{study.outcome}</p>
+                      <p className="text-white/70">{study.outcome}</p>
                     </div>
                     <div>
                       <h3 className="text-xl font-semibold text-white mb-3">Stack</h3>
                       <p className="text-white/60">{study.stack}</p>
                     </div>
                   </div>
+                  {study.links && (study.links.website || study.links.ios || study.links.android) && (
+                    <div className="mt-6 pt-6 border-t border-white/10">
+                      <h3 className="text-lg font-semibold text-white mb-4">View Project</h3>
+                      <div className="flex flex-wrap gap-4">
+                        {study.links.website && (
+                          <Link
+                            href={study.links.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 glass-button px-4 py-2 rounded-lg text-white hover:bg-white/20 transition glow-on-hover"
+                          >
+                            <GlobeAltIcon className="h-5 w-5" />
+                            <span>Website</span>
+                          </Link>
+                        )}
+                        {study.links.ios && (
+                          <Link
+                            href={study.links.ios}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 glass-button px-4 py-2 rounded-lg text-white hover:bg-white/20 transition glow-on-hover"
+                          >
+                            <DevicePhoneMobileIcon className="h-5 w-5" />
+                            <span>App Store</span>
+                          </Link>
+                        )}
+                        {study.links.android && (
+                          <Link
+                            href={study.links.android}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 glass-button px-4 py-2 rounded-lg text-white hover:bg-white/20 transition glow-on-hover"
+                          >
+                            <DevicePhoneMobileIcon className="h-5 w-5" />
+                            <span>Play Store</span>
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </GradientBorder>
             ))}

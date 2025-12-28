@@ -229,25 +229,35 @@ export const siteCopy = {
     },
     caseStudies: [
       {
-        title: 'AI-Powered Analytics Platform',
-        problem: 'SaaS company needed predictive analytics but couldn\'t afford per-request API costs at scale.',
-        solution: 'Built custom analytics engine using self-hosted open-source LLM. Integrated into existing Next.js web application.',
-        outcome: 'Reduced analysis time by 70%. Zero per-request costs. Full data control maintained.',
-        stack: 'Next.js, Python, FastAPI, Self-hosted LLM (Llama 2), PostgreSQL'
+        title: 'Zenfulnote',
+        custom: true,
+        problem: 'Health and wellness startup needed a scalable mobile and web platform to serve growing user base with real-time sync, secure data handling, and seamless cross-platform experience. Required AI-powered personalized mental health exercise recommendations.',
+        solution: 'Custom-built from the ground up using Enterprise plan. Full-stack application with native iOS and Android apps, responsive web platform, and robust backend infrastructure. Implemented secure authentication, real-time data synchronization, and scalable architecture. Fine-tuned Llama 3 with thousands of custom training points to power AI-driven mental health exercise suggestions personalized to each user.',
+        outcome: '150,000+ users, multi-six figure revenue, thousands of daily active users. Platform scales seamlessly with growing demand. AI recommendations drive high engagement and user retention.',
+        stack: 'PHP/Laravel, PostgreSQL, Swift, Android, AWS, Llama 3 (Fine-tuned)',
+        links: {
+          website: 'https://zenfulnote.app',
+          ios: 'https://apps.apple.com/us/app/zenfulnote-journal-heal/id6464039288',
+          android: 'https://play.google.com/store/apps/details?id=com.zenful.note&hl=en_US'
+        }
       },
       {
-        title: 'Mobile App with Bedrock Integration',
-        problem: 'Startup needed natural language processing in iOS app but lacked ML expertise.',
-        solution: 'Developed React Native app with AWS Bedrock integration for chat and content generation features.',
-        outcome: 'Launched in 6 weeks. Handles 10K+ daily active users. Managed infrastructure scales automatically.',
-        stack: 'React Native, AWS Bedrock (Claude), Node.js, AWS Lambda'
+        title: 'CQ Technologies',
+        custom: true,
+        problem: 'Home inspection company needed a comprehensive mobile tool to capture property data, generate professional reports, and streamline inspection workflows with offline capability and cloud sync.',
+        solution: 'Custom-built from the ground up using Enterprise plan. Flutter mobile application with FastAPI backend for report generation, image processing, and data management. Implemented offline-first architecture with seamless cloud synchronization and professional report templates.',
+        outcome: 'Streamlined inspection process, reduced inspection time by 40%, professional report generation in minutes. All data securely synced and accessible across devices.',
+        stack: 'Flutter, FastAPI, PostgreSQL, AWS, Docker',
+        links: null
       },
       {
-        title: 'E-commerce AI Assistant',
-        problem: 'E-commerce platform wanted to add AI shopping assistant without rebuilding entire system.',
-        solution: 'Integrated open-source LLM into existing Rails application. Added chat interface and product recommendation engine.',
-        outcome: '30% increase in conversion rate. Launched in 4 weeks. No vendor lock-in.',
-        stack: 'Ruby on Rails (existing), Python microservice, Self-hosted LLM, Redis'
+        title: 'AI-Powered SaaS Analytics Platform',
+        custom: false,
+        problem: 'B2B SaaS company needed predictive analytics capabilities but couldn\'t afford per-request API costs at scale. Required custom AI integration without vendor lock-in.',
+        solution: 'Built custom analytics engine using self-hosted open-source LLM. Integrated seamlessly into existing Next.js application with real-time processing and scalable infrastructure.',
+        outcome: 'Reduced analysis time by 70%. Zero per-request costs. Full data control maintained. Handles 50K+ requests daily with 99.9% uptime.',
+        stack: 'Next.js, Python, FastAPI, Self-hosted LLM (Llama 2), PostgreSQL, AWS',
+        links: null
       }
     ],
     deliverables: {
@@ -382,7 +392,7 @@ export const siteCopy = {
   about: {
     story: {
       headline: 'About Selerim',
-      content: 'We\'re a US-based software agency specializing in building web and mobile applications, especially with AI integration or using your own AI data. We work with non-technical teams—that\'s our specialty. If you need something built, we\'re your team. We don\'t do pure marketing or design, but we offer in-house design for our full projects. Our approach emphasizes no vendor lock-in, giving clients control over their AI infrastructure. We ship code that works in production, with full transparency and access from day one.'
+      content: 'We\'re a US-based software agency specializing in AI integration and full-stack development. We work with non-technical teams to build production-ready web and mobile applications.'
     },
     principles: {
       title: 'Operating Principles',

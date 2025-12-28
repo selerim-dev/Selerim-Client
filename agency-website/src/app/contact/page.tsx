@@ -32,29 +32,38 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-dark-blue flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8 overflow-x-hidden">
+    <main className="relative min-h-screen bg-dark-blue overflow-x-hidden">
       {/* Full screen background gradients */}
       <div className="bg-gradient-fullscreen">
         <div className="absolute left-[-10%] top-[-10%] h-[50vh] w-[50vh] rounded-full bg-blue-400/20 blur-[200px]" />
         <div className="absolute right-[-10%] top-[20%] h-[45vh] w-[45vh] rounded-full bg-purple-400/15 blur-[200px]" />
         <div className="absolute left-[20%] bottom-[-10%] h-[50vh] w-[50vh] rounded-full bg-pink-400/15 blur-[200px]" />
       </div>
-      <div className="relative z-10 w-full max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            {siteCopy.contact.headline}
-          </h1>
-          <p className="text-xl text-white/80">
-            {siteCopy.contact.subheadline}
-          </p>
+      {/* Hero Section */}
+      <div className="relative z-10">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
+              {siteCopy.contact.headline}
+            </h1>
+            <p className="mx-auto mt-6 max-w-2xl text-xl text-white/80">
+              {siteCopy.contact.subheadline}
+            </p>
+          </div>
         </div>
+      </div>
 
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          {/* What to Include */}
-          <div className="glass-card p-8">
-            <h2 className="text-2xl font-bold text-white mb-6">
-              {siteCopy.contact.whatToInclude.title}
-            </h2>
+      {/* Content Section */}
+      <div className="relative z-10 py-12">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="w-full max-w-4xl mx-auto">
+
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* What to Include */}
+              <div className="glass-card p-8">
+                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-6">
+                  {siteCopy.contact.whatToInclude.title}
+                </h2>
             <ul className="space-y-3">
               {siteCopy.contact.whatToInclude.items.map((item, index) => (
                 <li key={index} className="flex items-start text-white/80">
@@ -62,14 +71,14 @@ export default function ContactPage() {
                   <span>{item}</span>
                 </li>
               ))}
-            </ul>
-            <p className="mt-6 text-white/60 text-sm">
-              {siteCopy.contact.responseTime}
-            </p>
-          </div>
+                </ul>
+                <p className="mt-6 text-white/60 text-sm">
+                  {siteCopy.contact.responseTime}
+                </p>
+              </div>
 
-          {/* Contact Form */}
-          <div className="glass-card p-8">
+              {/* Contact Form */}
+              <div className="glass-card p-8">
             {success ? (
               <div className="text-center py-12">
                 <div className="text-3xl mb-4">✓</div>
@@ -155,10 +164,11 @@ export default function ContactPage() {
                 </div>
               </form>
             )}
+              </div>
+            </div>
           </div>
         </div>
-
       </div>
-    </div>
+    </main>
   );
 }

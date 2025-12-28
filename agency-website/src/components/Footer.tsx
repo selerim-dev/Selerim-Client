@@ -18,7 +18,7 @@ export default function Footer() {
           <nav className="flex flex-col md:flex-row items-center gap-4 md:gap-10 text-base font-medium">
             <Link href="/contact" className="text-white/80 hover:text-white transition relative hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">Contact</Link>
             <Link href="/case-studies" className="text-white/80 hover:text-white transition relative hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">Work</Link>
-            <Link href="/services" className="text-white/80 hover:text-white transition relative hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">Services</Link>
+            <Link href="/pricing" className="text-white/80 hover:text-white transition relative hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">Pricing</Link>
             <Link href="/about" className="text-white/80 hover:text-white transition relative hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">About</Link>
             <Link href="/terms" className="text-white/80 hover:text-white transition relative hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">Terms</Link>
             <Link href="/privacy" className="text-white/80 hover:text-white transition relative hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">Privacy</Link>

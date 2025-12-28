@@ -36,15 +36,15 @@ const TypewriterGradient: React.FC = () => {
     return () => clearTimeout(timeout);
   }, [displayed, isDeleting, wordIndex]);
 
-  // Use fixed pixel width to prevent layout shift - sized for "SaaS platform" at smaller font size
-  const minWidth = '280px'; // Fixed width to prevent any shifting
+  // Use fixed pixel width to prevent layout shift - sized for "SaaS platform" at larger font size
+  const minWidth = '400px'; // Fixed width to fully accommodate "SaaS platform" on one line
 
   return (
     <span 
-      className={`${gradientClass} inline-block`} 
+      className={`${gradientClass} inline-block text-center whitespace-nowrap`} 
       style={{ 
         minWidth: minWidth,
-        textAlign: 'left'
+        width: minWidth
       }}
     >
       {displayed}

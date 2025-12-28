@@ -1,23 +1,30 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import InstantQuoteForm from '../../components/InstantQuoteForm';
 import GradientBorder from '../../components/GradientBorder';
 import { 
-  CheckIcon, 
   RocketLaunchIcon, 
   ClockIcon, 
   ShieldCheckIcon,
-  CurrencyDollarIcon,
   ArrowPathIcon,
   ChartBarIcon,
-  SparklesIcon,
-  UserGroupIcon,
   CodeBracketIcon,
   DevicePhoneMobileIcon,
-  PaintBrushIcon
+  CheckCircleIcon
 } from '@heroicons/react/24/outline';
 import { gradientMain } from '../../config/tokens';
+import { siteCopy } from '../../config/siteCopy';
+
+const serviceIcons = [
+  DevicePhoneMobileIcon,
+  CodeBracketIcon,
+  RocketLaunchIcon,
+  ArrowPathIcon,
+  ChartBarIcon,
+  ShieldCheckIcon
+];
 
 const pricingTiers = [
   {
@@ -49,7 +56,6 @@ const pricingTiers = [
     ],
     bestFor: 'Startups and small businesses looking to validate their concept',
     cta: 'Get Started',
-    href: '#quote-form',
   },
   {
     name: 'Growth',
@@ -79,14 +85,13 @@ const pricingTiers = [
         description: 'Advanced security measures and monitoring'
       },
       {
-        icon: SparklesIcon,
+        icon: RocketLaunchIcon,
         text: 'Performance optimization',
         description: 'Optimized for speed and scalability'
       }
     ],
     bestFor: 'Growing businesses ready to scale their digital presence',
     cta: 'Get Started',
-    href: '#quote-form',
   },
   {
     name: 'Enterprise',
@@ -115,104 +120,165 @@ const pricingTiers = [
         description: 'Highest level of security and compliance'
       },
       {
-        icon: SparklesIcon,
+        icon: RocketLaunchIcon,
         text: 'Advanced optimization',
         description: 'Maximum performance and scalability'
       },
       {
-        icon: UserGroupIcon,
+        icon: CodeBracketIcon,
         text: 'Dedicated team',
         description: 'Assigned team members for your project'
       }
     ],
     bestFor: 'Large organizations requiring enterprise-grade solutions',
     cta: 'Contact Us',
-    href: '/contact',
-  },
-];
-
-const services = [
-  {
-    icon: CodeBracketIcon,
-    title: 'Web Development',
-    description: 'Custom web applications and websites built with modern technologies.',
-  },
-  {
-    icon: DevicePhoneMobileIcon,
-    title: 'Mobile Apps',
-    description: 'Native and cross-platform mobile applications for iOS and Android.',
-  },
-  {
-    icon: PaintBrushIcon,
-    title: 'UI/UX Design',
-    description: 'Beautiful and intuitive user interfaces that enhance user experience.',
-  },
-  {
-    icon: RocketLaunchIcon,
-    title: 'AI Integration',
-    description: 'Seamlessly integrate AI capabilities into your existing or new applications.',
   },
 ];
 
 export default function Pricing() {
   const [showQuote, setShowQuote] = useState(false);
 
+  React.useEffect(() => {
+    const handleClose = () => setShowQuote(false);
+    window.addEventListener('closeQuoteModal', handleClose);
+    return () => window.removeEventListener('closeQuoteModal', handleClose);
+  }, []);
+
   return (
     <main className="relative min-h-screen bg-dark-blue overflow-x-hidden">
-      {/* Blurred background gradients */}
-      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <div className="absolute left-[-12vw] top-[-12vw] h-[35vw] w-[35vw] rounded-full bg-blue-400/15 blur-[150px]" />
-        <div className="absolute right-[-12vw] top-[25vw] h-[30vw] w-[30vw] rounded-full bg-gray-400/15 blur-[150px]" />
-        <div className="absolute left-[15vw] bottom-[-12vw] h-[30vw] w-[30vw] rounded-full bg-blue-400/15 blur-[150px]" />
+      {/* Full screen background gradients */}
+      <div className="bg-gradient-fullscreen">
+        <div className="absolute left-[-10%] top-[-10%] h-[50vh] w-[50vh] rounded-full bg-blue-400/20 blur-[200px]" />
+        <div className="absolute right-[-10%] top-[20%] h-[45vh] w-[45vh] rounded-full bg-purple-400/15 blur-[200px]" />
+        <div className="absolute left-[20%] bottom-[-10%] h-[50vh] w-[50vh] rounded-full bg-pink-400/15 blur-[200px]" />
+        <div className="absolute right-[30%] top-[50%] h-[40vh] w-[40vh] rounded-full bg-cyan-400/10 blur-[200px]" />
       </div>
 
       {/* Hero Section */}
       <div className="relative z-10">
-        <div className="mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
-              Transparent Pricing, Premium Quality
+              Services & Pricing
             </h1>
             <p className="mx-auto mt-6 max-w-2xl text-xl text-white/80">
-              Every project is unique. We provide custom solutions tailored to your specific needs, 
-              ensuring the highest quality at every step.
+              Production-ready development with transparent pricing. Choose the engagement model that fits your needs.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Services Overview */}
-      <div className="relative z-10 bg-dark-blue py-20">
+      {/* Services Section */}
+      <div className="relative z-10 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-8">
-              Our Services
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-4">
+              What We Build
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-              {services.map((service) => (
-                <GradientBorder key={service.title}>
-                  <div className="p-6">
-                    <service.icon className="h-8 w-8 text-white mx-auto mb-4" />
-                    <h4 className="text-lg font-medium text-white/90 mb-2">{service.title}</h4>
-                    <p className="text-white/70">{service.description}</p>
+            <p className="text-lg text-white/70 max-w-2xl mx-auto">
+              {siteCopy.services.intro.subheadline}
+            </p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {siteCopy.services.categories.map((service, index) => {
+              const Icon = serviceIcons[index] || CodeBracketIcon;
+              return (
+                <GradientBorder key={service.title} hoverIntensity="high">
+                  <div className="p-6 h-full">
+                    <div className="w-14 h-14 rounded-2xl glass-strong flex items-center justify-center mb-4">
+                      <Icon className="h-7 w-7 text-white" />
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-3">{service.title}</h3>
+                    <p className="text-white/70 mb-4 text-sm">{service.description}</p>
+                    <ul className="space-y-2">
+                      {service.deliverables.map((deliverable, idx) => (
+                        <li key={idx} className="flex items-start text-white/80 text-sm">
+                          <CheckCircleIcon className="h-4 w-4 text-white mr-2 flex-shrink-0 mt-0.5" />
+                          <span>{deliverable}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </GradientBorder>
-              ))}
-            </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Engagement Models */}
+      <div className="relative z-10 py-12">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-4">
+              {siteCopy.services.engagementModels.title}
+            </h2>
+            <p className="text-lg text-white/70 max-w-2xl mx-auto">
+              Flexible engagement options to match your project needs and timeline
+            </p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-3">
+            <GradientBorder hoverIntensity="high">
+              <div className="p-6 h-full">
+                <h3 className="text-xl font-bold text-white mb-3">{siteCopy.services.engagementModels.hourly.title}</h3>
+                <p className="text-white/70 mb-4 text-sm">{siteCopy.services.engagementModels.hourly.description}</p>
+                <p className="text-white font-semibold mb-4 text-sm">{siteCopy.services.engagementModels.hourly.pricing}</p>
+                <p className="text-white/60 text-xs mb-3">Best for:</p>
+                <ul className="space-y-2">
+                  {siteCopy.services.engagementModels.hourly.bestFor.map((item, idx) => (
+                    <li key={idx} className="flex items-start text-white/80 text-xs">
+                      <CheckCircleIcon className="h-3 w-3 text-white mr-2 flex-shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </GradientBorder>
+            <GradientBorder hoverIntensity="high">
+              <div className="p-6 h-full">
+                <h3 className="text-xl font-bold text-white mb-3">{siteCopy.services.engagementModels.sprint.title}</h3>
+                <p className="text-white/70 mb-4 text-sm">{siteCopy.services.engagementModels.sprint.description}</p>
+                <p className="text-white font-semibold mb-4 text-sm">{siteCopy.services.engagementModels.sprint.pricing}</p>
+                <p className="text-white/60 text-xs mb-3">Best for:</p>
+                <ul className="space-y-2">
+                  {siteCopy.services.engagementModels.sprint.bestFor.map((item, idx) => (
+                    <li key={idx} className="flex items-start text-white/80 text-xs">
+                      <CheckCircleIcon className="h-3 w-3 text-white mr-2 flex-shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </GradientBorder>
+            <GradientBorder hoverIntensity="high">
+              <div className="p-6 h-full">
+                <h3 className="text-xl font-bold text-white mb-3">{siteCopy.services.engagementModels.fixed.title}</h3>
+                <p className="text-white/70 mb-4 text-sm">{siteCopy.services.engagementModels.fixed.description}</p>
+                <p className="text-white font-semibold mb-4 text-sm">{siteCopy.services.engagementModels.fixed.pricing}</p>
+                <p className="text-white/60 text-xs mb-3">Best for:</p>
+                <ul className="space-y-2">
+                  {siteCopy.services.engagementModels.fixed.bestFor.map((item, idx) => (
+                    <li key={idx} className="flex items-start text-white/80 text-xs">
+                      <CheckCircleIcon className="h-3 w-3 text-white mr-2 flex-shrink-0 mt-0.5" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </GradientBorder>
           </div>
         </div>
       </div>
 
       {/* Pricing Tiers */}
-      <div className="relative z-10 bg-dark-blue py-20">
+      <div className="relative z-10 py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-8">
-              Choose Your Path
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-4">
+              Pricing Tiers
             </h2>
-            <p className="text-xl text-white/80 max-w-3xl mx-auto">
-              Our pricing is based on your specific requirements. Each project is unique, 
-              and we ensure you get exactly what you need at a fair price.
+            <p className="text-lg text-white/70 max-w-3xl mx-auto">
+              Starting points for common project types. All pricing is customized based on your specific requirements.
             </p>
           </div>
 
@@ -230,7 +296,7 @@ export default function Pricing() {
                   <ul className="space-y-6 mb-8 flex-grow">
                     {tier.features.map((feature, index) => (
                       <li key={index} className="flex items-start">
-                        <feature.icon className="h-6 w-6 mr-3 text-blue-400 mt-1" />
+                        <feature.icon className="h-6 w-6 mr-3 text-blue-400 mt-1 flex-shrink-0" />
                         <div>
                           <p className="text-white/90 font-medium">{feature.text}</p>
                           <p className="text-white/60 text-sm">{feature.description}</p>
@@ -243,12 +309,21 @@ export default function Pricing() {
                     Best for: {tier.bestFor}
                   </p>
 
-                  <button
-                    onClick={() => setShowQuote(true)}
-                    className={`w-full rounded-full bg-white/10 text-white hover:bg-white/20 font-semibold px-6 py-3 text-lg transition mt-auto`}
-                  >
-                    {tier.cta}
-                  </button>
+                  {tier.name === 'Enterprise' ? (
+                    <Link
+                      href="/contact"
+                      className={`w-full rounded-full glass-button text-white hover:bg-white/20 font-semibold px-6 py-3 text-lg transition mt-auto glow-on-hover glow-on-click text-center block`}
+                    >
+                      {tier.cta}
+                    </Link>
+                  ) : (
+                    <button
+                      onClick={() => setShowQuote(true)}
+                      className={`w-full rounded-full ${gradientMain} text-white font-semibold px-6 py-3 text-lg transition mt-auto glow-on-hover glow-on-click`}
+                    >
+                      {tier.cta}
+                    </button>
+                  )}
                 </div>
               </GradientBorder>
             ))}
@@ -256,62 +331,24 @@ export default function Pricing() {
         </div>
       </div>
 
-      {/* Why Choose Us */}
-      <div className="relative z-10 bg-dark-blue py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-8">
-              Why Choose Us
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-              <div className="text-center">
-                <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-r from-blue-400 via-fuchsia-400 to-pink-400 p-0.5">
-                  <div className="w-full h-full rounded-full bg-black flex items-center justify-center">
-                    <SparklesIcon className="h-8 w-8 text-white" />
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-4">Premium Quality</h3>
-                <p className="text-white/70">We never compromise on quality. Every line of code, every design element, and every feature is crafted to the highest standards.</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-r from-blue-400 via-fuchsia-400 to-pink-400 p-0.5">
-                  <div className="w-full h-full rounded-full bg-black flex items-center justify-center">
-                    <ClockIcon className="h-8 w-8 text-white" />
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-4">Fast Delivery</h3>
-                <p className="text-white/70">Our streamlined process ensures quick delivery without sacrificing quality. Get to market faster with our efficient development approach.</p>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-r from-blue-400 via-fuchsia-400 to-pink-400 p-0.5">
-                  <div className="w-full h-full rounded-full bg-black flex items-center justify-center">
-                    <ShieldCheckIcon className="h-8 w-8 text-white" />
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold text-white mb-4">Ongoing Support</h3>
-                <p className="text-white/70">We're with you every step of the way. From initial development to ongoing maintenance, we ensure your success.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* CTA Section */}
-      <div className="relative z-10 bg-dark-blue py-20">
+      <div className="relative z-10 py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-8">
-              Ready to Start Your Project?
-            </h2>
-            <p className="text-xl text-white/80 max-w-3xl mx-auto mb-12">
-              Get a custom quote tailored to your specific needs. We'll help you choose the perfect solution for your business.
-            </p>
-            <button
-              onClick={() => setShowQuote(true)}
-              className={`rounded-full ${gradientMain} text-white font-bold px-12 py-6 text-2xl shadow hover:opacity-90 transition transform hover:scale-105 duration-300`}
-            >
-              Get Your Custom Quote
-            </button>
+            <div className="glass-card p-8 max-w-3xl mx-auto">
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white sm:text-4xl mb-4">
+                Ready to Start Your Project?
+              </h2>
+              <p className="text-lg text-white/80 mb-8">
+                Get a custom quote tailored to your specific needs. We'll help you choose the perfect solution for your business.
+              </p>
+              <button
+                onClick={() => setShowQuote(true)}
+                className={`rounded-full ${gradientMain} text-white font-bold px-10 py-5 text-xl shadow-lg hover:opacity-90 transition transform hover:scale-105 duration-300 inline-block backdrop-blur-sm glow-on-hover glow-on-click`}
+              >
+                Get Your Custom Quote
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -319,7 +356,7 @@ export default function Pricing() {
       {/* Modal for InstantQuoteForm */}
       {showQuote && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-md"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-md p-4 sm:p-8"
           onClick={(e) => {
             if (e.target === e.currentTarget) {
               setShowQuote(false);
@@ -329,7 +366,7 @@ export default function Pricing() {
           <div className="relative w-full max-w-2xl mx-auto">
             <InstantQuoteForm />
             <button
-              className="absolute top-4 right-4 text-white/60 hover:text-white text-3xl"
+              className="absolute top-4 right-4 text-white/60 hover:text-white text-3xl glow-on-hover z-10"
               onClick={() => setShowQuote(false)}
               aria-label="Close quote form"
             >
@@ -340,4 +377,4 @@ export default function Pricing() {
       )}
     </main>
   );
-} 
+}

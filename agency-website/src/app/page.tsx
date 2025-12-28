@@ -79,7 +79,7 @@ const services = siteCopy.home.servicesOverview.services.map((service, index) =>
     icon: icons[index] || CodeBracketIcon,
     title: service.title,
     description: service.description,
-    link: '/services',
+    link: '/pricing',
   };
 });
 
@@ -232,8 +232,8 @@ export default function Home() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative z-10 flex flex-col items-center justify-center text-center py-20 md:py-24">
-        <div className="w-[140px] h-[140px] mx-auto mb-8 bg-black/20 rounded-full">
+      <section className="relative z-10 flex flex-col items-center justify-center text-center pt-8 md:pt-12 pb-20 md:pb-32 px-4 sm:px-6 md:px-8">
+        <div className="w-[140px] h-[140px] mx-auto mb-6 bg-black/20 rounded-full">
           {mounted && animationData && (
             <Lottie
               animationData={animationData}
@@ -248,9 +248,9 @@ export default function Home() {
             />
           )}
         </div>
-        <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6">
-          End-to-end development and AI integration for your{' '}
-          <span className="inline-block">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 max-w-5xl mx-auto">
+          <span className="block mb-2 px-4 sm:px-6 md:px-8">End-to-end development and AI integration for your</span>
+          <span className="block flex justify-center px-4 sm:px-6 md:px-8">
             <TypewriterGradient />
           </span>
         </h1>
