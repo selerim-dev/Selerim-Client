@@ -77,7 +77,7 @@ export const siteCopy = {
       headlineA: 'Production-ready AI integrations for mobile and web apps',
       headlineB: 'Ship AI features that work, without vendor lock-in',
       subheadlineA: 'Open-source models or AWS Bedrock. We integrate into existing products or build new. Fixed-scope sprints or hourly.',
-      subheadlineB: 'US-based delivery. Technical execution. No hype. We build what ships to production.',
+      subheadlineB: 'USA-based team and delivery. Technical execution. We build what ships to production.',
       ctaPrimary: 'Book a 15-min intro',
       ctaSecondary: 'Get a project estimate',
       ctaPrimaryMicrocopy: 'Quick call to discuss your needs',

@@ -9,11 +9,11 @@ const MAIN_COMPONENTS = [
 ];
 
 const BUDGETS = [
-  'Under $10k', '$10k-$25k', '$25k-$50k', '$50k-$100k', '$100k+',
+  'Unknown', 'Under $10k', '$10k-$25k', '$25k-$50k', '$50k-$100k', '$100k+',
 ];
 
 const TIMELINES = [
-  '1-2 weeks', '2-4 weeks', '1-2 months', '2-4 months', '4+ months',
+  'Unknown', '1-2 weeks', '2-4 weeks', '1-2 months', '2-4 months', '4+ months',
 ];
 
 type ComponentPillsProps = {

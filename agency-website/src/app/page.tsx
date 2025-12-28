@@ -249,12 +249,10 @@ export default function Home() {
           )}
         </div>
         <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6">
-          Ship AI features for your{' '}
+          End-to-end development and AI integration for your{' '}
           <span className="inline-block">
             <TypewriterGradient />
           </span>
-          <br />
-          without vendor lock-in
         </h1>
         <p className="text-2xl text-white/80 mb-12 max-w-3xl mx-auto">
           {siteCopy.home.hero.subheadlineB}

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-const words = ['website', 'mobile app', 'SaaS platform', 'AI product', 'web app'];
+const words = ['website', 'mobile app', 'SaaS platform', 'web app'];
 
 const gradientClass =
   'bg-gradient-to-r from-blue-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent';
