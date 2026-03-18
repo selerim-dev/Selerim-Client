@@ -6,7 +6,6 @@ import TestimonialCarousel from '../components/TestimonialCarousel';
 import { 
   CodeBracketIcon, 
   DevicePhoneMobileIcon, 
-  PaintBrushIcon, 
   ChartBarIcon,
   RocketLaunchIcon,
   ClockIcon,
@@ -15,15 +14,12 @@ import {
   ShieldCheckIcon,
   CheckCircleIcon,
   ServerIcon,
-  CloudIcon
+  CloudIcon,
 } from '@heroicons/react/24/outline';
-import Image from 'next/image';
-import CompanyLogosCarousel, { CompanyLogo } from '../components/CompanyLogosCarousel';
 import TypewriterGradient from '../components/TypewriterGradient';
 import InstantQuoteForm from '../components/InstantQuoteForm';
 import { gradientMain } from '../config/tokens';
 import dynamic from 'next/dynamic';
-import type { LottieRefCurrentProps } from 'lottie-react';
 import GradientBorder from '../components/GradientBorder';
 import { siteCopy } from '../config/siteCopy';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
@@ -85,7 +81,7 @@ const services = siteCopy.home.servicesOverview.services.map((service, index) =>
 
 const testimonials = [
   {
-    quote: "It could not have been done without Selerim. The entire system was built by them end to end, and it has been flawless. It handles tens of thousands of requests every day without us needing to do anything.",
+    quote: "It could not have been done without Selerim. The entire system was built by them end to end, and it has run smoothly at scale without our team needing to manage the engineering side day to day.",
     author: "Abraham Shaheen",
     role: "CEO",
     company: "Zenfulnote"
@@ -97,24 +93,11 @@ const testimonials = [
     company: "ViaSync"
   },
   {
-    quote: "The full scope, build, and delivery has helped our internal team tremendously. Delivery was super fast, the quality was top tier, and working with the team was seamless and felt like 24/7 support throughout the process.",
+    quote: "The full scope, build, and delivery has helped our internal team tremendously. Delivery was fast, the quality was top tier, and working with the team was seamless from start to finish.",
     author: "Joe Kim",
     role: "Leadership Team",
     company: "CQ Technologies"
   }
-];
-
-// Example logos array (replace with your own)
-const companyLogos: CompanyLogo[] = [
-  { src: 'https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg', alt: 'Google', href: 'https://google.com' },
-  { src: 'https://www.google.com/search?sca_esv=b9039e3016f1e9d6&rlz=1C5CHFA_enUS1032US1032&sxsrf=AE3TifP1WkTWMoUMKonIW-EiMid5Dcdd3Q:1749770311132&q=masterclass+logo&udm=2&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIeoJTKjrFjVxydQWqI2NcOhZVmrJB8DQUK5IzxA2fZbQF4YL5sNSRJGgx0e9Z9AxEx1bmPbSY3ROQyoKhw9UuuwNOze1rMTfR8LJZdQ9FI96CmdBJWTydVJVILJpUCMhUJaivtxJ0ArVSPoESF5gtgDTwfAIvL61r650S64avOx1wd9u3Yw&sa=X&ved=2ahUKEwiKr9Wugu2NAxVaLdAFHVv5IoAQtKgLegQIGhAB&biw=1512&bih=857&dpr=2#vhid=SQvuaYf8w77iIM&vssid=mosaic', alt: 'MasterClass', href: 'https://masterclass.com' },
-  { src: 'https://upload.wikimedia.org/wikipedia/commons/c/ca/Sony_logo.svg', alt: 'Sony', href: 'https://sony.com' },
-  { src: 'https://upload.wikimedia.org/wikipedia/commons/5/59/Epson_logo.svg', alt: 'Epson', href: 'https://epson.com' },
-  { src: 'https://brandfetch.com/doorspaceinc.com', alt: 'DoorSpace', href: 'https://doorspaceinc.com' },
-  { src: 'https://brandfetch.com/mybrightwheel.com', alt: 'Brightwheel', href: 'https://mybrightwheel.com' },
-  { src: 'https://seeklogo.com/vector-logo/442110/betterup', alt: 'BetterUp', href: 'https://betterup.com' },
-  { src: 'https://seeklogo.com/vector-logo/273876/salesforce', alt: 'Salesforce', href: 'https://salesforce.com' },
-  { src: 'https://worldvectorlogo.com/logo/consulting', alt: 'Consulting Partners', href: '#' },
 ];
 
 const pricingTiers = [
@@ -160,7 +143,7 @@ const pricingTiers = [
     features: [
       {
         icon: ArrowPathIcon,
-        text: '24/7 maintenance'
+        text: 'Dedicated support options'
       },
       {
         icon: ChartBarIcon,
@@ -178,9 +161,6 @@ export default function Home() {
   const [showQuote, setShowQuote] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [animationData, setAnimationData] = useState(null);
-  const [error, setError] = useState(null);
-  const lottieRef = useRef<LottieRefCurrentProps>(null);
-
   // Listen for close event from InstantQuoteForm
   useEffect(() => {
     const handleClose = () => setShowQuote(false);
@@ -566,7 +546,7 @@ export default function Home() {
               What Our Clients Say
             </h2>
             <p className="mt-4 text-2xl text-white/80 max-w-4xl mx-auto">
-              Don't just take our word for it - hear from our satisfied clients
+              Direct feedback from client teams we have worked with.
             </p>
           </div>
           <div className="mt-16">

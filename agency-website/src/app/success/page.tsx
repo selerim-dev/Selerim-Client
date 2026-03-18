@@ -8,55 +8,41 @@ const stories = [
     name: "Zenfulnote",
     logo: "/success/zenfulnote.png",
     description:
-      "Zenfulnote is a mobile app built for both iOS and Android, helping users capture thoughts and stay organized. We built Zenfulnote from scratch in just 3 months, delivering a seamless experience on both platforms. The app now serves over 150,000 users and boasts 99.9% uptime, thanks to robust cloud infrastructure and continuous monitoring.",
+      "Zenfulnote is a full custom product spanning mobile, web, backend infrastructure, and AI-assisted product functionality. Selerim handled the end-to-end build and continues to support the platform as it evolves.",
     highlights: [
-      "150,000+ users",
-      "99.9% uptime",
-      "Built in 3 months",
-      "Perfected for Apple & Android",
+      "End-to-end custom build",
+      "Mobile, web, and backend delivery",
+      "AI-enabled product functionality",
+      "Ongoing product support",
       "Enterprise Tier"
     ],
     link: "#",
   },
   {
-    name: "Discoverly.ai",
+    name: "CQ Technologies",
     logo: "/success/discoverly.jpg",
     description:
-      "Discoverly.ai is a software affiliate platform that accurately tracks commissions from software app links. The platform handles tens of thousands of dollars in volume every month, with 99.9% uptime and real-time analytics for partners. Our team engineered a scalable, secure backend to ensure every click and commission is tracked flawlessly.",
+      "CQ Technologies needed a dependable mobile workflow for field operations, reporting, and internal coordination. The result was a custom platform built to support inspection work, report generation, and synchronized operational data.",
     highlights: [
-      "Tens of thousands in monthly volume",
-      "Accurate commission tracking",
-      "99.9% uptime",
-      "Real-time analytics",
+      "Operational workflow tooling",
+      "Mobile-first field capture",
+      "Custom reporting flow",
+      "Internal team enablement",
       "Enterprise Tier"
     ],
     link: "#",
   },
   {
-    name: "BrightPath LMS",
+    name: "ViaSync",
     logo: "/success/brightpath.png",
     description:
-      "BrightPath LMS is a learning management system for schools and businesses. We delivered a custom solution with advanced reporting, integrations, and a beautiful UI. The platform now supports over 50 organizations and thousands of learners.",
+      "ViaSync was delivered as a lean, startup-friendly mobile application focused on helping users connect and coordinate smoothly. It was shipped quickly on a constrained budget and continues to be supported as the product grows.",
     highlights: [
-      "Custom integrations",
-      "Advanced reporting",
-      "Thousands of learners",
-      "Modern UI",
+      "Starter-plan delivery",
+      "Lean mobile product build",
+      "Fast launch timeline",
+      "Ongoing support",
       "Starter Tier"
-    ],
-    link: "#",
-  },
-  {
-    name: "DoorSpace Portal",
-    logo: "/success/doorspace.jpeg",
-    description:
-      "DoorSpace Portal is a secure client portal for real estate professionals. We built a robust, easy-to-use platform that streamlines document sharing and client communication, with bank-level security and 24/7 uptime.",
-    highlights: [
-      "Bank-level security",
-      "24/7 uptime",
-      "Streamlined communication",
-      "Trusted by real estate pros",
-      "Growth Tier"
     ],
     link: "#",
   },

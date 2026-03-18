@@ -101,8 +101,8 @@ const pricingTiers = [
     features: [
       {
         icon: ArrowPathIcon,
-        text: '24/7 maintenance',
-        description: 'Round-the-clock support and monitoring'
+        text: 'Priority support options',
+        description: 'Structured support coverage based on project needs'
       },
       {
         icon: ChartBarIcon,

@@ -155,25 +155,25 @@ export const siteCopy = {
     },
     featuredWork: {
       title: 'Featured Work',
-      subtitle: 'Production-ready applications we\'ve shipped',
+      subtitle: 'Selected projects and delivery outcomes from recent client work',
       items: [
         {
-          title: 'AI-Powered Analytics Platform',
-          description: 'Web app with custom AI models for predictive analytics',
-          outcome: 'Reduced analysis time by 70%',
-          stack: 'Next.js, Python, Self-hosted LLM'
+          title: 'Zenfulnote',
+          description: 'Full product build across mobile, web, and backend systems with AI-enabled wellness features.',
+          outcome: 'Built and scaled as a custom end-to-end platform.',
+          stack: 'Laravel, PostgreSQL, Swift, Android, AWS'
         },
         {
-          title: 'Mobile App with Bedrock Integration',
-          description: 'iOS app using AWS Bedrock for natural language processing',
-          outcome: 'Launched in 6 weeks',
-          stack: 'React Native, AWS Bedrock, Node.js'
+          title: 'CQ Technologies',
+          description: 'Operational inspection workflow tooling with mobile capture, reporting, and synchronized field data.',
+          outcome: 'Delivered as a custom workflow platform for an internal operating team.',
+          stack: 'Flutter, FastAPI, PostgreSQL, AWS'
         },
         {
-          title: 'E-commerce AI Assistant',
-          description: 'Added AI chat to existing e-commerce platform',
-          outcome: '30% increase in conversion rate',
-          stack: 'Existing stack + Open-source LLM'
+          title: 'ViaSync',
+          description: 'Lean mobile application designed to help users connect and coordinate with each other quickly.',
+          outcome: 'Shipped on a startup-friendly budget with ongoing support.',
+          stack: 'Flutter, Supabase, App Store deployment'
         }
       ]
     },
@@ -233,7 +233,7 @@ export const siteCopy = {
         custom: true,
         problem: 'Health and wellness startup needed a scalable mobile and web platform to serve growing user base with real-time sync, secure data handling, and seamless cross-platform experience. Required AI-powered personalized mental health exercise recommendations.',
         solution: 'Custom-built from the ground up using Enterprise plan. Full-stack application with native iOS and Android apps, responsive web platform, and robust backend infrastructure. Implemented secure authentication, real-time data synchronization, and scalable architecture. Fine-tuned Llama 3 with thousands of custom training points to power AI-driven mental health exercise suggestions personalized to each user.',
-        outcome: '150,000+ users, multi-six figure revenue, thousands of daily active users. Platform scales seamlessly with growing demand. AI recommendations drive high engagement and user retention.',
+        outcome: 'Built as a full custom platform across mobile, web, and backend systems, with AI recommendations integrated into the product experience.',
         stack: 'PHP/Laravel, PostgreSQL, Swift, Android, AWS, Llama 3 (Fine-tuned)',
         links: {
           website: 'https://zenfulnote.app',
@@ -246,7 +246,7 @@ export const siteCopy = {
         custom: true,
         problem: 'Home inspection company needed a comprehensive mobile tool to capture property data, generate professional reports, and streamline inspection workflows with offline capability and cloud sync.',
         solution: 'Custom-built from the ground up using Enterprise plan. Flutter mobile application with FastAPI backend for report generation, image processing, and data management. Implemented offline-first architecture with seamless cloud synchronization and professional report templates.',
-        outcome: 'Streamlined inspection process, reduced inspection time by 40%, professional report generation in minutes. All data securely synced and accessible across devices.',
+        outcome: 'Streamlined the inspection workflow with mobile capture, report generation, and synchronized operational data across devices.',
         stack: 'Flutter, FastAPI, PostgreSQL, AWS, Docker',
         links: null
       },
@@ -444,7 +444,7 @@ export const siteCopy = {
         'Current stage (idea, existing product, etc.)'
       ]
     },
-    responseTime: 'We respond within 24 hours',
+    responseTime: 'Fast response times for new project inquiries',
     ctas: {
       primary: {
         label: 'Book a 15-min intro',
