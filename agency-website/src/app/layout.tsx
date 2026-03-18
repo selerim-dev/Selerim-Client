@@ -1,12 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { NotificationProvider } from '../components/NotificationProvider';
 import { AuthProvider } from '../lib/auth-context';
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Selerim - Custom Software Development",
@@ -20,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={`${inter.className} min-h-screen bg-dark-blue`}>
+      <body className="min-h-screen bg-dark-blue">
         <NotificationProvider>
           <AuthProvider>
             <Header />

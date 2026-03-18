@@ -5,9 +5,7 @@ import { useRouter } from 'next/navigation';
 import { 
   AuthState, 
   User, 
-  TokenResponse, 
-  UserLogin,
-  AuthError 
+  UserLogin
 } from '../interfaces/auth';
 import authService, { tokenStorage } from './auth';
 
@@ -105,78 +103,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   // Initialize auth state on mount
   useEffect(() => {
-    const initializeAuth = async () => {
+    const initializeAuth = () => {
       try {
         const { accessToken, refreshToken } = tokenStorage.getTokens();
         const user = tokenStorage.getUser();
 
         if (accessToken && refreshToken && user) {
-          // Validate token by making a test API call
-          try {
-            // Try to get current user to validate token
-            await authService.updateProfile({}, accessToken);
-            
-            // If successful, set auth state
-            dispatch({
-              type: 'AUTH_SUCCESS',
-              payload: {
-                user: user,
-                tokens: { access_token: accessToken, refresh_token: refreshToken }
-              }
-            });
-          } catch (error) {
-            // Handle CORS errors more gracefully
-            if (error instanceof Error && (
-              error.message.includes('CORS') ||
-              error.message.includes('Failed to fetch') ||
-              error.message.includes('NetworkError')
-            )) {
-              console.warn('CORS or network error during auth validation, but keeping user logged in:', error.message);
-              // Don't log out on CORS errors, just set auth state
-              dispatch({
-                type: 'AUTH_SUCCESS',
-                payload: {
-                  user: user,
-                  tokens: { access_token: accessToken, refresh_token: refreshToken }
-                }
-              });
-              return;
+          dispatch({
+            type: 'AUTH_SUCCESS',
+            payload: {
+              user,
+              tokens: { access_token: accessToken, refresh_token: refreshToken }
             }
-            
-            // If token validation fails, try to refresh
-            if (error instanceof Error && (
-              error.message.includes('Authentication required') ||
-              error.message.includes('401') ||
-              error.message.includes('Unauthorized')
-            )) {
-              try {
-                const newTokens = await authService.refreshToken(refreshToken);
-                tokenStorage.setTokens(newTokens.access_token, newTokens.refresh_token);
-                tokenStorage.setUser(newTokens.user);
-                
-                dispatch({
-                  type: 'AUTH_SUCCESS',
-                  payload: {
-                    user: newTokens.user,
-                    tokens: { 
-                      access_token: newTokens.access_token, 
-                      refresh_token: newTokens.refresh_token 
-                    }
-                  }
-                });
-              } catch (refreshError) {
-                // If refresh also fails, clear everything and logout
-                console.error('Token refresh failed:', refreshError);
-                tokenStorage.clearAll();
-                dispatch({ type: 'AUTH_LOGOUT' });
-                router.push('/login');
-              }
-            } else {
-              // Other errors, clear auth state
-              tokenStorage.clearAll();
-              dispatch({ type: 'AUTH_LOGOUT' });
-            }
-          }
+          });
         } else {
           dispatch({ type: 'AUTH_LOGOUT' });
         }

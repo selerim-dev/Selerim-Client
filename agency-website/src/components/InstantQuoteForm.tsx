@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useNotification } from './NotificationProvider';
+import { ADMIN_EMAIL, formatLeadSection, openMailto } from '../lib/leads';
+import { estimateProject, formatCurrency } from '../lib/quote-estimator';
 
 const MAIN_COMPONENTS = [
   'Auth', 'Login', 'Location', 'Push Notifications', 'Payments', 'Chat', 'Profile', 'Feed', 'Search', 'Settings', 'Analytics', 'Admin Panel', 'File Upload', 'Calendar', 'Notifications',
@@ -29,7 +31,7 @@ function ComponentPills({ selected, onSelect, onRemove, onAdd }: ComponentPillsP
 
   return (
     <div className="flex flex-wrap gap-2">
-      {selected.map((comp, idx) => (
+      {selected.map((comp) => (
         <span key={comp} className="flex items-center glass-card px-3 py-1 rounded-full text-sm text-white">
           {comp}
           <button
@@ -89,7 +91,13 @@ function ComponentPills({ selected, onSelect, onRemove, onAdd }: ComponentPillsP
   );
 }
 
-type QuoteResult = { price: string; recommendation: string };
+type QuoteResult = {
+  priceLabel: string;
+  rangeLabel: string;
+  hoursLabel: string;
+  recommendation: string;
+  assumptions: string[];
+};
 type QuoteResultModalProps = { result: QuoteResult; onClose: () => void; onGetQuote: () => void };
 
 function QuoteResultModal({ result, onClose, onGetQuote }: QuoteResultModalProps) {
@@ -99,10 +107,19 @@ function QuoteResultModal({ result, onClose, onGetQuote }: QuoteResultModalProps
         <button className="absolute top-4 right-4 text-white/60 hover:text-white text-3xl glow-on-hover z-10" onClick={onClose} aria-label="Close offer modal">×</button>
         <h3 className="text-3xl sm:text-4xl font-bold text-white mb-4 sm:mb-6">Your Instant Quote</h3>
         <div className="text-5xl sm:text-6xl font-extrabold bg-gradient-to-r from-blue-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent mb-3 sm:mb-4">
-          ${result.price}
+          {result.priceLabel}
         </div>
+        <div className="mb-2 text-lg text-white/75">{result.rangeLabel}</div>
+        <div className="mb-4 text-sm uppercase tracking-[0.22em] text-white/45">{result.hoursLabel}</div>
         <div className="text-lg sm:text-xl text-white/80 mb-4 sm:mb-6">
           {result.recommendation}
+        </div>
+        <div className="mb-6 flex flex-wrap justify-center gap-2">
+          {result.assumptions.map((assumption) => (
+            <span key={assumption} className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-sm text-white/65">
+              {assumption}
+            </span>
+          ))}
         </div>
         <div className="text-sm sm:text-base text-white/60 mb-6 sm:mb-8">
           This quote is an estimate. We recommend a 1:1 call to review your needs. Final pricing may change after a detailed review.
@@ -132,10 +149,13 @@ const InstantQuoteForm: React.FC = () => {
   const [budget, setBudget] = useState('');
   const [timeline, setTimeline] = useState('');
   const [components, setComponents] = useState<string[]>([]);
+  const [brief, setBrief] = useState('');
+  const [reliability, setReliability] = useState<'standard' | 'elevated' | 'critical'>('elevated');
+  const [scale, setScale] = useState<'internal' | 'startup' | 'growth' | 'scale'>('startup');
+  const [company, setCompany] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<null | { price: string; recommendation: string }>(null);
+  const [result, setResult] = useState<null | QuoteResult>(null);
 
   const handleAddComponent = (comp: string) => {
     if (!components.includes(comp)) setComponents([...components, comp]);
@@ -146,47 +166,76 @@ const InstantQuoteForm: React.FC = () => {
 
   const handleBudgetSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (budget && timeline) {
-      // Calculate quick estimate
-      let price = '12,000';
-      let recommendation = 'We recommend the Business route for your project.';
-      if (components.length <= 3) { 
-        price = '6,000'; 
-        recommendation = 'We recommend the Starter route for your project.'; 
-      }
-      if (components.length >= 10) { 
-        price = '30,000'; 
-        recommendation = 'We recommend the Custom route for your project.'; 
-      }
-      setResult({ price, recommendation });
+    if (budget && timeline && brief.trim()) {
+      const estimate = estimateProject({
+        components,
+        brief,
+        timeline,
+        reliability,
+        scale,
+      });
+
+      setResult({
+        priceLabel: formatCurrency(estimate.basePrice),
+        rangeLabel: `${formatCurrency(estimate.priceLow)} to ${formatCurrency(estimate.priceHigh)}`,
+        hoursLabel: `${estimate.hours} hours at ${formatCurrency(estimate.hourlyRate)}/hr`,
+        recommendation: estimate.recommendation,
+        assumptions: estimate.assumptions.slice(0, 5),
+      });
     }
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    // Here you would send the data to your API
-    setTimeout(() => {
-      setLoading(false);
-      // Show toast notification
-      notify({ 
-        message: 'Thank you! We\'ll send you a detailed quote soon.', 
-        type: 'success' 
-      });
-      // Close modal and reset form
-      setStep('budget');
-      setBudget('');
-      setTimeline('');
-      setComponents([]);
-      setName('');
-      setEmail('');
-      setResult(null);
-      // Close the modal by triggering parent close
-      if (typeof window !== 'undefined') {
-        // Dispatch custom event to close modal
-        window.dispatchEvent(new CustomEvent('closeQuoteModal'));
-      }
-    }, 2000);
+    const body = [
+      formatLeadSection('Requester', [
+        `Name: ${name}`,
+        `Email: ${email}`,
+        company ? `Company: ${company}` : null,
+      ]),
+      formatLeadSection('Estimate Inputs', [
+        `Budget range: ${budget}`,
+        `Timeline: ${timeline}`,
+        `Reliability target: ${reliability}`,
+        `Expected scale: ${scale}`,
+        `Main components: ${components.length ? components.join(', ') : 'None selected'}`,
+      ]),
+      formatLeadSection('Project Brief', [brief]),
+      result ? formatLeadSection('Selerim Instant Estimate', [
+        `Estimate: ${result.priceLabel}`,
+        `Range: ${result.rangeLabel}`,
+        `Workload: ${result.hoursLabel}`,
+        `Recommendation: ${result.recommendation}`,
+        `Assumptions: ${result.assumptions.join(', ')}`,
+      ]) : '',
+    ]
+      .filter(Boolean)
+      .join('\n\n');
+
+    openMailto({
+      to: ADMIN_EMAIL,
+      subject: `Quote request from ${name}`,
+      body,
+    });
+
+    notify({ 
+      message: 'Your email client is ready with the quote request addressed to admin@selerim.com.', 
+      type: 'success' 
+    });
+    setStep('budget');
+    setBudget('');
+    setTimeline('');
+    setComponents([]);
+    setBrief('');
+    setReliability('elevated');
+    setScale('startup');
+    setCompany('');
+    setName('');
+    setEmail('');
+    setResult(null);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('closeQuoteModal'));
+    }
   };
 
   return (
@@ -219,6 +268,43 @@ const InstantQuoteForm: React.FC = () => {
                 <option value="">Select timeline</option>
                 {TIMELINES.map(t => <option key={t} value={t}>{t}</option>)}
               </select>
+            </div>
+            <div>
+              <label className="block text-white/80 mb-3 text-lg">Project Brief</label>
+              <textarea
+                className="min-h-32 w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-base text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
+                value={brief}
+                onChange={e => setBrief(e.target.value)}
+                placeholder="Describe the product, the workflows that matter, any AI features, integrations, or uptime expectations."
+                required
+              />
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div>
+                <label className="block text-white/80 mb-3 text-lg">Reliability</label>
+                <select
+                  className="w-full rounded-lg glass-card text-white px-6 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
+                  value={reliability}
+                  onChange={e => setReliability(e.target.value as 'standard' | 'elevated' | 'critical')}
+                >
+                  <option value="standard">Standard product uptime</option>
+                  <option value="elevated">Elevated reliability</option>
+                  <option value="critical">Mission-critical reliability</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-white/80 mb-3 text-lg">Expected Scale</label>
+                <select
+                  className="w-full rounded-lg glass-card text-white px-6 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
+                  value={scale}
+                  onChange={e => setScale(e.target.value as 'internal' | 'startup' | 'growth' | 'scale')}
+                >
+                  <option value="internal">Internal team tool</option>
+                  <option value="startup">Early product launch</option>
+                  <option value="growth">Growth-stage product</option>
+                  <option value="scale">Large-scale customer traffic</option>
+                </select>
+              </div>
             </div>
             <div>
               <label className="block text-white/80 mb-3 text-lg">Main Components (optional)</label>
@@ -261,6 +347,16 @@ const InstantQuoteForm: React.FC = () => {
               />
             </div>
             <div>
+              <label className="block text-white/80 mb-2 text-lg">Company</label>
+              <input
+                type="text"
+                className="w-full rounded-lg glass-card text-white px-5 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
+                value={company}
+                onChange={e => setCompany(e.target.value)}
+                placeholder="Company or brand"
+              />
+            </div>
+            <div>
               <label className="block text-white/80 mb-2 text-lg">Budget Range</label>
               <select
                 className="w-full rounded-lg glass-card text-white px-5 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
@@ -285,6 +381,16 @@ const InstantQuoteForm: React.FC = () => {
               </select>
             </div>
             <div>
+              <label className="block text-white/80 mb-2 text-lg">Project Brief</label>
+              <textarea
+                className="min-h-28 w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-base text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
+                value={brief}
+                onChange={e => setBrief(e.target.value)}
+                required
+                placeholder="Anything we should know before we scope this properly?"
+              />
+            </div>
+            <div>
               <label className="block text-white/80 mb-2 text-lg">Main Components</label>
               <ComponentPills
                 selected={components}
@@ -296,10 +402,9 @@ const InstantQuoteForm: React.FC = () => {
             <div className="flex gap-4">
               <button
                 type="submit"
-                disabled={loading}
-                className="flex-1 rounded-full bg-gradient-to-r from-blue-400 via-fuchsia-400 to-pink-400 text-white font-bold py-4 text-xl shadow hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed glow-on-hover glow-on-click"
+                className="flex-1 rounded-full bg-gradient-to-r from-blue-400 via-fuchsia-400 to-pink-400 text-white font-bold py-4 text-xl shadow hover:opacity-90 transition glow-on-hover glow-on-click"
               >
-                {loading ? 'Sending...' : 'Get Detailed Quote'}
+                Compose Detailed Quote Email
               </button>
               <button
                 type="button"
@@ -308,6 +413,10 @@ const InstantQuoteForm: React.FC = () => {
                   setBudget('');
                   setTimeline('');
                   setComponents([]);
+                  setBrief('');
+                  setReliability('elevated');
+                  setScale('startup');
+                  setCompany('');
                   setName('');
                   setEmail('');
                 }}

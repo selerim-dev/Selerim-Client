@@ -9,9 +9,6 @@ import {
   User, 
   TokenResponse, 
   UserLogin, 
-  RefreshTokenRequest,
-  PasswordResetRequest,
-  PasswordResetConfirm,
   ChangePasswordRequest,
   UserUpdate,
   Project,
@@ -24,6 +21,16 @@ import {
 } from '../interfaces/auth';
 
 class AuthService {
+  async contactSupport(data: {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+    priority?: 'low' | 'medium' | 'high';
+  }): Promise<void> {
+    console.info('Support message captured in frontend-only mode:', data);
+    return Promise.resolve();
+  }
 
   // Authentication Methods
   async login(credentials: UserLogin): Promise<TokenResponse> {
@@ -155,7 +162,7 @@ class AuthService {
     }
   }
 
-  async getProjects(token: string, params?: {
+  async getProjects(token: string, _params?: {
     page?: number;
     per_page?: number;
     status?: string;

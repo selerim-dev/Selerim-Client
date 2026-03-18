@@ -7,11 +7,20 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navItems = [
+    { href: '/', label: 'Home' },
+    { href: '/services', label: 'Services' },
+    { href: '/case-studies', label: 'Work' },
+    { href: '/pricing', label: 'Pricing' },
+    { href: '/about', label: 'About' },
+    { href: '/contact', label: 'Contact' },
+  ];
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-8 md:px-12 py-2 md:py-3 bg-dark-blue/95 backdrop-blur-sm">
-      <div className="flex items-center gap-2 md:gap-3 w-[100px] md:w-[160px]">
+      <header className="fixed top-0 left-0 right-0 z-50 px-4 py-3 sm:px-6 md:px-10">
+      <div className="mx-auto flex max-w-7xl items-center justify-between rounded-full border border-white/12 bg-slate-950/72 px-4 py-2 shadow-[0_12px_40px_rgba(0,0,0,0.28)] backdrop-blur-2xl">
+      <div className="flex items-center gap-2 md:gap-3 w-[120px] md:w-[170px]">
         <Link href="/">
           <Image 
             src="/Logo.png" 
@@ -26,12 +35,12 @@ export default function Header() {
       </div>
 
       {/* Desktop Navigation */}
-      <nav className="hidden md:flex gap-6 text-white/80 text-base md:text-lg absolute left-1/2 transform -translate-x-1/2">
-        <Link href="/" className="hover:text-white">Home</Link>
-        <Link href="/case-studies" className="hover:text-white">Work</Link>
-        <Link href="/pricing" className="hover:text-white">Pricing</Link>
-        <Link href="/about" className="hover:text-white">About</Link>
-        <Link href="/contact" className="hover:text-white">Contact</Link>
+      <nav className="hidden md:flex gap-6 text-sm md:text-base absolute left-1/2 transform -translate-x-1/2">
+        {navItems.map((item) => (
+          <Link key={item.href} href={item.href} className="text-white/72 transition hover:text-white">
+            {item.label}
+          </Link>
+        ))}
       </nav>
 
       {/* Mobile menu button */}
@@ -51,8 +60,11 @@ export default function Header() {
       </div>
 
       {/* Desktop Login */}
-      <div className="hidden md:flex w-[160px] justify-end">
-        <Link href="/login" className="text-white/80 hover:text-white text-base md:text-lg">Login</Link>
+      <div className="hidden md:flex w-[170px] justify-end">
+        <Link href="/contact" className="glass-button px-4 py-2 text-sm font-medium text-white">
+          Start a Project
+        </Link>
+      </div>
       </div>
     </header>
 
@@ -82,50 +94,16 @@ export default function Header() {
 
             {/* Menu items */}
             <nav className="flex-1 px-6 py-8 space-y-3 overflow-y-auto">
-              <Link 
-                href="/" 
-                className="block glass-card px-5 py-4 rounded-xl text-white text-xl font-medium hover:bg-white/10 transition glow-on-hover"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link 
-                href="/case-studies" 
-                className="block glass-card px-5 py-4 rounded-xl text-white text-xl font-medium hover:bg-white/10 transition glow-on-hover"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Work
-              </Link>
-              <Link 
-                href="/pricing" 
-                className="block glass-card px-5 py-4 rounded-xl text-white text-xl font-medium hover:bg-white/10 transition glow-on-hover"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Pricing
-              </Link>
-              <Link 
-                href="/about" 
-                className="block glass-card px-5 py-4 rounded-xl text-white text-xl font-medium hover:bg-white/10 transition glow-on-hover"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                About
-              </Link>
-              <Link 
-                href="/contact" 
-                className="block glass-card px-5 py-4 rounded-xl text-white text-xl font-medium hover:bg-white/10 transition glow-on-hover"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Contact
-              </Link>
-              <div className="pt-6 border-t border-white/10 mt-6">
+              {navItems.map((item) => (
                 <Link 
-                  href="/login" 
+                  key={item.href}
+                  href={item.href} 
                   className="block glass-card px-5 py-4 rounded-xl text-white text-xl font-medium hover:bg-white/10 transition glow-on-hover"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Login
+                  {item.label}
                 </Link>
-              </div>
+              ))}
             </nav>
           </div>
         </div>
