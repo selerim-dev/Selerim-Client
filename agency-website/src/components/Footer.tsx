@@ -5,17 +5,17 @@ import { ADMIN_EMAIL } from '../lib/leads';
 
 export default function Footer() {
   return (
-    <footer className="relative bg-dark-blue border-t border-white/10 text-white pt-10 pb-8 mt-16">
+    <footer className="relative mt-16 border-t border-white/10 bg-dark-blue pb-6 pt-8 text-white">
       {/* Fade/gradient at the top for smooth transition */}
       <div className="absolute top-0 left-0 w-full h-8 bg-gradient-to-t from-dark-blue/90 to-transparent pointer-events-none" />
-      <div className="relative max-w-7xl mx-auto px-4">
-        <div className="glass-card flex flex-col md:flex-row items-center justify-between gap-8 md:gap-16 mb-6 p-8">
+      <div className="relative mx-auto max-w-7xl px-4">
+        <div className="glass-card mb-5 flex flex-col items-center justify-between gap-5 p-5 sm:p-6 md:flex-row md:gap-10">
           <div className="flex flex-col items-center md:items-start">
-            <Link href="/" className="text-2xl font-bold mb-2 text-white hover:text-blue-300 transition">{siteCopy.brand.name}</Link>
-            <p className="text-sm text-white/70">{siteCopy.brand.tagline}</p>
-            <span className="mt-3 text-sm text-white/60">&copy; {new Date().getFullYear()} {siteCopy.brand.name}. All rights reserved.</span>
+            <Link href="/" className="mb-1 text-2xl font-bold text-white transition hover:text-blue-300">{siteCopy.brand.name}</Link>
+            <p className="text-center text-sm text-white/70 md:text-left">{siteCopy.brand.tagline}</p>
+            <span className="mt-2 text-sm text-white/60">&copy; {new Date().getFullYear()} {siteCopy.brand.name}. All rights reserved.</span>
           </div>
-          <nav className="flex flex-col md:flex-row items-center gap-4 md:gap-10 text-base font-medium">
+          <nav className="flex flex-row flex-wrap items-center justify-center gap-x-5 gap-y-2 text-sm font-medium md:gap-x-8 md:text-base">
             <Link href="/contact" className="text-white/80 hover:text-white transition relative hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">Contact</Link>
             <Link href="/case-studies" className="text-white/80 hover:text-white transition relative hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">Work</Link>
             <Link href="/services" className="text-white/80 hover:text-white transition relative hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">Services</Link>
@@ -24,10 +24,10 @@ export default function Footer() {
             <Link href="/terms" className="text-white/80 hover:text-white transition relative hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">Terms</Link>
             <Link href="/privacy" className="text-white/80 hover:text-white transition relative hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">Privacy</Link>
           </nav>
-          <a href={`mailto:${ADMIN_EMAIL}`} className="text-sm text-cyan-200 hover:text-white transition">{ADMIN_EMAIL}</a>
+          <a href={`mailto:${ADMIN_EMAIL}`} className="text-sm text-cyan-200 transition hover:text-white">{ADMIN_EMAIL}</a>
         </div>
         {/* Legal Disclaimer */}
-        <div className="text-center border-t border-white/10 pt-6">
+        <div className="border-t border-white/10 pt-4 text-center">
           <p className="text-sm text-white/60">{siteCopy.legal.disclaimer}</p>
         </div>
       </div>

@@ -188,13 +188,13 @@ export default function Home() {
             priority
           />
         </div>
-        <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 max-w-5xl mx-auto">
-          <span className="block mb-2 px-4 sm:px-6 md:px-8">End-to-end development and AI integration for your</span>
-          <span className="block flex justify-center px-4 sm:px-6 md:px-8">
+        <h1 className="mx-auto mb-6 max-w-5xl px-2 text-center text-4xl font-extrabold text-white md:text-5xl">
+          <span className="block mb-2">End-to-end development and AI integration for your</span>
+          <span className="block flex justify-center">
             <TypewriterGradient />
           </span>
         </h1>
-        <p className="text-2xl text-white/80 mb-12 max-w-3xl mx-auto">
+        <p className="mx-auto mb-12 max-w-3xl px-4 text-center text-xl text-white/80 sm:text-2xl">
           {siteCopy.home.hero.subheadlineB}
         </p>
         <div className="flex gap-6 justify-center flex-wrap">
