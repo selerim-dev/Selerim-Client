@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useNotification } from './NotificationProvider';
-import { ADMIN_EMAIL, formatLeadSection, openMailto } from '../lib/leads';
 import { estimateProject, formatCurrency } from '../lib/quote-estimator';
+import { submitWebsiteForm } from '../lib/form-submit';
 
 const MAIN_COMPONENTS = [
   'Auth', 'Login', 'Location', 'Push Notifications', 'Payments', 'Chat', 'Profile', 'Feed', 'Search', 'Settings', 'Analytics', 'Admin Panel', 'File Upload', 'Calendar', 'Notifications',
@@ -55,29 +55,41 @@ function ComponentPills({ selected, onSelect, onRemove, onAdd }: ComponentPillsP
         </button>
       ))}
       {adding ? (
-        <form
-          onSubmit={e => {
-            e.preventDefault();
-            if (input.trim()) {
-              onAdd(input.trim());
-              setInput('');
-              setAdding(false);
-            }
-          }}
-          className="flex items-center"
-        >
+        <div className="flex items-center">
           <input
             autoFocus
             className="glass-card text-white px-2 py-1 rounded-l-full text-sm outline-none border-none"
             value={input}
             onChange={e => setInput(e.target.value)}
+            onKeyDown={e => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                if (input.trim()) {
+                  onAdd(input.trim());
+                  setInput('');
+                  setAdding(false);
+                }
+              }
+            }}
             placeholder="Add component"
           />
-          <button type="submit" className="glass-button px-2 py-1 rounded-r-full text-white text-sm glow-on-hover">Add</button>
+          <button
+            type="button"
+            onClick={() => {
+              if (input.trim()) {
+                onAdd(input.trim());
+                setInput('');
+                setAdding(false);
+              }
+            }}
+            className="glass-button px-2 py-1 rounded-r-full text-white text-sm glow-on-hover"
+          >
+            Add
+          </button>
           <button type="button" className="ml-1 text-white/60" onClick={() => { setAdding(false); setInput(''); }}>
             <XMarkIcon className="h-4 w-4" />
           </button>
-        </form>
+        </div>
       ) : (
         <button
           type="button"
@@ -155,6 +167,7 @@ const InstantQuoteForm: React.FC = () => {
   const [company, setCompany] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<null | QuoteResult>(null);
 
   const handleAddComponent = (comp: string) => {
@@ -185,56 +198,56 @@ const InstantQuoteForm: React.FC = () => {
     }
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const body = [
-      formatLeadSection('Requester', [
-        `Name: ${name}`,
-        `Email: ${email}`,
-        company ? `Company: ${company}` : null,
-      ]),
-      formatLeadSection('Estimate Inputs', [
-        `Budget range: ${budget}`,
-        `Timeline: ${timeline}`,
-        `Reliability target: ${reliability}`,
-        `Expected scale: ${scale}`,
-        `Main components: ${components.length ? components.join(', ') : 'None selected'}`,
-      ]),
-      formatLeadSection('Project Brief', [brief]),
-      result ? formatLeadSection('Selerim Instant Estimate', [
-        `Estimate: ${result.priceLabel}`,
-        `Range: ${result.rangeLabel}`,
-        `Workload: ${result.hoursLabel}`,
-        `Recommendation: ${result.recommendation}`,
-        `Assumptions: ${result.assumptions.join(', ')}`,
-      ]) : '',
-    ]
-      .filter(Boolean)
-      .join('\n\n');
+    setLoading(true);
 
-    openMailto({
-      to: ADMIN_EMAIL,
-      subject: `Quote request from ${name}`,
-      body,
-    });
+    try {
+      await submitWebsiteForm({
+        subject: `Quote request from ${name}`,
+        from_name: 'Selerim Quote Form',
+        name,
+        email,
+        company,
+        budget_range: budget,
+        timeline,
+        reliability_target: reliability,
+        expected_scale: scale,
+        main_components: components.length ? components.join(', ') : 'None selected',
+        project_brief: brief,
+        estimate_price: result?.priceLabel || '',
+        estimate_range: result?.rangeLabel || '',
+        estimate_workload: result?.hoursLabel || '',
+        estimate_recommendation: result?.recommendation || '',
+        estimate_assumptions: result?.assumptions.join(', ') || '',
+        source: 'instant-quote',
+      });
 
-    notify({ 
-      message: 'Your email client is ready with the quote request addressed to admin@selerim.com.', 
-      type: 'success' 
-    });
-    setStep('budget');
-    setBudget('');
-    setTimeline('');
-    setComponents([]);
-    setBrief('');
-    setReliability('elevated');
-    setScale('startup');
-    setCompany('');
-    setName('');
-    setEmail('');
-    setResult(null);
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('closeQuoteModal'));
+      notify({ 
+        message: 'Quote request submitted. We’ll review it and follow up with next steps.', 
+        type: 'success' 
+      });
+      setStep('budget');
+      setBudget('');
+      setTimeline('');
+      setComponents([]);
+      setBrief('');
+      setReliability('elevated');
+      setScale('startup');
+      setCompany('');
+      setName('');
+      setEmail('');
+      setResult(null);
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('closeQuoteModal'));
+      }
+    } catch (error) {
+      notify({
+        message: error instanceof Error ? error.message : 'Unable to submit the quote request right now.',
+        type: 'error',
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -402,9 +415,10 @@ const InstantQuoteForm: React.FC = () => {
             <div className="flex gap-4">
               <button
                 type="submit"
+                disabled={loading}
                 className="flex-1 rounded-full bg-gradient-to-r from-blue-400 via-fuchsia-400 to-pink-400 text-white font-bold py-4 text-xl shadow hover:opacity-90 transition glow-on-hover glow-on-click"
               >
-                Compose Detailed Quote Email
+                {loading ? 'Sending...' : 'Request Detailed Quote'}
               </button>
               <button
                 type="button"

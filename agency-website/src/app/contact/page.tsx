@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { gradientMain } from "../../config/tokens";
 import { siteCopy } from "../../config/siteCopy";
 import { CheckCircleIcon } from "@heroicons/react/24/outline";
-import { ADMIN_EMAIL, formatLeadSection, openMailto } from "../../lib/leads";
+import { submitWebsiteForm } from "../../lib/form-submit";
 
 export default function ContactPage() {
   const [form, setForm] = useState({
@@ -16,6 +16,7 @@ export default function ContactPage() {
     subject: "",
     message: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -24,29 +25,27 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
 
-    const body = [
-      formatLeadSection("Lead Details", [
-        `Name: ${form.name}`,
-        `Email: ${form.email}`,
-        form.company ? `Company: ${form.company}` : null,
-        form.phone ? `Phone: ${form.phone}` : null,
-        form.budget ? `Budget: ${form.budget}` : null,
-        `Subject: ${form.subject}`,
-      ]),
-      formatLeadSection("Project Notes", [form.message]),
-    ]
-      .filter(Boolean)
-      .join("\n\n");
+    try {
+      await submitWebsiteForm({
+        subject: `Selerim website inquiry: ${form.subject}`,
+        from_name: 'Selerim Website',
+        name: form.name,
+        email: form.email,
+        company: form.company,
+        phone: form.phone,
+        budget: form.budget,
+        inquiry_subject: form.subject,
+        message: form.message,
+        source: 'contact-page',
+      });
 
-    openMailto({
-      to: ADMIN_EMAIL,
-      subject: `Selerim website inquiry: ${form.subject}`,
-      body,
-    });
-
-    setSuccess(true);
-    setForm({ name: "", email: "", company: "", phone: "", budget: "", subject: "", message: "" });
+      setSuccess(true);
+      setForm({ name: "", email: "", company: "", phone: "", budget: "", subject: "", message: "" });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -94,12 +93,9 @@ export default function ContactPage() {
                   {siteCopy.contact.responseTime}
                 </p>
                 <div className="mt-8 rounded-[24px] border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm uppercase tracking-[0.24em] text-white/45">Direct Contact</p>
-                  <a href={`mailto:${ADMIN_EMAIL}`} className="mt-3 block text-xl font-medium text-cyan-200 hover:text-white">
-                    {ADMIN_EMAIL}
-                  </a>
-                  <p className="mt-3 text-sm text-white/55">
-                    This form opens your email client with the inquiry prefilled so the site stays backend-free.
+                  <p className="text-sm uppercase tracking-[0.24em] text-white/45">What Happens Next</p>
+                  <p className="mt-3 text-sm leading-6 text-white/60">
+                    Share the project details here and the submission will land directly in the Selerim inbox for review. Expect a fast reply with next steps, scope direction, and timeline guidance.
                   </p>
                 </div>
               </div>
@@ -110,7 +106,7 @@ export default function ContactPage() {
               <div className="text-center py-12">
                 <div className="text-3xl mb-4">✓</div>
                 <p className="text-xl text-white/90 mb-2 font-semibold">Thank you for reaching out!</p>
-                <p className="text-lg text-white/70">Your email client should now be ready with the inquiry addressed to {ADMIN_EMAIL}.</p>
+                <p className="text-lg text-white/70">Your inquiry has been submitted successfully. We&apos;ll review it and follow up shortly.</p>
                 <button
                   className={`mt-8 rounded-full ${gradientMain} px-8 py-3 text-lg font-semibold text-white shadow hover:opacity-90 transition glow-on-hover glow-on-click`}
                   onClick={() => setSuccess(false)}
@@ -227,13 +223,11 @@ export default function ContactPage() {
                 <div>
                   <button
                     type="submit"
+                    disabled={isLoading}
                     className={`w-full rounded-full ${gradientMain} px-8 py-4 text-xl font-semibold text-white shadow hover:opacity-90 transition glow-on-hover glow-on-click`}
                   >
-                    Compose Email
+                    {isLoading ? "Sending..." : "Send Message"}
                   </button>
-                  <p className="mt-3 text-center text-sm text-white/45">
-                    Opens your default email client and sends the inquiry to {ADMIN_EMAIL}.
-                  </p>
                 </div>
               </form>
             )}

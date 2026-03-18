@@ -29,6 +29,20 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  background:
+    radial-gradient(circle at top left, rgba(59, 130, 246, 0.14), transparent 26%),
+    radial-gradient(circle at 80% 20%, rgba(103, 232, 249, 0.08), transparent 22%),
+    linear-gradient(180deg, #03111f 0%, #07182a 45%, #020914 100%);
+}
+
+html,
+body {
+  min-height: 100%;
+  background-color: #03111f;
+  overscroll-behavior-y: none;
+}
+
 /* Glassmorphism utilities - Liquid glass effect */
 .glass {
   background: rgba(255, 255, 255, 0.12);

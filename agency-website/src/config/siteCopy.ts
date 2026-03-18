@@ -251,13 +251,15 @@ export const siteCopy = {
         links: null
       },
       {
-        title: 'AI-Powered SaaS Analytics Platform',
+        title: 'ViaSync',
         custom: false,
-        problem: 'B2B SaaS company needed predictive analytics capabilities but couldn\'t afford per-request API costs at scale. Required custom AI integration without vendor lock-in.',
-        solution: 'Built custom analytics engine using self-hosted open-source LLM. Integrated seamlessly into existing Next.js application with real-time processing and scalable infrastructure.',
-        outcome: 'Reduced analysis time by 70%. Zero per-request costs. Full data control maintained. Handles 50K+ requests daily with 99.9% uptime.',
-        stack: 'Next.js, Python, FastAPI, Self-hosted LLM (Llama 2), PostgreSQL, AWS',
-        links: null
+        problem: 'ViaSync needed a simple, low-lift mobile product that let users connect and meet with other users quickly, without overengineering the initial release.',
+        solution: 'Built on the Starter plan for under $10k using a lean stack and free-tier tooling where possible. The app was delivered in Flutter with Supabase powering the backend, keeping the implementation lightweight, fast to ship, and easy to support. AI integration is planned as the next step, with full support continuing as the product evolves.',
+        outcome: 'The full app was deployed in less than a month. Delivery stayed fast, the lift stayed low, and ongoing support remains in place for continued iteration.',
+        stack: 'Flutter, Supabase, App Store deployment',
+        links: {
+          ios: 'https://apps.apple.com/us/app/viasync/id6760045903'
+        }
       }
     ],
     deliverables: {
@@ -475,4 +477,3 @@ export const siteCopy = {
     disclaimer: 'Selerim is a US-based software development agency. All work is delivered under standard service agreements with defined scope and terms.'
   }
 };
-
