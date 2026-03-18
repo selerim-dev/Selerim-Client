@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ServiceCard from '../components/ServiceCard';
 import TestimonialCarousel from '../components/TestimonialCarousel';
 import { 
@@ -16,10 +16,10 @@ import {
   ServerIcon,
   CloudIcon,
 } from '@heroicons/react/24/outline';
+import Image from 'next/image';
 import TypewriterGradient from '../components/TypewriterGradient';
 import InstantQuoteForm from '../components/InstantQuoteForm';
 import { gradientMain } from '../config/tokens';
-import dynamic from 'next/dynamic';
 import GradientBorder from '../components/GradientBorder';
 import { siteCopy } from '../config/siteCopy';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
@@ -60,14 +60,6 @@ function FAQAccordion({ faqItems }: { faqItems: Array<{ question: string; answer
     </div>
   );
 }
-
-// Import Lottie with no SSR
-const Lottie = dynamic(() => import('lottie-react'), { 
-  ssr: false,
-  loading: () => (
-    <div className="w-[140px] h-[140px] bg-black/20 rounded-full animate-pulse" />
-  )
-});
 
 const services = siteCopy.home.servicesOverview.services.map((service, index) => {
   const icons = [DevicePhoneMobileIcon, CodeBracketIcon, RocketLaunchIcon, ArrowPathIcon];
@@ -159,21 +151,11 @@ const pricingTiers = [
 
 export default function Home() {
   const [showQuote, setShowQuote] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  const [animationData, setAnimationData] = useState(null);
   // Listen for close event from InstantQuoteForm
   useEffect(() => {
     const handleClose = () => setShowQuote(false);
     window.addEventListener('closeQuoteModal', handleClose);
     return () => window.removeEventListener('closeQuoteModal', handleClose);
-  }, []);
-
-  useEffect(() => {
-    setMounted(true);
-    fetch('/lottie/neural_nodes_small.json')
-      .then(response => response.json())
-      .then(data => setAnimationData(data))
-      .catch(error => console.error('Error loading Lottie data:', error));
   }, []);
 
   return (
@@ -196,20 +178,15 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative z-10 flex flex-col items-center justify-center text-center pt-8 md:pt-12 pb-20 md:pb-32 px-4 sm:px-6 md:px-8">
-        <div className="w-[140px] h-[140px] mx-auto mb-6 bg-black/20 rounded-full">
-          {mounted && animationData && (
-            <Lottie
-              animationData={animationData}
-              loop={true}
-              autoplay={true}
-              style={{ width: '100%', height: '100%' }}
-              rendererSettings={{
-                preserveAspectRatio: 'xMidYMid slice',
-                progressiveLoad: true,
-                hideOnTransparent: true
-              }}
-            />
-          )}
+        <div className="mx-auto mb-6 flex h-[140px] w-[140px] items-center justify-center rounded-full border border-white/10 bg-black/20 shadow-[0_20px_60px_rgba(0,0,0,0.28)]">
+          <Image
+            src="/logo.png"
+            alt="Selerim Logo"
+            width={104}
+            height={104}
+            className="h-[104px] w-[104px] object-contain"
+            priority
+          />
         </div>
         <h1 className="text-4xl md:text-5xl font-extrabold text-white mb-6 max-w-5xl mx-auto">
           <span className="block mb-2 px-4 sm:px-6 md:px-8">End-to-end development and AI integration for your</span>
