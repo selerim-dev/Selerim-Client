@@ -85,39 +85,22 @@ const services = siteCopy.home.servicesOverview.services.map((service, index) =>
 
 const testimonials = [
   {
-    quote: "Working with this agency transformed our digital presence. Their team's expertise and dedication are unmatched. The attention to detail and innovative solutions they provided exceeded our expectations.",
-    author: "Sarah Johnson",
+    quote: "It could not have been done without Selerim. The entire system was built by them end to end, and it has been flawless. It handles tens of thousands of requests every day without us needing to do anything.",
+    author: "Abraham Shaheen",
     role: "CEO",
-    company: "TechStart Inc.",
-    image: "/testimonials/sarah.jpg"
+    company: "Zenfulnote"
   },
   {
-    quote: "The mobile app they developed exceeded our expectations. Their attention to detail and user experience is remarkable. The team's ability to understand our vision and translate it into reality was impressive.",
-    author: "Michael Chen",
-    role: "Product Manager",
-    company: "Innovate Solutions",
-    image: "/testimonials/michael.jpg"
-  },
-  {
-    quote: "Their digital marketing strategies helped us achieve 3x growth in just six months. Highly recommended! The data-driven approach and creative solutions they implemented were game-changing for our business.",
-    author: "Emily Rodriguez",
-    role: "Marketing Director",
-    company: "Growth Partners",
-    image: "/testimonials/emily.jpg"
-  },
-  {
-    quote: "The web application they built for us has streamlined our operations and improved efficiency by 40%. Their technical expertise and project management skills are outstanding.",
-    author: "David Kim",
-    role: "CTO",
-    company: "Enterprise Solutions",
-    image: "/testimonials/david.jpg"
-  },
-  {
-    quote: "Working with this team was a pleasure from start to finish. They delivered our project on time and within budget, exceeding our expectations at every step.",
-    author: "Lisa Thompson",
+    quote: "ViaSync works super well, and our users were able to sync smoothly from the start. When we ran into a notifications issue, it was reviewed and resolved in less than 24 hours. That kind of support made a huge difference.",
+    author: "Alyssa Pascual",
     role: "Founder",
-    company: "Startup Vision",
-    image: "/testimonials/lisa.jpg"
+    company: "ViaSync"
+  },
+  {
+    quote: "The full scope, build, and delivery has helped our internal team tremendously. Delivery was super fast, the quality was top tier, and working with the team was seamless and felt like 24/7 support throughout the process.",
+    author: "Joe Kim",
+    role: "Leadership Team",
+    company: "CQ Technologies"
   }
 ];
 
@@ -315,10 +298,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Company Logos Carousel */}
+      {/* Company Logos Carousel
+      Hidden for now until the list reflects verified client work.
       <section className="relative z-10 bg-dark-blue py-12">
         <CompanyLogosCarousel logos={companyLogos} />
       </section>
+      */}
 
       {/* Development Transparency Section */}
       <section className="relative z-10 bg-dark-blue py-20 md:py-40">

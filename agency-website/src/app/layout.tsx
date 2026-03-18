@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className="min-h-screen bg-dark-blue">
+      <body suppressHydrationWarning className="min-h-screen bg-dark-blue">
         <NotificationProvider>
           <AuthProvider>
             <Header />

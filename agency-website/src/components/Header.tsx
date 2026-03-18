@@ -23,7 +23,7 @@ export default function Header() {
       <div className="flex items-center gap-2 md:gap-3 w-[120px] md:w-[170px]">
         <Link href="/">
           <Image 
-            src="/Logo.png" 
+            src="/logo.png" 
             alt="Selerim Logo" 
             width={36} 
             height={36} 

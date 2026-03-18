@@ -52,7 +52,7 @@ export default function OwnerSidebar() {
         <div className="flex items-center justify-between mb-8">
           <Link href="/owner" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <Image 
-              src="/Logo.png" 
+              src="/logo.png" 
               alt="Selerim Logo" 
               width={32} 
               height={32} 
@@ -111,7 +111,7 @@ export default function OwnerSidebar() {
         <div className="mb-12 flex items-center justify-between px-2">
           <Link href="/owner" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
             <Image 
-              src="/Logo.png" 
+              src="/logo.png" 
               alt="Selerim Logo" 
               width={32} 
               height={32} 
