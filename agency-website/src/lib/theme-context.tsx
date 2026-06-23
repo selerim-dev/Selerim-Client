@@ -9,14 +9,11 @@ import React, {
   useState,
 } from 'react';
 
-export type ThemeMode = 'auto' | 'light' | 'dark';
-export type Scene = 'light' | 'dark';
+export type ThemeMode = 'light' | 'dark';
 
 interface ThemeContextValue {
   mode: ThemeMode;
-  scene: Scene;
-  resolved: Scene;
-  setScene: (s: Scene) => void;
+  resolved: ThemeMode;
   setMode: (m: ThemeMode) => void;
   toggle: () => void;
 }
@@ -26,32 +23,27 @@ const STORAGE_KEY = 'selerim-theme';
 
 export function ThemeProvider({
   children,
-  defaultScene = 'dark',
+  defaultMode = 'dark',
 }: {
   children: React.ReactNode;
-  defaultScene?: Scene;
+  defaultMode?: ThemeMode;
 }) {
-  const [mode, setModeState] = useState<ThemeMode>('auto');
-  const [scene, setSceneState] = useState<Scene>(defaultScene);
+  const [mode, setModeState] = useState<ThemeMode>(defaultMode);
 
-  // Hydrate persisted preference (mode only; scene is derived on scroll)
+  // Hydrate persisted preference
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY) as ThemeMode | null;
-      if (stored === 'light' || stored === 'dark' || stored === 'auto') {
-        setModeState(stored);
-      }
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored === 'light' || stored === 'dark') setModeState(stored);
     } catch {
       /* ignore */
     }
   }, []);
 
-  const resolved: Scene = mode === 'auto' ? scene : mode;
-
-  // Reflect resolved theme on <html> so CSS variables swap
+  // Reflect theme on <html> so CSS variables swap
   useEffect(() => {
-    document.documentElement.dataset.theme = resolved;
-  }, [resolved]);
+    document.documentElement.dataset.theme = mode;
+  }, [mode]);
 
   const setMode = useCallback((m: ThemeMode) => {
     setModeState(m);
@@ -62,17 +54,13 @@ export function ThemeProvider({
     }
   }, []);
 
-  const setScene = useCallback((s: Scene) => {
-    setSceneState((prev) => (prev === s ? prev : s));
-  }, []);
-
   const toggle = useCallback(() => {
-    setMode(resolved === 'dark' ? 'light' : 'dark');
-  }, [resolved, setMode]);
+    setMode(mode === 'dark' ? 'light' : 'dark');
+  }, [mode, setMode]);
 
   const value = useMemo(
-    () => ({ mode, scene, resolved, setScene, setMode, toggle }),
-    [mode, scene, resolved, setScene, setMode, toggle],
+    () => ({ mode, resolved: mode, setMode, toggle }),
+    [mode, setMode, toggle],
   );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

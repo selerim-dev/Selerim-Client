@@ -139,21 +139,20 @@ body {
 body {
   font-family: var(--font-sans);
   letter-spacing: -0.011em;
-  /* smooth theme/scene transitions */
-  transition: background-color 1.1s cubic-bezier(0.45, 0, 0.2, 1),
-    color 1.1s cubic-bezier(0.45, 0, 0.2, 1);
+  /* smooth light/dark toggle */
+  transition: background-color 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.55s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /*
-  Gradual scene cross-fade: every element eases its themed colors so the
-  light <-> dark transition feels like a slow dissolve, not a snap.
-  Elements that define their own `transition` shorthand (buttons, cards)
-  keep their snappier interaction timing.
+  Smooth the manual light <-> dark toggle: every element eases its themed
+  colors so the switch dissolves instead of snapping. Elements that define
+  their own `transition` shorthand (buttons, cards) keep their own timing.
 */
 body * {
   transition-property: background-color, border-color, color, fill, stroke, text-decoration-color, outline-color;
-  transition-duration: 1s;
-  transition-timing-function: cubic-bezier(0.45, 0, 0.2, 1);
+  transition-duration: 0.5s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -201,7 +200,7 @@ body * {
   pointer-events: none;
   overflow: hidden;
   background: var(--aurora-base);
-  transition: background-color 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: background-color 0.55s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .atmosphere__aurora {

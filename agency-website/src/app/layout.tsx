@@ -45,7 +45,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body suppressHydrationWarning className="min-h-screen antialiased">
-        <ThemeProvider defaultScene="dark">
+        <ThemeProvider defaultMode="dark">
           <NotificationProvider>
             <AuthProvider>
               <Atmosphere />
