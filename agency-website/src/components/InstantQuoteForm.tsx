@@ -10,13 +10,12 @@ const MAIN_COMPONENTS = [
   'Auth', 'Login', 'Location', 'Push Notifications', 'Payments', 'Chat', 'Profile', 'Feed', 'Search', 'Settings', 'Analytics', 'Admin Panel', 'File Upload', 'Calendar', 'Notifications',
 ];
 
-const BUDGETS = [
-  'Unknown', 'Under $10k', '$10k-$25k', '$25k-$50k', '$50k-$100k', '$100k+',
-];
+const BUDGETS = ['Unknown', 'Under $10k', '$10k-$25k', '$25k-$50k', '$50k-$100k', '$100k+'];
+const TIMELINES = ['Unknown', '1-2 weeks', '2-4 weeks', '1-2 months', '2-4 months', '4+ months'];
 
-const TIMELINES = [
-  'Unknown', '1-2 weeks', '2-4 weeks', '1-2 months', '2-4 months', '4+ months',
-];
+const FIELD =
+  'block w-full rounded-xl border border-line bg-[var(--surface-2)]/60 px-4 py-3 text-[0.97rem] text-ink placeholder:text-ink-subtle outline-none transition-all duration-300 focus:border-brand focus:ring-2 focus:ring-brand/25';
+const LABEL = 'mb-2 block text-sm font-medium text-ink-muted';
 
 type ComponentPillsProps = {
   selected: string[];
@@ -32,36 +31,31 @@ function ComponentPills({ selected, onSelect, onRemove, onAdd }: ComponentPillsP
   return (
     <div className="flex flex-wrap gap-2">
       {selected.map((comp) => (
-        <span key={comp} className="flex items-center glass-card px-3 py-1 rounded-full text-sm text-white">
+        <span key={comp} className="flex items-center gap-1 rounded-full border border-brand/40 bg-brand/10 px-3 py-1 text-sm text-ink">
           {comp}
-          <button
-            type="button"
-            className="ml-1 hover:text-pink-400"
-            onClick={() => onRemove(comp)}
-            aria-label={`Remove ${comp}`}
-          >
+          <button type="button" className="text-ink-subtle transition-colors hover:text-ink" onClick={() => onRemove(comp)} aria-label={`Remove ${comp}`}>
             <XMarkIcon className="h-4 w-4" />
           </button>
         </span>
       ))}
-      {MAIN_COMPONENTS.filter(c => !selected.includes(c)).slice(0, 15).map((comp) => (
+      {MAIN_COMPONENTS.filter((c) => !selected.includes(c)).slice(0, 15).map((comp) => (
         <button
           key={comp}
           type="button"
-          className="glass-button text-white/80 px-3 py-1 rounded-full text-sm hover:bg-white/20 transition glow-on-hover"
+          className="rounded-full border border-line px-3 py-1 text-sm text-ink-muted transition-colors hover:border-line-strong hover:text-ink"
           onClick={() => onSelect(comp)}
         >
           {comp}
         </button>
       ))}
       {adding ? (
-        <div className="flex items-center">
+        <div className="flex items-center gap-1">
           <input
             autoFocus
-            className="glass-card text-white px-2 py-1 rounded-l-full text-sm outline-none border-none"
+            className="rounded-full border border-line bg-[var(--surface-2)]/60 px-3 py-1 text-sm text-ink outline-none focus:border-brand"
             value={input}
-            onChange={e => setInput(e.target.value)}
-            onKeyDown={e => {
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 e.preventDefault();
                 if (input.trim()) {
@@ -82,21 +76,21 @@ function ComponentPills({ selected, onSelect, onRemove, onAdd }: ComponentPillsP
                 setAdding(false);
               }
             }}
-            className="glass-button px-2 py-1 rounded-r-full text-white text-sm glow-on-hover"
+            className="rounded-full border border-line px-3 py-1 text-sm text-ink transition-colors hover:border-line-strong"
           >
             Add
           </button>
-          <button type="button" className="ml-1 text-white/60" onClick={() => { setAdding(false); setInput(''); }}>
+          <button type="button" className="text-ink-subtle hover:text-ink" onClick={() => { setAdding(false); setInput(''); }}>
             <XMarkIcon className="h-4 w-4" />
           </button>
         </div>
       ) : (
         <button
           type="button"
-          className="flex items-center glass-button text-white px-2 py-1 rounded-full text-sm hover:bg-white/20 transition glow-on-hover"
+          className="flex items-center gap-1 rounded-full border border-line px-3 py-1 text-sm text-ink transition-colors hover:border-line-strong"
           onClick={() => setAdding(true)}
         >
-          <PlusIcon className="h-4 w-4 mr-1" /> Add
+          <PlusIcon className="h-4 w-4" /> Add
         </button>
       )}
     </div>
@@ -114,41 +108,27 @@ type QuoteResultModalProps = { result: QuoteResult; onClose: () => void; onGetQu
 
 function QuoteResultModal({ result, onClose, onGetQuote }: QuoteResultModalProps) {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 sm:p-6 md:p-8">
-      <div className="glass-card p-6 sm:p-8 md:p-12 max-w-3xl w-full text-center shadow-2xl relative mx-4">
-        <button className="absolute top-4 right-4 text-white/60 hover:text-white text-3xl glow-on-hover z-10" onClick={onClose} aria-label="Close offer modal">×</button>
-        <h3 className="text-3xl sm:text-4xl font-bold text-white mb-4 sm:mb-6">Your Instant Quote</h3>
-        <div className="text-5xl sm:text-6xl font-extrabold bg-gradient-to-r from-blue-400 via-fuchsia-400 to-pink-400 bg-clip-text text-transparent mb-3 sm:mb-4">
-          {result.priceLabel}
-        </div>
-        <div className="mb-2 text-lg text-white/75">{result.rangeLabel}</div>
-        <div className="mb-4 text-sm uppercase tracking-[0.22em] text-white/45">{result.hoursLabel}</div>
-        <div className="text-lg sm:text-xl text-white/80 mb-4 sm:mb-6">
-          {result.recommendation}
-        </div>
-        <div className="mb-6 flex flex-wrap justify-center gap-2">
-          {result.assumptions.map((assumption) => (
-            <span key={assumption} className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-sm text-white/65">
-              {assumption}
-            </span>
+    <div className="fixed inset-0 z-[95] flex items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-md sm:p-8">
+      <div className="glass-strong relative mx-auto w-full max-w-2xl rounded-[2rem] p-8 text-center sm:p-12">
+        <button className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink-subtle transition-colors hover:text-ink" onClick={onClose} aria-label="Close">
+          <XMarkIcon className="h-5 w-5" />
+        </button>
+        <p className="eyebrow mb-5">Your instant quote</p>
+        <div className="text-gradient font-serif text-6xl italic md:text-7xl">{result.priceLabel}</div>
+        <div className="mt-3 text-lg text-ink-muted">{result.rangeLabel}</div>
+        <div className="mt-2 text-xs uppercase tracking-[0.22em] text-ink-subtle">{result.hoursLabel}</div>
+        <p className="mx-auto mt-6 max-w-lg text-[0.97rem] text-ink">{result.recommendation}</p>
+        <div className="mt-6 flex flex-wrap justify-center gap-2">
+          {result.assumptions.map((a) => (
+            <span key={a} className="rounded-full border border-line px-3 py-1 text-sm text-ink-muted">{a}</span>
           ))}
         </div>
-        <div className="text-sm sm:text-base text-white/60 mb-6 sm:mb-8">
-          This quote is an estimate. We recommend a 1:1 call to review your needs. Final pricing may change after a detailed review.
-        </div>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button 
-            onClick={onGetQuote}
-            className="rounded-full bg-gradient-to-r from-blue-400 via-fuchsia-400 to-pink-400 text-white font-semibold px-8 py-3 text-lg hover:opacity-90 transition glow-on-hover glow-on-click"
-          >
-            Get Detailed Quote
-          </button>
-          <a 
-            href="/contact"
-            className="glass-button text-white font-semibold px-8 py-3 text-lg hover:bg-white/20 transition glow-on-hover glow-on-click"
-          >
-            Contact Us
-          </a>
+        <p className="mx-auto mt-6 max-w-md text-sm text-ink-subtle">
+          This is an estimate. We recommend a quick call to review your needs — final pricing may change after a detailed review.
+        </p>
+        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+          <button onClick={onGetQuote} className="btn btn-brand h-12 px-7 text-base">Get detailed quote</button>
+          <a href="/contact" className="btn btn-ghost h-12 px-7 text-base">Contact us</a>
         </div>
       </div>
     </div>
@@ -174,20 +154,13 @@ const InstantQuoteForm: React.FC = () => {
     if (!components.includes(comp)) setComponents([...components, comp]);
   };
   const handleRemoveComponent = (comp: string) => {
-    setComponents(components.filter(c => c !== comp));
+    setComponents(components.filter((c) => c !== comp));
   };
 
   const handleBudgetSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (budget && timeline && brief.trim()) {
-      const estimate = estimateProject({
-        components,
-        brief,
-        timeline,
-        reliability,
-        scale,
-      });
-
+      const estimate = estimateProject({ components, brief, timeline, reliability, scale });
       setResult({
         priceLabel: formatCurrency(estimate.basePrice),
         rangeLabel: `${formatCurrency(estimate.priceLow)} to ${formatCurrency(estimate.priceHigh)}`,
@@ -201,7 +174,6 @@ const InstantQuoteForm: React.FC = () => {
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-
     try {
       await submitWebsiteForm({
         subject: `Quote request from ${name}`,
@@ -223,10 +195,7 @@ const InstantQuoteForm: React.FC = () => {
         source: 'instant-quote',
       });
 
-      notify({ 
-        message: 'Quote request submitted. We’ll review it and follow up with next steps.', 
-        type: 'success' 
-      });
+      notify({ message: 'Quote request submitted. We’ll review it and follow up with next steps.', type: 'success' });
       setStep('budget');
       setBudget('');
       setTimeline('');
@@ -252,66 +221,51 @@ const InstantQuoteForm: React.FC = () => {
   };
 
   return (
-    <div className="glass-card p-6 sm:p-8 max-w-3xl mx-auto shadow-2xl max-h-[90vh] overflow-y-auto">
-      <h2 className="text-2xl sm:text-3xl font-bold text-white mb-6 text-center">Get an Instant Quote</h2>
-      
+    <div className="glass-strong mx-auto max-h-[90vh] max-w-3xl overflow-y-auto rounded-[2rem] p-6 sm:p-9">
+      <p className="eyebrow mb-2">Instant quote</p>
+      <h2 className="display mb-7 text-3xl text-ink sm:text-4xl">
+        Estimate your <span className="accent text-gradient">build.</span>
+      </h2>
+
       {!result ? (
         step === 'budget' ? (
-          <form onSubmit={handleBudgetSubmit} className="space-y-6">
+          <form onSubmit={handleBudgetSubmit} className="space-y-5">
             <div>
-              <label className="block text-white/80 mb-3 text-lg">Budget Range</label>
-              <select
-                className="w-full rounded-lg glass-card text-white px-6 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
-                value={budget}
-                onChange={e => setBudget(e.target.value)}
-                required
-              >
+              <label className={LABEL}>Budget range</label>
+              <select className={FIELD} value={budget} onChange={(e) => setBudget(e.target.value)} required>
                 <option value="">Select budget</option>
-                {BUDGETS.map(b => <option key={b} value={b}>{b}</option>)}
+                {BUDGETS.map((b) => <option key={b} value={b}>{b}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-white/80 mb-3 text-lg">Timeline</label>
-              <select
-                className="w-full rounded-lg glass-card text-white px-6 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
-                value={timeline}
-                onChange={e => setTimeline(e.target.value)}
-                required
-              >
+              <label className={LABEL}>Timeline</label>
+              <select className={FIELD} value={timeline} onChange={(e) => setTimeline(e.target.value)} required>
                 <option value="">Select timeline</option>
-                {TIMELINES.map(t => <option key={t} value={t}>{t}</option>)}
+                {TIMELINES.map((t) => <option key={t} value={t}>{t}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-white/80 mb-3 text-lg">Project Brief</label>
+              <label className={LABEL}>Project brief</label>
               <textarea
-                className="min-h-32 w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-base text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
+                className={`${FIELD} min-h-32`}
                 value={brief}
-                onChange={e => setBrief(e.target.value)}
+                onChange={(e) => setBrief(e.target.value)}
                 placeholder="Describe the product, the workflows that matter, any AI features, integrations, or uptime expectations."
                 required
               />
             </div>
             <div className="grid gap-4 md:grid-cols-2">
               <div>
-                <label className="block text-white/80 mb-3 text-lg">Reliability</label>
-                <select
-                  className="w-full rounded-lg glass-card text-white px-6 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
-                  value={reliability}
-                  onChange={e => setReliability(e.target.value as 'standard' | 'elevated' | 'critical')}
-                >
+                <label className={LABEL}>Reliability</label>
+                <select className={FIELD} value={reliability} onChange={(e) => setReliability(e.target.value as typeof reliability)}>
                   <option value="standard">Standard product uptime</option>
                   <option value="elevated">Elevated reliability</option>
                   <option value="critical">Mission-critical reliability</option>
                 </select>
               </div>
               <div>
-                <label className="block text-white/80 mb-3 text-lg">Expected Scale</label>
-                <select
-                  className="w-full rounded-lg glass-card text-white px-6 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
-                  value={scale}
-                  onChange={e => setScale(e.target.value as 'internal' | 'startup' | 'growth' | 'scale')}
-                >
+                <label className={LABEL}>Expected scale</label>
+                <select className={FIELD} value={scale} onChange={(e) => setScale(e.target.value as typeof scale)}>
                   <option value="internal">Internal team tool</option>
                   <option value="startup">Early product launch</option>
                   <option value="growth">Growth-stage product</option>
@@ -320,131 +274,76 @@ const InstantQuoteForm: React.FC = () => {
               </div>
             </div>
             <div>
-              <label className="block text-white/80 mb-3 text-lg">Main Components (optional)</label>
-              <ComponentPills
-                selected={components}
-                onSelect={handleAddComponent}
-                onRemove={handleRemoveComponent}
-                onAdd={handleAddComponent}
-              />
+              <label className={LABEL}>Main components (optional)</label>
+              <ComponentPills selected={components} onSelect={handleAddComponent} onRemove={handleRemoveComponent} onAdd={handleAddComponent} />
             </div>
-            <button
-              type="submit"
-              className="w-full rounded-full bg-gradient-to-r from-blue-400 via-fuchsia-400 to-pink-400 text-white font-bold py-4 text-xl shadow hover:opacity-90 transition glow-on-hover glow-on-click"
-            >
-              Get Instant Estimate
+            <button type="submit" className="btn btn-brand h-13 w-full text-base" style={{ height: '3.25rem' }}>
+              Get instant estimate
             </button>
           </form>
         ) : (
           <form onSubmit={handleFormSubmit} className="space-y-5">
-            <div>
-              <label className="block text-white/80 mb-2 text-lg">Name</label>
-              <input
-                type="text"
-                className="w-full rounded-lg glass-card text-white px-5 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                required
-                placeholder="Your name"
-              />
+            <div className="grid gap-5 md:grid-cols-2">
+              <div>
+                <label className={LABEL}>Name</label>
+                <input type="text" className={FIELD} value={name} onChange={(e) => setName(e.target.value)} required placeholder="Your name" />
+              </div>
+              <div>
+                <label className={LABEL}>Email</label>
+                <input type="email" className={FIELD} value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="you@email.com" />
+              </div>
             </div>
             <div>
-              <label className="block text-white/80 mb-2 text-lg">Email</label>
-              <input
-                type="email"
-                className="w-full rounded-lg glass-card text-white px-5 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                required
-                placeholder="you@email.com"
-              />
+              <label className={LABEL}>Company</label>
+              <input type="text" className={FIELD} value={company} onChange={(e) => setCompany(e.target.value)} placeholder="Company or brand" />
+            </div>
+            <div className="grid gap-5 md:grid-cols-2">
+              <div>
+                <label className={LABEL}>Budget range</label>
+                <select className={FIELD} value={budget} onChange={(e) => setBudget(e.target.value)} required>
+                  <option value="">Select budget</option>
+                  {BUDGETS.map((b) => <option key={b} value={b}>{b}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className={LABEL}>Timeline</label>
+                <select className={FIELD} value={timeline} onChange={(e) => setTimeline(e.target.value)} required>
+                  <option value="">Select timeline</option>
+                  {TIMELINES.map((t) => <option key={t} value={t}>{t}</option>)}
+                </select>
+              </div>
             </div>
             <div>
-              <label className="block text-white/80 mb-2 text-lg">Company</label>
-              <input
-                type="text"
-                className="w-full rounded-lg glass-card text-white px-5 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
-                value={company}
-                onChange={e => setCompany(e.target.value)}
-                placeholder="Company or brand"
-              />
+              <label className={LABEL}>Project brief</label>
+              <textarea className={`${FIELD} min-h-28`} value={brief} onChange={(e) => setBrief(e.target.value)} required placeholder="Anything we should know before we scope this properly?" />
             </div>
             <div>
-              <label className="block text-white/80 mb-2 text-lg">Budget Range</label>
-              <select
-                className="w-full rounded-lg glass-card text-white px-5 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
-                value={budget}
-                onChange={e => setBudget(e.target.value)}
-                required
-              >
-                <option value="">Select budget</option>
-                {BUDGETS.map(b => <option key={b} value={b}>{b}</option>)}
-              </select>
+              <label className={LABEL}>Main components</label>
+              <ComponentPills selected={components} onSelect={handleAddComponent} onRemove={handleRemoveComponent} onAdd={handleAddComponent} />
             </div>
-            <div>
-              <label className="block text-white/80 mb-2 text-lg">Timeline</label>
-              <select
-                className="w-full rounded-lg glass-card text-white px-5 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
-                value={timeline}
-                onChange={e => setTimeline(e.target.value)}
-                required
-              >
-                <option value="">Select timeline</option>
-                {TIMELINES.map(t => <option key={t} value={t}>{t}</option>)}
-              </select>
-            </div>
-            <div>
-              <label className="block text-white/80 mb-2 text-lg">Project Brief</label>
-              <textarea
-                className="min-h-28 w-full rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-base text-white placeholder:text-white/30 focus:outline-none focus:ring-2 focus:ring-fuchsia-400"
-                value={brief}
-                onChange={e => setBrief(e.target.value)}
-                required
-                placeholder="Anything we should know before we scope this properly?"
-              />
-            </div>
-            <div>
-              <label className="block text-white/80 mb-2 text-lg">Main Components</label>
-              <ComponentPills
-                selected={components}
-                onSelect={handleAddComponent}
-                onRemove={handleRemoveComponent}
-                onAdd={handleAddComponent}
-              />
-            </div>
-            <div className="flex gap-4">
-              <button
-                type="submit"
-                disabled={loading}
-                className="flex-1 rounded-full bg-gradient-to-r from-blue-400 via-fuchsia-400 to-pink-400 text-white font-bold py-4 text-xl shadow hover:opacity-90 transition glow-on-hover glow-on-click"
-              >
-                {loading ? 'Sending...' : 'Request Detailed Quote'}
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <button type="submit" disabled={loading} className="btn btn-brand h-13 flex-1 text-base disabled:opacity-60" style={{ height: '3.25rem' }}>
+                {loading ? 'Sending…' : 'Request detailed quote'}
               </button>
               <button
                 type="button"
                 onClick={() => {
                   setStep('budget');
-                  setBudget('');
-                  setTimeline('');
-                  setComponents([]);
-                  setBrief('');
-                  setReliability('elevated');
-                  setScale('startup');
-                  setCompany('');
-                  setName('');
-                  setEmail('');
+                  setBudget(''); setTimeline(''); setComponents([]); setBrief('');
+                  setReliability('elevated'); setScale('startup'); setCompany(''); setName(''); setEmail('');
                 }}
-                className="glass-button text-white font-semibold px-8 py-4 text-lg hover:bg-white/20 transition glow-on-hover glow-on-click"
+                className="btn btn-ghost px-7 text-base"
+                style={{ height: '3.25rem' }}
               >
-                Start Over
+                Start over
               </button>
             </div>
           </form>
         )
       ) : (
-        <QuoteResultModal 
-          result={result} 
-          onClose={() => setResult(null)} 
+        <QuoteResultModal
+          result={result}
+          onClose={() => setResult(null)}
           onGetQuote={() => {
             setResult(null);
             setStep('form');

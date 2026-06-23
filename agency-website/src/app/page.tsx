@@ -1,157 +1,128 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import ServiceCard from '../components/ServiceCard';
-import TestimonialCarousel from '../components/TestimonialCarousel';
-import { 
-  CodeBracketIcon, 
-  DevicePhoneMobileIcon, 
-  ChartBarIcon,
-  RocketLaunchIcon,
-  ClockIcon,
-  CurrencyDollarIcon,
-  ArrowPathIcon,
-  ShieldCheckIcon,
-  CheckCircleIcon,
+import React, { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import {
+  ArrowUpRightIcon,
+  DevicePhoneMobileIcon,
+  CodeBracketIcon,
+  CpuChipIcon,
+  SparklesIcon,
   ServerIcon,
   CloudIcon,
+  CheckIcon,
+  ChevronDownIcon,
 } from '@heroicons/react/24/outline';
-import Image from 'next/image';
-import TypewriterGradient from '../components/TypewriterGradient';
-import InstantQuoteForm from '../components/InstantQuoteForm';
-import { gradientMain } from '../config/tokens';
-import GradientBorder from '../components/GradientBorder';
 import { siteCopy } from '../config/siteCopy';
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import InstantQuoteForm from '../components/InstantQuoteForm';
+import TestimonialCarousel from '../components/TestimonialCarousel';
+import Scene from '../components/Scene';
+import { Reveal, Stagger, StaggerItem, Parallax, WordReveal } from '../components/motion';
 
-// FAQ Accordion Component
-function FAQAccordion({ faqItems }: { faqItems: Array<{ question: string; answer: string }> }) {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+const CONTAINER = 'mx-auto max-w-[1320px] px-5 sm:px-7 lg:px-10';
 
+const SERVICE_ICONS = [DevicePhoneMobileIcon, CodeBracketIcon, CpuChipIcon, SparklesIcon];
+
+const TESTIMONIALS = [
+  {
+    quote:
+      'It could not have been done without Selerim. The entire system was built by them end to end, and it has run smoothly at scale without our team needing to manage the engineering side day to day.',
+    author: 'Abraham Shaheen',
+    role: 'CEO',
+    company: 'Zenfulnote',
+  },
+  {
+    quote:
+      'ViaSync works super well, and our users were able to sync smoothly from the start. When we ran into a notifications issue, it was reviewed and resolved in less than 24 hours.',
+    author: 'Alyssa Pascual',
+    role: 'Founder',
+    company: 'ViaSync',
+  },
+  {
+    quote:
+      'The full scope, build, and delivery has helped our internal team tremendously. Delivery was fast, the quality was top tier, and working with the team was seamless from start to finish.',
+    author: 'Joe Kim',
+    role: 'Leadership Team',
+    company: 'CQ Technologies',
+  },
+];
+
+const TRANSPARENCY = [
+  {
+    img: '/dashboard_images/code_updates.png',
+    title: 'Real-time code',
+    body: 'Every commit, pull request, and review — visible from day one.',
+  },
+  {
+    img: '/dashboard_images/live_app.png',
+    title: 'Live previews',
+    body: 'Test features and leave feedback against a real deployment.',
+  },
+  {
+    img: '/dashboard_images/timeline.png',
+    title: 'Honest timelines',
+    body: 'Milestones and progress tracked in the open, not behind a curtain.',
+  },
+];
+
+function SectionHeader({
+  eyebrow,
+  children,
+  className = '',
+}: {
+  eyebrow: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="mb-24">
-      <h2 className="text-4xl md:text-5xl font-bold text-white mb-12 text-center">
-        {siteCopy.home.faq.title}
-      </h2>
-      <div className="max-w-4xl mx-auto space-y-4">
-        {faqItems.map((item, index) => (
-          <GradientBorder key={index}>
-            <div className="glass-card overflow-hidden">
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full p-6 flex items-center justify-between text-left glow-on-hover glow-on-click"
-              >
-                <h3 className="text-xl font-bold text-white pr-4">{item.question}</h3>
-                <ChevronDownIcon 
-                  className={`h-6 w-6 text-white flex-shrink-0 transition-transform duration-300 ${
-                    openIndex === index ? 'transform rotate-180' : ''
-                  }`}
-                />
-              </button>
-              {openIndex === index && (
-                <div className="px-6 pb-6 pt-0 animate-fade-in-up">
-                  <p className="text-white/70 leading-relaxed">{item.answer}</p>
-                </div>
-              )}
-            </div>
-          </GradientBorder>
-        ))}
-      </div>
-    </div>
+    <Reveal className={className}>
+      <p className="eyebrow mb-5">{eyebrow}</p>
+      <h2 className="display max-w-4xl text-4xl text-ink sm:text-5xl md:text-[3.4rem]">{children}</h2>
+    </Reveal>
   );
 }
 
-const services = siteCopy.home.servicesOverview.services.map((service, index) => {
-  const icons = [DevicePhoneMobileIcon, CodeBracketIcon, RocketLaunchIcon, ArrowPathIcon];
-  return {
-    icon: icons[index] || CodeBracketIcon,
-    title: service.title,
-    description: service.description,
-    link: '/pricing',
-  };
-});
-
-const testimonials = [
-  {
-    quote: "It could not have been done without Selerim. The entire system was built by them end to end, and it has run smoothly at scale without our team needing to manage the engineering side day to day.",
-    author: "Abraham Shaheen",
-    role: "CEO",
-    company: "Zenfulnote"
-  },
-  {
-    quote: "ViaSync works super well, and our users were able to sync smoothly from the start. When we ran into a notifications issue, it was reviewed and resolved in less than 24 hours. That kind of support made a huge difference.",
-    author: "Alyssa Pascual",
-    role: "Founder",
-    company: "ViaSync"
-  },
-  {
-    quote: "The full scope, build, and delivery has helped our internal team tremendously. Delivery was fast, the quality was top tier, and working with the team was seamless from start to finish.",
-    author: "Joe Kim",
-    role: "Leadership Team",
-    company: "CQ Technologies"
-  }
-];
-
-const pricingTiers = [
-  {
-    name: 'Starter',
-    description: 'Perfect for validating your idea with a minimal viable product.',
-    features: [
-      {
-        icon: ArrowPathIcon,
-        text: 'Basic maintenance'
-      },
-      {
-        icon: ChartBarIcon,
-        text: 'Essential features'
-      },
-      {
-        icon: ClockIcon,
-        text: '2-4 weeks delivery'
-      }
-    ]
-  },
-  {
-    name: 'Growth',
-    description: 'Scale your validated product with advanced features.',
-    features: [
-      {
-        icon: ArrowPathIcon,
-        text: 'Priority maintenance'
-      },
-      {
-        icon: ChartBarIcon,
-        text: 'Advanced features'
-      },
-      {
-        icon: ClockIcon,
-        text: '1-3 months delivery'
-      }
-    ]
-  },
-  {
-    name: 'Enterprise',
-    description: 'Full-scale solution with comprehensive support.',
-    features: [
-      {
-        icon: ArrowPathIcon,
-        text: 'Dedicated support options'
-      },
-      {
-        icon: ChartBarIcon,
-        text: 'Custom features'
-      },
-      {
-        icon: ClockIcon,
-        text: '3+ months delivery'
-      }
-    ]
-  }
-];
+function FAQItem({ item, index }: { item: { question: string; answer: string }; index: number }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <StaggerItem>
+      <div className="glass-card overflow-hidden">
+        <button
+          onClick={() => setOpen((o) => !o)}
+          className="flex w-full items-center justify-between gap-4 p-6 text-left"
+          aria-expanded={open}
+        >
+          <span className="flex items-baseline gap-4">
+            <span className="text-sm text-ink-subtle">{String(index + 1).padStart(2, '0')}</span>
+            <span className="text-lg font-medium tracking-tight text-ink">{item.question}</span>
+          </span>
+          <ChevronDownIcon
+            className={`h-5 w-5 flex-shrink-0 text-ink-muted transition-transform duration-500 ${open ? 'rotate-180' : ''}`}
+          />
+        </button>
+        <div
+          className="grid transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          style={{ gridTemplateRows: open ? '1fr' : '0fr' }}
+        >
+          <div className="overflow-hidden">
+            <p className="px-6 pb-6 pl-[3.75rem] text-[0.97rem] leading-relaxed text-ink-muted">{item.answer}</p>
+          </div>
+        </div>
+      </div>
+    </StaggerItem>
+  );
+}
 
 export default function Home() {
   const [showQuote, setShowQuote] = useState(false);
-  // Listen for close event from InstantQuoteForm
+  const reduce = useReducedMotion();
+  const heroRef = useRef<HTMLDivElement>(null);
+
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ['start start', 'end start'] });
+  const heroY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+
   useEffect(() => {
     const handleClose = () => setShowQuote(false);
     window.addEventListener('closeQuoteModal', handleClose);
@@ -159,378 +130,346 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative min-h-screen bg-dark-blue overflow-x-hidden">
-      {/* Full screen blurred background gradients */}
-      <div className="bg-gradient-fullscreen">
-        <div 
-          className="absolute left-[-10%] top-[-10%] h-[50vh] w-[50vh] rounded-full bg-blue-400/20 blur-[200px]"
-        />
-        <div 
-          className="absolute right-[-10%] top-[20%] h-[45vh] w-[45vh] rounded-full bg-purple-400/15 blur-[200px]"
-        />
-        <div 
-          className="absolute left-[20%] bottom-[-10%] h-[50vh] w-[50vh] rounded-full bg-pink-400/15 blur-[200px]"
-        />
-        <div 
-          className="absolute right-[30%] top-[50%] h-[40vh] w-[40vh] rounded-full bg-cyan-400/10 blur-[200px]"
-        />
-      </div>
-
-      {/* Hero Section */}
-      <section className="relative z-10 flex flex-col items-center justify-center text-center pt-8 md:pt-12 pb-20 md:pb-32 px-4 sm:px-6 md:px-8">
-        <div className="mx-auto mb-6 flex h-[140px] w-[140px] items-center justify-center rounded-full border border-white/10 bg-black/20 shadow-[0_20px_60px_rgba(0,0,0,0.28)]">
-          <Image
-            src="/logo.png"
-            alt="Selerim Logo"
-            width={104}
-            height={104}
-            className="h-[104px] w-[104px] object-contain"
-            priority
-          />
-        </div>
-        <h1 className="mx-auto mb-6 max-w-5xl px-2 text-center text-4xl font-extrabold text-white md:text-5xl">
-          <span className="block mb-2">End-to-end development and AI integration for your</span>
-          <span className="block flex justify-center">
-            <TypewriterGradient />
-          </span>
-        </h1>
-        <p className="mx-auto mb-12 max-w-3xl px-4 text-center text-xl text-white/80 sm:text-2xl">
-          {siteCopy.home.hero.subheadlineB}
-        </p>
-        <div className="flex gap-6 justify-center flex-wrap">
-          <button
-            onClick={() => setShowQuote(true)}
-            className={`rounded-full ${gradientMain} text-white font-semibold px-10 py-4 text-xl shadow-lg hover:opacity-90 transition hover:scale-105 backdrop-blur-sm glow-on-hover glow-on-click`}
+    <>
+      {/* ===================== HERO ===================== */}
+      <Scene tone="dark">
+        <div ref={heroRef} className="relative flex min-h-[100svh] items-center justify-center overflow-hidden pt-24">
+          <motion.div
+            style={reduce ? undefined : { y: heroY, opacity: heroOpacity }}
+            className={`${CONTAINER} flex flex-col items-center text-center`}
           >
-            {siteCopy.home.hero.ctaPrimary}
-          </button>
-          <button
-            onClick={() => setShowQuote(true)}
-            className="glass-button text-white font-semibold px-10 py-4 text-xl hover:bg-white/20 transition hover:scale-105 glow-on-hover glow-on-click"
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="eyebrow mb-7"
+            >
+              US-based software studio
+            </motion.p>
+
+            <h1 className="display text-[2.9rem] leading-[0.96] text-ink-strong sm:text-6xl md:text-7xl lg:text-[5.6rem]">
+              <span className="block">
+                <WordReveal text="Production-ready AI software," />
+              </span>
+              <span className="mt-1 block">
+                <WordReveal text="built to" delay={0.2} />{' '}
+                <span className="accent text-gradient">ship.</span>
+              </span>
+            </h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-8 max-w-2xl text-lg leading-relaxed text-ink-muted sm:text-xl"
+            >
+              {siteCopy.home.hero.subheadlineB} Open-source models or AWS Bedrock — no vendor lock-in.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-11 flex flex-col items-center gap-4 sm:flex-row"
+            >
+              <Link href="/contact" className="btn btn-brand px-8 text-base" style={{ height: '3.25rem' }}>
+                {siteCopy.home.hero.ctaPrimary}
+              </Link>
+              <button
+                onClick={() => setShowQuote(true)}
+                className="btn btn-ghost px-8 text-base"
+                style={{ height: '3.25rem' }}
+              >
+                {siteCopy.home.hero.ctaSecondary}
+              </button>
+            </motion.div>
+          </motion.div>
+
+          {/* Scroll cue */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+            className="pointer-events-none absolute bottom-8 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 sm:flex"
           >
-            {siteCopy.home.hero.ctaSecondary}
-          </button>
+            <span className="eyebrow text-[0.62rem]">Scroll</span>
+            <span className="relative flex h-9 w-5 justify-center rounded-full border border-line">
+              <span className="animate-scroll-cue mt-1.5 h-1.5 w-1.5 rounded-full bg-ink-muted" />
+            </span>
+          </motion.div>
         </div>
-        <div className="mt-6 space-y-2">
-          <p className="text-white/60 text-sm">{siteCopy.home.hero.ctaPrimaryMicrocopy}</p>
-          <p className="text-white/60 text-sm">{siteCopy.home.hero.ctaSecondaryMicrocopy}</p>
-        </div>
-      </section>
 
-      {/* Modal for InstantQuoteForm */}
-      {showQuote && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-md p-4"
-          onClick={(e) => {
-            // Only close if clicking the backdrop itself, not its children
-            if (e.target === e.currentTarget) {
-              setShowQuote(false);
-            }
-          }}
-        >
-          <div className="relative w-full max-w-3xl mx-auto">
-            <InstantQuoteForm />
-            <button
-              className="absolute top-2 right-2 text-white/60 hover:text-white text-3xl glow-on-hover z-10"
-              onClick={() => setShowQuote(false)}
-              aria-label="Close quote form"
-            >
-              ×
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* Trust Signals */}
-      <section className="relative z-10 py-12">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-            {siteCopy.home.trustSignals.map((signal, index) => (
-              <div key={index} className="glass-card p-4 flex items-center justify-center gap-2 text-white/90 hover:bg-white/10 transition cursor-pointer glow-on-hover glow-on-click">
-                <CheckCircleIcon className="h-5 w-5 text-white flex-shrink-0" />
-                <span className="text-sm md:text-base">{signal}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Company Logos Carousel
-      Hidden for now until the list reflects verified client work.
-      <section className="relative z-10 bg-dark-blue py-12">
-        <CompanyLogosCarousel logos={companyLogos} />
-      </section>
-      */}
-
-      {/* Development Transparency Section */}
-      <section className="relative z-10 bg-dark-blue py-20 md:py-40">
-        <div className="mx-auto max-w-[95%] md:max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16 md:mb-20">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-6">
-              Complete Development Transparency
-            </h2>
-            <p className="mt-4 text-xl md:text-2xl text-white/80 max-w-4xl mx-auto">
-              Your project, your code, your control - from day one
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 mb-20">
-            <div className="flex flex-col items-center">
-              <div className="w-full mb-8 md:mb-12 rounded-xl overflow-hidden shadow-2xl transition-all duration-500 hover:transform hover:scale-105 hover:-translate-y-2 hover:shadow-[0_25px_50px_-12px_rgba(59,130,246,0.25)] hover:shadow-blue-500/50">
-                <img 
-                  src="/dashboard_images/code_updates.png" 
-                  alt="Code Repository Dashboard" 
-                  className="w-full h-[300px] md:h-[400px] object-cover transition-all duration-500"
-                />
-              </div>
-              <div className="text-center max-w-3xl mx-auto px-4">
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Real-Time Code Updates</h3>
-                <p className="text-lg md:text-xl text-white/70 leading-relaxed">
-                  Watch every commit, pull request, and code change as it happens. Full visibility into the development process with detailed commit messages, code reviews, and branch management.
-                </p>
-              </div>
+        {/* Trust strip */}
+        <div className={`${CONTAINER} pb-20`}>
+          <Reveal>
+            <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 border-y border-line py-6">
+              {siteCopy.home.trustSignals.map((signal) => (
+                <span key={signal} className="flex items-center gap-2 text-sm text-ink-muted">
+                  <span className="h-1 w-1 rounded-full bg-brand" />
+                  {signal}
+                </span>
+              ))}
             </div>
-
-            <div className="flex flex-col items-center">
-              <div className="w-full mb-8 md:mb-12 rounded-xl overflow-hidden shadow-2xl transition-all duration-500 hover:transform hover:scale-105 hover:-translate-y-2 hover:shadow-[0_25px_50px_-12px_rgba(168,85,247,0.25)] hover:shadow-purple-500/50">
-                <img 
-                  src="/dashboard_images/live_app.png" 
-                  alt="Live Preview Dashboard" 
-                  className="w-full h-[300px] md:h-[400px] object-cover transition-all duration-500"
-                />
-              </div>
-              <div className="text-center max-w-3xl mx-auto px-4">
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Live Application Preview</h3>
-                <p className="text-lg md:text-xl text-white/70 leading-relaxed">
-                  Access a live preview of your application at any time. Test features, review changes, and provide instant feedback. Every deployment is automatically previewed and accessible.
-                </p>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-center">
-              <div className="w-full mb-8 md:mb-12 rounded-xl overflow-hidden shadow-2xl transition-all duration-500 hover:transform hover:scale-105 hover:-translate-y-2 hover:shadow-[0_25px_50px_-12px_rgba(236,72,153,0.25)] hover:shadow-pink-500/50">
-                <img 
-                  src="/dashboard_images/timeline.png" 
-                  alt="Project Timeline Dashboard" 
-                  className="w-full h-[300px] md:h-[400px] object-cover transition-all duration-500"
-                />
-              </div>
-              <div className="text-center max-w-3xl mx-auto px-4">
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">Project Timeline & Progress</h3>
-                <p className="text-lg md:text-xl text-white/70 leading-relaxed">
-                  Track development milestones, sprints, and overall progress in real-time. Stay informed about every aspect of your project's development journey.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center">
-            <p className="text-lg md:text-xl text-white/60 mb-8">
-              Every aspect of your project is visible and accessible from day one
-            </p>
-            <a
-              href="/pricing"
-              className={`rounded-full ${gradientMain} text-white font-bold px-8 md:px-12 py-4 md:py-6 text-xl md:text-2xl shadow hover:opacity-90 transition transform hover:scale-105 duration-300 inline-block`}
-            >
-              View Our Pricing
-            </a>
-          </div>
+          </Reveal>
         </div>
-      </section>
+      </Scene>
 
-      {/* Combined Services & Process Section */}
-      <div className="bg-dark-blue py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-24">
-            <h2 className="text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-8">
-              From Idea to Market
-            </h2>
-            <p className="mt-4 text-2xl text-white/80 max-w-5xl mx-auto leading-relaxed">
-              We transform your vision into reality with a streamlined process that gets you to market faster than traditional development
-            </p>
-            
-            {/* Compact Services Overview - Moved here */}
-            <div className="mt-16">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
-                {services.map((service, index) => (
-                  <GradientBorder key={service.title} hoverIntensity="high">
-                    <div className="p-6 text-center h-full flex flex-col items-center justify-center">
-                      <service.icon className="h-10 w-10 text-white mx-auto mb-3" />
-                      <h4 className="text-base font-medium text-white/90">{service.title}</h4>
-                    </div>
-                  </GradientBorder>
-                ))}
-              </div>
-            </div>
+      {/* ===================== MANIFESTO (light) ===================== */}
+      <Scene tone="light">
+        <div className={`${CONTAINER} py-28 md:py-40`}>
+          <Reveal>
+            <p className="eyebrow mb-8">What we care about</p>
+          </Reveal>
+          <p className="display max-w-5xl text-3xl leading-[1.18] text-ink sm:text-4xl md:text-5xl">
+            <WordReveal text="We obsess over the part most teams skip — the part where it actually" />{' '}
+            <span className="accent">ships,</span>{' '}
+            <WordReveal text="survives real users, and" delay={0.1} />{' '}
+            <span className="accent">scales.</span>
+          </p>
+          <Reveal delay={0.15}>
+            <Link href="/about" className="link-underline mt-10 inline-flex items-center gap-2 text-base text-ink">
+              Read our principles <ArrowUpRightIcon className="h-4 w-4" />
+            </Link>
+          </Reveal>
+        </div>
+      </Scene>
+
+      {/* ===================== WHAT WE BUILD (dark) ===================== */}
+      <Scene tone="dark">
+        <div className={`${CONTAINER} py-24 md:py-32`}>
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <SectionHeader eyebrow="What we build">
+              Four things, done <span className="accent">properly.</span>
+            </SectionHeader>
+            <Reveal delay={0.1}>
+              <Link href="/services" className="link-underline inline-flex items-center gap-2 text-base text-ink">
+                All services <ArrowUpRightIcon className="h-4 w-4" />
+              </Link>
+            </Reveal>
           </div>
 
-          {/* How We Work */}
-          <div className="mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-12 text-center">
-              {siteCopy.home.howWeWork.title}
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {siteCopy.home.howWeWork.steps.map((step, index) => {
-                const icons = [RocketLaunchIcon, ClockIcon, ShieldCheckIcon];
-                const Icon = icons[index] || RocketLaunchIcon;
-                return (
-                  <GradientBorder key={index} hoverIntensity="high">
-                    <div className="p-8 h-full">
-                      <div className="w-20 h-20 mx-auto mb-6 rounded-3xl bg-gradient-to-r from-blue-400 via-fuchsia-400 to-pink-400 p-0.5 glass-strong">
-                        <div className="w-full h-full rounded-3xl glass-card flex items-center justify-center">
-                          <Icon className="h-10 w-10 text-white" />
-                        </div>
+          <Stagger className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {siteCopy.home.servicesOverview.services.map((service, i) => {
+              const Icon = SERVICE_ICONS[i] || CodeBracketIcon;
+              return (
+                <StaggerItem key={service.title}>
+                  <Link href="/services" className="group block h-full">
+                    <div className="glass-card flex h-full flex-col p-7 transition-transform duration-500 group-hover:-translate-y-1.5">
+                      <div className="mb-8 flex items-center justify-between">
+                        <Icon className="h-7 w-7 text-ink transition-colors duration-300 group-hover:text-brand" />
+                        <span className="text-sm text-ink-subtle">{String(i + 1).padStart(2, '0')}</span>
                       </div>
-                      <h3 className="text-2xl font-bold text-white mb-4 text-center">{step.title}</h3>
-                      <p className="text-lg text-white/70 leading-relaxed text-center">{step.description}</p>
+                      <h3 className="text-xl font-medium tracking-tight text-ink">{service.title}</h3>
+                      <p className="mt-3 flex-1 text-[0.95rem] leading-relaxed text-ink-muted">{service.description}</p>
+                      <span className="mt-6 inline-flex items-center gap-1.5 text-sm text-ink-subtle transition-colors duration-300 group-hover:text-ink">
+                        Explore <ArrowUpRightIcon className="h-3.5 w-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </span>
                     </div>
-                  </GradientBorder>
-                );
-              })}
-            </div>
-          </div>
+                  </Link>
+                </StaggerItem>
+              );
+            })}
+          </Stagger>
+        </div>
+      </Scene>
 
-          {/* AI Approaches */}
-          <div className="mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 text-center">
-              {siteCopy.home.aiApproaches.title}
-            </h2>
-            <p className="text-xl text-white/70 mb-12 text-center max-w-3xl mx-auto">
-              {siteCopy.home.aiApproaches.subtitle}
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <GradientBorder hoverIntensity="high">
-                <div className="p-8 h-full">
-                  <div className="w-16 h-16 rounded-2xl glass-strong flex items-center justify-center mb-6">
-                    <ServerIcon className="h-8 w-8 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">{siteCopy.home.aiApproaches.openSource.title}</h3>
-                  <p className="text-lg text-white/70 mb-6">{siteCopy.home.aiApproaches.openSource.description}</p>
-                  <ul className="space-y-3">
-                    {siteCopy.home.aiApproaches.openSource.benefits.map((benefit, idx) => (
-                      <li key={idx} className="flex items-start text-white/80">
-                        <CheckCircleIcon className="h-5 w-5 text-white mr-3 flex-shrink-0 mt-0.5" />
-                        <span>{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
+      {/* ===================== HOW WE WORK (light) ===================== */}
+      <Scene tone="light">
+        <div className={`${CONTAINER} py-24 md:py-32`}>
+          <SectionHeader eyebrow="How we work">
+            From scope to <span className="accent">shipped.</span>
+          </SectionHeader>
+          <Stagger className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-3xl border border-line md:grid-cols-3">
+            {siteCopy.home.howWeWork.steps.map((step, i) => (
+              <StaggerItem key={step.title} className="h-full">
+                <div className="group h-full bg-[var(--surface-2)]/40 p-9 transition-colors duration-500 hover:bg-[var(--surface-2)]/70">
+                  <span className="font-serif text-5xl italic text-ink-subtle transition-colors duration-500 group-hover:text-brand">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <h3 className="mt-6 text-2xl font-medium tracking-tight text-ink">{step.title}</h3>
+                  <p className="mt-3 text-[0.97rem] leading-relaxed text-ink-muted">{step.description}</p>
                 </div>
-              </GradientBorder>
-              <GradientBorder hoverIntensity="high">
-                <div className="p-8 h-full">
-                  <div className="w-16 h-16 rounded-2xl glass-strong flex items-center justify-center mb-6">
-                    <CloudIcon className="h-8 w-8 text-purple-400" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-4">{siteCopy.home.aiApproaches.bedrock.title}</h3>
-                  <p className="text-lg text-white/70 mb-6">{siteCopy.home.aiApproaches.bedrock.description}</p>
-                  <ul className="space-y-3">
-                    {siteCopy.home.aiApproaches.bedrock.benefits.map((benefit, idx) => (
-                      <li key={idx} className="flex items-start text-white/80">
-                        <CheckCircleIcon className="h-5 w-5 text-white mr-3 flex-shrink-0 mt-0.5" />
-                        <span>{benefit}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </GradientBorder>
-            </div>
-            <p className="text-white/60 text-center mt-8 max-w-3xl mx-auto glass-card p-4">
-              {siteCopy.home.aiApproaches.note}
-            </p>
-          </div>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </Scene>
 
-          {/* Tiers */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-32">
-            {pricingTiers.map((tier) => (
-              <GradientBorder key={tier.name} hoverIntensity="high">
-                <div className="p-10 h-full">
-                  <div className="flex items-center justify-between mb-8">
-                    <h3 className="text-3xl font-bold text-white">{tier.name}</h3>
-                    <CurrencyDollarIcon className="h-12 w-12 text-white" />
+      {/* ===================== AI APPROACHES (dark) ===================== */}
+      <Scene tone="dark">
+        <div className={`${CONTAINER} py-24 md:py-32`}>
+          <SectionHeader eyebrow="AI approaches" className="mx-auto text-center">
+            <span className="mx-auto block">
+              Your models. Your data. <span className="accent">Your call.</span>
+            </span>
+          </SectionHeader>
+          <Reveal className="mx-auto mt-4 max-w-2xl text-center">
+            <p className="text-lg text-ink-muted">{siteCopy.home.aiApproaches.subtitle}</p>
+          </Reveal>
+
+          <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-2">
+            {[siteCopy.home.aiApproaches.openSource, siteCopy.home.aiApproaches.bedrock].map((approach, i) => (
+              <Reveal key={approach.title} delay={i * 0.1}>
+                <div className="glass-card h-full p-9">
+                  <div className="mb-7 flex h-12 w-12 items-center justify-center rounded-2xl border border-line text-ink">
+                    {i === 0 ? <ServerIcon className="h-6 w-6" /> : <CloudIcon className="h-6 w-6" />}
                   </div>
-                  <p className="text-xl text-white/70 mb-8 leading-relaxed">{tier.description}</p>
-                  <ul className="space-y-6 mb-8">
-                    {tier.features.map((feature, index) => (
-                      <li key={index} className="flex items-center text-xl text-white/80">
-                        <feature.icon className="h-6 w-6 mr-3 text-white" />
-                        {feature.text}
+                  <h3 className="text-2xl font-medium tracking-tight text-ink">{approach.title}</h3>
+                  <p className="mt-2 text-[0.97rem] text-ink-muted">{approach.description}</p>
+                  <ul className="mt-7 space-y-3">
+                    {approach.benefits.map((b) => (
+                      <li key={b} className="flex items-start gap-3 text-[0.95rem] text-ink">
+                        <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand" />
+                        {b}
                       </li>
                     ))}
                   </ul>
                 </div>
-              </GradientBorder>
+              </Reveal>
             ))}
           </div>
+          <Reveal className="mt-8 text-center">
+            <p className="mx-auto max-w-2xl text-sm text-ink-subtle">{siteCopy.home.aiApproaches.note}</p>
+          </Reveal>
+        </div>
+      </Scene>
 
-          {/* Featured Work */}
-          <div className="mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 text-center">
-              {siteCopy.home.featuredWork.title}
-            </h2>
-            <p className="text-xl text-white/70 mb-12 text-center">
-              {siteCopy.home.featuredWork.subtitle}
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {siteCopy.home.featuredWork.items.map((item, index) => (
-              <GradientBorder key={index} hoverIntensity="high">
-                <div className="p-6 h-full">
-                  <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
-                  <p className="text-white/70 mb-4 text-sm">{item.description}</p>
-                  <p className="text-white font-semibold mb-3 text-sm">{item.outcome}</p>
-                  <p className="text-white/60 text-xs">{item.stack}</p>
-                </div>
-              </GradientBorder>
-            ))}
-            </div>
+      {/* ===================== FEATURED WORK (light) ===================== */}
+      <Scene tone="light">
+        <div className={`${CONTAINER} py-24 md:py-32`}>
+          <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+            <SectionHeader eyebrow="Featured work">
+              Shipped, in <span className="accent">production.</span>
+            </SectionHeader>
+            <Reveal delay={0.1}>
+              <Link href="/case-studies" className="link-underline inline-flex items-center gap-2 text-base text-ink">
+                All case studies <ArrowUpRightIcon className="h-4 w-4" />
+              </Link>
+            </Reveal>
           </div>
 
-          {/* FAQ */}
-          <FAQAccordion faqItems={siteCopy.home.faq.items} />
+          <Stagger className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-3">
+            {siteCopy.home.featuredWork.items.map((item) => (
+              <StaggerItem key={item.title} className="h-full">
+                <Link href="/case-studies" className="group block h-full">
+                  <div className="glass-card flex h-full flex-col p-8 transition-transform duration-500 group-hover:-translate-y-1.5">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-2xl font-medium tracking-tight text-ink">{item.title}</h3>
+                      <ArrowUpRightIcon className="h-5 w-5 text-ink-subtle transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-brand" />
+                    </div>
+                    <p className="mt-4 flex-1 text-[0.95rem] leading-relaxed text-ink-muted">{item.description}</p>
+                    <p className="mt-5 text-[0.95rem] font-medium text-ink">{item.outcome}</p>
+                    <p className="mt-5 border-t border-line pt-5 text-xs uppercase tracking-wider text-ink-subtle">
+                      {item.stack}
+                    </p>
+                  </div>
+                </Link>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </div>
+      </Scene>
 
-          {/* Final CTA */}
-          <div className="text-center">
-            <div className="glass-card p-12 max-w-3xl mx-auto">
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                {siteCopy.home.finalCta.title}
+      {/* ===================== TRANSPARENCY (dark) ===================== */}
+      <Scene tone="dark">
+        <div className={`${CONTAINER} py-24 md:py-32`}>
+          <SectionHeader eyebrow="Total transparency" className="max-w-3xl">
+            Your project, your code, your <span className="accent">control</span> — from day one.
+          </SectionHeader>
+
+          <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">
+            {TRANSPARENCY.map((card, i) => (
+              <Reveal key={card.title} delay={i * 0.08}>
+                <Parallax speed={0.12 + i * 0.04}>
+                  <div className="group overflow-hidden rounded-3xl border border-line">
+                    <div className="aspect-[4/3] overflow-hidden bg-[var(--surface-2)]">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={card.img}
+                        alt={card.title}
+                        className="h-full w-full object-cover opacity-90 transition-all duration-700 group-hover:scale-105 group-hover:opacity-100"
+                      />
+                    </div>
+                  </div>
+                  <h3 className="mt-6 text-xl font-medium tracking-tight text-ink">{card.title}</h3>
+                  <p className="mt-2 text-[0.95rem] leading-relaxed text-ink-muted">{card.body}</p>
+                </Parallax>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </Scene>
+
+      {/* ===================== TESTIMONIALS (dark) ===================== */}
+      <Scene tone="dark">
+        <div className={`${CONTAINER} py-24 md:py-32`}>
+          <SectionHeader eyebrow="In their words" className="mx-auto text-center">
+            <span className="mx-auto block">
+              Teams who let us <span className="accent">build.</span>
+            </span>
+          </SectionHeader>
+          <div className="mt-14">
+            <TestimonialCarousel testimonials={TESTIMONIALS} />
+          </div>
+        </div>
+      </Scene>
+
+      {/* ===================== FAQ (light) ===================== */}
+      <Scene tone="light">
+        <div className={`${CONTAINER} py-24 md:py-32`}>
+          <SectionHeader eyebrow="Questions">
+            Good to <span className="accent">know.</span>
+          </SectionHeader>
+          <Stagger className="mx-auto mt-12 max-w-3xl space-y-3">
+            {siteCopy.home.faq.items.map((item, i) => (
+              <FAQItem key={i} item={item} index={i} />
+            ))}
+          </Stagger>
+        </div>
+      </Scene>
+
+      {/* ===================== FINAL CTA (dark) ===================== */}
+      <Scene tone="dark">
+        <div className={`${CONTAINER} pb-10 pt-12 md:pb-16`}>
+          <Reveal>
+            <div className="glass-strong relative overflow-hidden rounded-[2rem] px-8 py-16 text-center md:px-16 md:py-24">
+              <p className="eyebrow mb-6">{siteCopy.home.finalCta.subtitle}</p>
+              <h2 className="display mx-auto max-w-3xl text-4xl text-ink-strong sm:text-5xl md:text-6xl">
+                Ready to <span className="accent text-gradient">build?</span>
               </h2>
-              <p className="text-xl text-white/70 mb-8">
-                {siteCopy.home.finalCta.subtitle}
-              </p>
-              <div className="flex gap-6 justify-center flex-wrap">
-                <button
-                  onClick={() => setShowQuote(true)}
-                  className={`rounded-full ${gradientMain} text-white font-bold px-12 py-6 text-2xl shadow-lg hover:opacity-90 transition transform hover:scale-105 duration-300 inline-block backdrop-blur-sm glow-on-hover glow-on-click`}
-                >
+              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <Link href="/contact" className="btn btn-brand px-8 text-base" style={{ height: '3.25rem' }}>
                   {siteCopy.home.finalCta.ctaPrimary}
-                </button>
-                <button
-                  onClick={() => setShowQuote(true)}
-                  className="glass-button text-white font-bold px-12 py-6 text-2xl hover:bg-white/20 transition transform hover:scale-105 duration-300 inline-block glow-on-hover glow-on-click"
-                >
+                </Link>
+                <button onClick={() => setShowQuote(true)} className="btn btn-ghost px-8 text-base" style={{ height: '3.25rem' }}>
                   {siteCopy.home.finalCta.ctaSecondary}
                 </button>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
-      </div>
+      </Scene>
 
-      {/* Testimonials Section */}
-      <div className="bg-dark-blue py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-20">
-            <h2 className="text-5xl font-bold tracking-tight text-white sm:text-6xl mb-6">
-              What Our Clients Say
-            </h2>
-            <p className="mt-4 text-2xl text-white/80 max-w-4xl mx-auto">
-              Direct feedback from client teams we have worked with.
-            </p>
-          </div>
-          <div className="mt-16">
-            <TestimonialCarousel testimonials={testimonials} />
+      {/* ===================== QUOTE MODAL ===================== */}
+      {showQuote && (
+        <div
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/50 p-4 backdrop-blur-md"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setShowQuote(false);
+          }}
+        >
+          <div className="relative mx-auto w-full max-w-3xl">
+            <InstantQuoteForm />
+            <button
+              className="absolute right-3 top-3 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-line bg-[var(--surface)]/60 text-ink-muted backdrop-blur transition-colors hover:text-ink"
+              onClick={() => setShowQuote(false)}
+              aria-label="Close"
+            >
+              ✕
+            </button>
           </div>
         </div>
-      </div>
-    </main>
+      )}
+    </>
   );
 }

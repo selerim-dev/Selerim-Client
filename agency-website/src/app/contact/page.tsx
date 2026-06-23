@@ -1,21 +1,19 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { gradientMain } from "../../config/tokens";
-import { siteCopy } from "../../config/siteCopy";
-import { CheckCircleIcon } from "@heroicons/react/24/outline";
-import { submitWebsiteForm } from "../../lib/form-submit";
+import React, { useState } from 'react';
+import { CheckIcon } from '@heroicons/react/24/outline';
+import { siteCopy } from '../../config/siteCopy';
+import { submitWebsiteForm } from '../../lib/form-submit';
+import Scene from '../../components/Scene';
+import { Reveal } from '../../components/motion';
+import { CONTAINER, PageHero } from '../../components/site';
+
+const FIELD =
+  'block w-full rounded-xl border border-line bg-[var(--surface-2)]/50 px-4 py-3 text-[0.97rem] text-ink placeholder:text-ink-subtle outline-none transition-all duration-300 focus:border-brand focus:ring-2 focus:ring-brand/25';
+const LABEL = 'mb-2 block text-sm font-medium text-ink-muted';
 
 export default function ContactPage() {
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    company: "",
-    phone: "",
-    budget: "",
-    subject: "",
-    message: "",
-  });
+  const [form, setForm] = useState({ name: '', email: '', company: '', phone: '', budget: '', subject: '', message: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -26,7 +24,6 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-
     try {
       await submitWebsiteForm({
         subject: `Selerim website inquiry: ${form.subject}`,
@@ -40,202 +37,104 @@ export default function ContactPage() {
         message: form.message,
         source: 'contact-page',
       });
-
       setSuccess(true);
-      setForm({ name: "", email: "", company: "", phone: "", budget: "", subject: "", message: "" });
+      setForm({ name: '', email: '', company: '', phone: '', budget: '', subject: '', message: '' });
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <main className="relative min-h-screen bg-dark-blue overflow-x-hidden">
-      {/* Full screen background gradients */}
-      <div className="bg-gradient-fullscreen">
-        <div className="absolute left-[-10%] top-[-10%] h-[50vh] w-[50vh] rounded-full bg-blue-400/20 blur-[200px]" />
-        <div className="absolute right-[-10%] top-[20%] h-[45vh] w-[45vh] rounded-full bg-purple-400/15 blur-[200px]" />
-        <div className="absolute left-[20%] bottom-[-10%] h-[50vh] w-[50vh] rounded-full bg-pink-400/15 blur-[200px]" />
-      </div>
-      {/* Hero Section */}
-      <div className="relative z-10">
-        <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
-              {siteCopy.contact.headline}
-            </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-xl text-white/80">
-              {siteCopy.contact.subheadline}
-            </p>
-          </div>
-        </div>
-      </div>
+    <>
+      <Scene tone="dark">
+        <PageHero eyebrow="Contact" title="Get in" accent="touch." subtitle={siteCopy.contact.subheadline} />
+      </Scene>
 
-      {/* Content Section */}
-      <div className="relative z-10 py-12">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="w-full max-w-4xl mx-auto">
-
-            <div className="grid gap-6 md:grid-cols-[0.95fr_1.05fr]">
-              {/* What to Include */}
-              <div className="glass-card p-8">
-                <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl mb-6">
-                  {siteCopy.contact.whatToInclude.title}
-                </h2>
-            <ul className="space-y-3">
-              {siteCopy.contact.whatToInclude.items.map((item, index) => (
-                <li key={index} className="flex items-start text-white/80">
-                  <CheckCircleIcon className="h-5 w-5 text-white mr-3 flex-shrink-0 mt-0.5" />
-                  <span>{item}</span>
-                </li>
-              ))}
+      <Scene tone="light">
+        <div className={`${CONTAINER} pb-24 pt-4 md:pb-32`}>
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-[0.85fr_1.15fr]">
+            {/* What to include */}
+            <Reveal>
+              <div className="glass-card h-full p-8 md:p-10">
+                <h2 className="text-2xl font-medium tracking-tight text-ink">{siteCopy.contact.whatToInclude.title}</h2>
+                <ul className="mt-6 space-y-3">
+                  {siteCopy.contact.whatToInclude.items.map((item) => (
+                    <li key={item} className="flex items-start gap-3 text-[0.95rem] text-ink">
+                      <CheckIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-brand" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
                 </ul>
-                <p className="mt-6 text-white/60 text-sm">
-                  {siteCopy.contact.responseTime}
-                </p>
-                <div className="mt-8 rounded-[24px] border border-white/10 bg-white/5 p-5">
-                  <p className="text-sm uppercase tracking-[0.24em] text-white/45">What Happens Next</p>
-                  <p className="mt-3 text-sm leading-6 text-white/60">
-                    Share the project details here and the submission will land directly in the Selerim inbox for review. Expect a fast reply with next steps, scope direction, and timeline guidance.
+                <div className="mt-8 rounded-2xl border border-line bg-[var(--surface-2)]/40 p-5">
+                  <p className="eyebrow">What happens next</p>
+                  <p className="mt-3 text-sm leading-relaxed text-ink-muted">
+                    Share your project details and they land directly in the Selerim inbox. Expect a fast reply with next
+                    steps, scope direction, and timeline guidance.
                   </p>
                 </div>
               </div>
+            </Reveal>
 
-              {/* Contact Form */}
-              <div className="glass-card p-8">
-            {success ? (
-              <div className="text-center py-12">
-                <div className="text-3xl mb-4">✓</div>
-                <p className="text-xl text-white/90 mb-2 font-semibold">Thank you for reaching out!</p>
-                <p className="text-lg text-white/70">Your inquiry has been submitted successfully. We&apos;ll review it and follow up shortly.</p>
-                <button
-                  className={`mt-8 rounded-full ${gradientMain} px-8 py-3 text-lg font-semibold text-white shadow hover:opacity-90 transition glow-on-hover glow-on-click`}
-                  onClick={() => setSuccess(false)}
-                >
-                  Send another message
-                </button>
+            {/* Form */}
+            <Reveal delay={0.1}>
+              <div className="glass-card h-full p-8 md:p-10">
+                {success ? (
+                  <div className="flex flex-col items-center justify-center py-16 text-center">
+                    <div className="flex h-14 w-14 items-center justify-center rounded-full border border-brand/40 text-brand">
+                      <CheckIcon className="h-7 w-7" />
+                    </div>
+                    <p className="mt-6 text-xl font-medium text-ink">Thank you for reaching out!</p>
+                    <p className="mt-2 max-w-sm text-ink-muted">
+                      Your inquiry was submitted successfully. We&apos;ll review it and follow up shortly.
+                    </p>
+                    <button onClick={() => setSuccess(false)} className="btn btn-ghost mt-8 h-11 px-6 text-sm">
+                      Send another message
+                    </button>
+                  </div>
+                ) : (
+                  <form className="space-y-5" onSubmit={handleSubmit}>
+                    <div>
+                      <label htmlFor="name" className={LABEL}>Name</label>
+                      <input id="name" name="name" value={form.name} onChange={handleChange} required className={FIELD} placeholder="Your name" />
+                    </div>
+                    <div>
+                      <label htmlFor="email" className={LABEL}>Email</label>
+                      <input type="email" id="email" name="email" value={form.email} onChange={handleChange} required className={FIELD} placeholder="you@email.com" />
+                    </div>
+                    <div className="grid gap-5 md:grid-cols-2">
+                      <div>
+                        <label htmlFor="company" className={LABEL}>Company</label>
+                        <input id="company" name="company" value={form.company} onChange={handleChange} className={FIELD} placeholder="Company or brand" />
+                      </div>
+                      <div>
+                        <label htmlFor="phone" className={LABEL}>Phone</label>
+                        <input id="phone" name="phone" value={form.phone} onChange={handleChange} className={FIELD} placeholder="Optional" />
+                      </div>
+                    </div>
+                    <div className="grid gap-5 md:grid-cols-2">
+                      <div>
+                        <label htmlFor="subject" className={LABEL}>Subject</label>
+                        <input id="subject" name="subject" value={form.subject} onChange={handleChange} required className={FIELD} placeholder="Subject" />
+                      </div>
+                      <div>
+                        <label htmlFor="budget" className={LABEL}>Budget range</label>
+                        <input id="budget" name="budget" value={form.budget} onChange={handleChange} className={FIELD} placeholder="e.g. $15k–$30k" />
+                      </div>
+                    </div>
+                    <div>
+                      <label htmlFor="message" className={LABEL}>Message</label>
+                      <textarea id="message" name="message" rows={6} value={form.message} onChange={handleChange} required className={FIELD} placeholder="How can we help you?" />
+                    </div>
+                    <button type="submit" disabled={isLoading} className="btn btn-brand h-12 w-full text-base disabled:opacity-60">
+                      {isLoading ? 'Sending…' : 'Send message'}
+                    </button>
+                  </form>
+                )}
               </div>
-            ) : (
-              <form className="space-y-6" onSubmit={handleSubmit}>
-                <div>
-                  <label htmlFor="name" className="block text-lg font-medium text-white/80 mb-2">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={form.name}
-                    onChange={handleChange}
-                    required
-                    className="block w-full rounded-lg border-0 bg-white/5 px-5 py-4 text-lg text-white placeholder-white/40 focus:ring-2 focus:ring-blue-400"
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-lg font-medium text-white/80 mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={form.email}
-                    onChange={handleChange}
-                    required
-                    className="block w-full rounded-lg border-0 bg-white/5 px-5 py-4 text-lg text-white placeholder-white/40 focus:ring-2 focus:ring-blue-400"
-                    placeholder="you@email.com"
-                  />
-                </div>
-                <div className="grid gap-6 md:grid-cols-2">
-                <div>
-                  <label htmlFor="company" className="block text-lg font-medium text-white/80 mb-2">
-                    Company
-                  </label>
-                  <input
-                    type="text"
-                    id="company"
-                    name="company"
-                    value={form.company}
-                    onChange={handleChange}
-                    className="block w-full rounded-lg border-0 bg-white/5 px-5 py-4 text-lg text-white placeholder-white/40 focus:ring-2 focus:ring-blue-400"
-                    placeholder="Company or brand"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-lg font-medium text-white/80 mb-2">
-                    Phone
-                  </label>
-                  <input
-                    type="text"
-                    id="phone"
-                    name="phone"
-                    value={form.phone}
-                    onChange={handleChange}
-                    className="block w-full rounded-lg border-0 bg-white/5 px-5 py-4 text-lg text-white placeholder-white/40 focus:ring-2 focus:ring-blue-400"
-                    placeholder="Optional"
-                  />
-                </div>
-                </div>
-                <div>
-                  <label htmlFor="subject" className="block text-lg font-medium text-white/80 mb-2">
-                    Subject
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    value={form.subject}
-                    onChange={handleChange}
-                    required
-                    className="block w-full rounded-lg border-0 bg-white/5 px-5 py-4 text-lg text-white placeholder-white/40 focus:ring-2 focus:ring-blue-400"
-                    placeholder="Subject"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="budget" className="block text-lg font-medium text-white/80 mb-2">
-                    Budget Range
-                  </label>
-                  <input
-                    type="text"
-                    id="budget"
-                    name="budget"
-                    value={form.budget}
-                    onChange={handleChange}
-                    className="block w-full rounded-lg border-0 bg-white/5 px-5 py-4 text-lg text-white placeholder-white/40 focus:ring-2 focus:ring-blue-400"
-                    placeholder="Example: $15k-$30k"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-lg font-medium text-white/80 mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={6}
-                    value={form.message}
-                    onChange={handleChange}
-                    required
-                    className="block w-full rounded-lg border-0 bg-white/5 px-5 py-4 text-lg text-white placeholder-white/40 focus:ring-2 focus:ring-blue-400"
-                    placeholder="How can we help you?"
-                  />
-                </div>
-                <div>
-                  <button
-                    type="submit"
-                    disabled={isLoading}
-                    className={`w-full rounded-full ${gradientMain} px-8 py-4 text-xl font-semibold text-white shadow hover:opacity-90 transition glow-on-hover glow-on-click`}
-                  >
-                    {isLoading ? "Sending..." : "Send Message"}
-                  </button>
-                </div>
-              </form>
-            )}
-              </div>
-            </div>
+            </Reveal>
           </div>
         </div>
-      </div>
-    </main>
+      </Scene>
+    </>
   );
 }

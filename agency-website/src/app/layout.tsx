@@ -1,13 +1,31 @@
 import type { Metadata } from "next";
+import { Inter_Tight, Instrument_Serif } from "next/font/google";
 import "./globals.css";
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import { NotificationProvider } from '../components/NotificationProvider';
-import { AuthProvider } from '../lib/auth-context';
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Atmosphere from "../components/Atmosphere";
+import { NotificationProvider } from "../components/NotificationProvider";
+import { AuthProvider } from "../lib/auth-context";
+import { ThemeProvider, themeInitScript } from "../lib/theme-context";
+
+const interTight = Inter_Tight({
+  subsets: ["latin"],
+  variable: "--font-inter-tight",
+  display: "swap",
+});
+
+const instrumentSerif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-instrument-serif",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "Selerim - Custom Software Development",
-  description: "Transform your ideas into reality with our custom software development services.",
+  title: "Selerim — Production-ready AI software, built to ship",
+  description:
+    "A US-based studio building production-ready AI integrations for mobile and web. Open-source or AWS Bedrock. No vendor lock-in.",
 };
 
 export default function RootLayout({
@@ -16,17 +34,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body suppressHydrationWarning className="min-h-screen bg-dark-blue">
-        <NotificationProvider>
-          <AuthProvider>
-            <Header />
-            <main className="pt-[48px] md:pt-[56px]">
-              {children}
-            </main>
-            <Footer />
-          </AuthProvider>
-        </NotificationProvider>
+    <html
+      lang="en"
+      data-theme="dark"
+      className={`${interTight.variable} ${instrumentSerif.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
+      <body suppressHydrationWarning className="min-h-screen antialiased">
+        <ThemeProvider defaultScene="dark">
+          <NotificationProvider>
+            <AuthProvider>
+              <Atmosphere />
+              <Header />
+              <main>{children}</main>
+              <Footer />
+            </AuthProvider>
+          </NotificationProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

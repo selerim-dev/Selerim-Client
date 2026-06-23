@@ -64,3 +64,6 @@ logs
 *.tmp
 *.temp
 
+
+# Claude Code local tooling
+.claude/

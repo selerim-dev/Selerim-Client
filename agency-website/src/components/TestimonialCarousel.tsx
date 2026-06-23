@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 interface Testimonial {
   quote: string;
@@ -12,118 +11,90 @@ interface Testimonial {
   company: string;
 }
 
-interface TestimonialCarouselProps {
-  testimonials: Testimonial[];
-}
-
-const TestimonialCarousel: React.FC<TestimonialCarouselProps> = ({ testimonials }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+const TestimonialCarousel: React.FC<{ testimonials: Testimonial[] }> = ({ testimonials }) => {
+  const [index, setIndex] = useState(0);
+  const [auto, setAuto] = useState(true);
 
   useEffect(() => {
-    if (!isAutoPlaying) return;
+    if (!auto) return;
+    const id = setInterval(() => setIndex((i) => (i + 1) % testimonials.length), 6000);
+    return () => clearInterval(id);
+  }, [auto, testimonials.length]);
 
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [isAutoPlaying, testimonials.length]);
-
-  const handleDotClick = (index: number) => {
-    setCurrentIndex(index);
-    setIsAutoPlaying(false);
+  const go = (dir: number) => {
+    setIndex((i) => (i + dir + testimonials.length) % testimonials.length);
+    setAuto(false);
   };
 
-  const handleMouseEnter = () => setIsAutoPlaying(false);
-  const handleMouseLeave = () => setIsAutoPlaying(true);
-
-  const nextTestimonial = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
-    setIsAutoPlaying(false);
-  };
-
-  const prevTestimonial = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
-    setIsAutoPlaying(false);
-  };
+  const current = testimonials[index];
 
   return (
-    <div 
-      className="relative max-w-5xl mx-auto"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+    <div
+      className="relative mx-auto max-w-4xl"
+      onMouseEnter={() => setAuto(false)}
+      onMouseLeave={() => setAuto(true)}
     >
-      {/* Navigation Buttons */}
-      <div className="absolute -left-16 top-1/2 -translate-y-1/2">
+      <div className="glass-card overflow-hidden p-9 md:p-14">
+        <span className="block font-serif text-7xl italic leading-none text-ink-faint md:text-8xl" aria-hidden>
+          &ldquo;
+        </span>
+        <AnimatePresence mode="wait">
+          <motion.blockquote
+            key={index}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="-mt-6"
+          >
+            <p className="text-2xl font-medium leading-relaxed tracking-tight text-ink md:text-[1.7rem]">
+              {current.quote}
+            </p>
+            <footer className="mt-9 flex items-center justify-between border-t border-line pt-6">
+              <div>
+                <p className="text-base font-medium text-ink">{current.author}</p>
+                <p className="mt-0.5 text-sm text-ink-muted">
+                  {current.role}, {current.company}
+                </p>
+              </div>
+            </footer>
+          </motion.blockquote>
+        </AnimatePresence>
+      </div>
+
+      <div className="mt-7 flex items-center justify-center gap-5">
         <button
-          onClick={prevTestimonial}
-          className="rounded-full bg-white/10 p-3 backdrop-blur-sm hover:bg-white/20 transition-colors"
+          onClick={() => go(-1)}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line text-ink-muted transition-colors hover:border-line-strong hover:text-ink"
           aria-label="Previous testimonial"
         >
-          <ChevronLeftIcon className="h-6 w-6 text-white" />
+          <ArrowLeftIcon className="h-4 w-4" />
         </button>
-      </div>
-      <div className="absolute -right-16 top-1/2 -translate-y-1/2">
+        <div className="flex items-center gap-2">
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                setIndex(i);
+                setAuto(false);
+              }}
+              className={`h-1.5 rounded-full transition-all duration-500 ${
+                i === index ? 'w-7 bg-ink' : 'w-1.5 bg-ink-faint hover:bg-ink-subtle'
+              }`}
+              aria-label={`Go to testimonial ${i + 1}`}
+            />
+          ))}
+        </div>
         <button
-          onClick={nextTestimonial}
-          className="rounded-full bg-white/10 p-3 backdrop-blur-sm hover:bg-white/20 transition-colors"
+          onClick={() => go(1)}
+          className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-line text-ink-muted transition-colors hover:border-line-strong hover:text-ink"
           aria-label="Next testimonial"
         >
-          <ChevronRightIcon className="h-6 w-6 text-white" />
+          <ArrowRightIcon className="h-4 w-4" />
         </button>
-      </div>
-
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          className="relative"
-        >
-          <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.07] p-10 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-2xl md:p-14">
-            <div className="absolute left-8 top-6 text-7xl font-semibold leading-none text-white/10 md:text-8xl">
-              &ldquo;
-            </div>
-            <div className="relative">
-              <div className="mb-8 inline-flex rounded-full border border-white/12 bg-white/8 px-4 py-2 text-xs uppercase tracking-[0.28em] text-white/50">
-                Client Perspective
-              </div>
-              <div className="flex-1 text-center md:text-left">
-                <blockquote className="mb-8 text-2xl font-medium leading-relaxed text-white md:text-3xl">
-                  {testimonials[currentIndex].quote}
-                </blockquote>
-                <div className="h-px w-full bg-gradient-to-r from-white/0 via-white/20 to-white/0" />
-                <div className="pt-6 text-white/80">
-                  <p className="text-xl font-semibold tracking-tight">{testimonials[currentIndex].author}</p>
-                  <p className="mt-1 text-base text-white/62 md:text-lg">
-                    {testimonials[currentIndex].role}, {testimonials[currentIndex].company}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </AnimatePresence>
-
-      <div className="flex justify-center gap-3 mt-8">
-        {testimonials.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => handleDotClick(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-300 ${
-              index === currentIndex 
-                ? 'bg-white scale-125' 
-                : 'bg-white/30 hover:bg-white/50'
-            }`}
-            aria-label={`Go to testimonial ${index + 1}`}
-          />
-        ))}
       </div>
     </div>
   );
 };
 
-export default TestimonialCarousel; 
+export default TestimonialCarousel;
