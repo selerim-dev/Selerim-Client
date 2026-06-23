@@ -52,7 +52,7 @@ const TRANSPARENCY = [
   {
     img: '/dashboard_images/code_updates.png',
     title: 'Real-time code',
-    body: 'Every commit, pull request, and review — visible from day one.',
+    body: 'See every commit, pull request, and review from day one.',
   },
   {
     img: '/dashboard_images/live_app.png',
@@ -153,7 +153,14 @@ export default function Home() {
               </span>
               <span className="mt-1 block">
                 <WordReveal text="built to" delay={0.2} />{' '}
-                <span className="accent text-gradient">ship.</span>
+                <motion.span
+                  initial={reduce ? { opacity: 1 } : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: reduce ? 0 : 0.85, duration: 1.1, ease: [0.22, 1, 0.36, 1] }}
+                  className="accent text-gradient inline-block"
+                >
+                  ship.
+                </motion.span>
               </span>
             </h1>
 
@@ -163,7 +170,7 @@ export default function Home() {
               transition={{ duration: 0.7, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
               className="mt-8 max-w-2xl text-lg leading-relaxed text-ink-muted sm:text-xl"
             >
-              {siteCopy.home.hero.subheadlineB} Open-source models or AWS Bedrock — no vendor lock-in.
+              {siteCopy.home.hero.subheadlineB} Open-source or AWS Bedrock. No vendor lock-in.
             </motion.p>
 
             <motion.div
@@ -221,9 +228,9 @@ export default function Home() {
             <p className="eyebrow mb-8">What we care about</p>
           </Reveal>
           <p className="display max-w-5xl text-3xl leading-[1.18] text-ink sm:text-4xl md:text-5xl">
-            <WordReveal text="We obsess over the part most teams skip — the part where it actually" />{' '}
+            <WordReveal text="We care about what happens after launch: software that" />{' '}
             <span className="accent">ships,</span>{' '}
-            <WordReveal text="survives real users, and" delay={0.1} />{' '}
+            <WordReveal text="holds up under real users, and" delay={0.1} />{' '}
             <span className="accent">scales.</span>
           </p>
           <Reveal delay={0.15}>
@@ -374,7 +381,7 @@ export default function Home() {
       <Scene tone="dark">
         <div className={`${CONTAINER} py-24 md:py-32`}>
           <SectionHeader eyebrow="Total transparency" className="max-w-3xl">
-            Your project, your code, your <span className="accent">control</span> — from day one.
+            Your project, your code, your <span className="accent">control</span>, from day one.
           </SectionHeader>
 
           <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-3">

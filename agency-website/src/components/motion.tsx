@@ -71,7 +71,7 @@ export function Reveal({
   );
 }
 
-/** Stagger container — pair with <StaggerItem>. */
+/** Stagger container. Pair with <StaggerItem>. */
 export function Stagger({
   children,
   className,

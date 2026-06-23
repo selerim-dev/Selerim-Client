@@ -13,7 +13,7 @@ const TIERS = [
     name: 'Starter',
     price: 'From $5,000',
     description: 'Validate your idea with a focused, production-ready MVP.',
-    features: ['Essential, market-validating features', 'Standard security & SSL', 'Basic maintenance and updates', '2–4 weeks delivery'],
+    features: ['Essential, market-validating features', 'Standard security & SSL', 'Basic maintenance and updates', '2-4 weeks delivery'],
     bestFor: 'Startups validating a concept',
     featured: false,
   },
@@ -21,7 +21,7 @@ const TIERS = [
     name: 'Growth',
     price: 'From $15,000',
     description: 'Scale a validated product with advanced features.',
-    features: ['Custom functionality & integrations', 'Performance optimization', 'Enhanced security & monitoring', 'Priority maintenance', '1–3 months delivery'],
+    features: ['Custom functionality & integrations', 'Performance optimization', 'Enhanced security & monitoring', 'Priority maintenance', '1-3 months delivery'],
     bestFor: 'Teams ready to scale',
     featured: true,
   },
@@ -51,7 +51,7 @@ export default function PricingPage() {
           eyebrow="Pricing"
           title="Transparent starting points,"
           accent="custom scope."
-          subtitle="Every project is quoted to your requirements. These tiers are common starting points — not boxes you have to fit in."
+          subtitle="Every project is quoted to your requirements. These tiers are common starting points, not boxes you have to fit in."
         />
       </Scene>
 

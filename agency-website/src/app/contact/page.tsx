@@ -118,7 +118,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <label htmlFor="budget" className={LABEL}>Budget range</label>
-                        <input id="budget" name="budget" value={form.budget} onChange={handleChange} className={FIELD} placeholder="e.g. $15k–$30k" />
+                        <input id="budget" name="budget" value={form.budget} onChange={handleChange} className={FIELD} placeholder="e.g. $15k-$30k" />
                       </div>
                     </div>
                     <div>

@@ -9,7 +9,7 @@ const PROCESS = [
   {
     title: 'Discovery & scope',
     description:
-      'We learn your goals, constraints, and users, then define a clear scope — fixed-scope sprint or hourly — usually within 24 hours.',
+      'We learn your goals, constraints, and users, then define a clear scope (fixed-scope sprint or hourly) usually within 24 hours.',
     details: ['Requirements gathering', 'Competitor and user research', 'Scope and timeline definition', 'Risk assessment'],
   },
   {
@@ -21,7 +21,7 @@ const PROCESS = [
   {
     title: 'Design & development',
     description:
-      'Production-ready code in agile sprints with full transparency — real-time updates, code access, and live previews.',
+      'Production-ready code in agile sprints with full transparency. You get real-time updates, code access, and live previews.',
     details: ['UI/UX and prototyping', 'Agile sprints', 'Live preview & demos', 'QA and testing'],
   },
   {
@@ -39,7 +39,7 @@ const PROCESS = [
   {
     title: 'Growth & optimization',
     description:
-      'We keep improving against real usage — analytics, feedback loops, and data-driven iteration as the product evolves.',
+      'We keep improving against real usage with analytics, feedback loops, and data-driven iteration as the product evolves.',
     details: ['Analytics & reporting', 'Feedback analysis', 'Continuous improvement', 'Growth planning'],
   },
 ];

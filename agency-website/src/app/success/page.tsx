@@ -18,7 +18,7 @@ const STORIES = [
     name: 'CQ Technologies',
     tier: 'Enterprise',
     description:
-      'A dependable mobile workflow for field operations, reporting, and internal coordination — built to support inspection work, report generation, and synchronized operational data.',
+      'A dependable mobile workflow for field operations, reporting, and internal coordination, built to support inspection work, report generation, and synchronized operational data.',
     highlights: ['Operational workflow tooling', 'Mobile-first field capture', 'Custom reporting flow', 'Internal team enablement'],
   },
   {

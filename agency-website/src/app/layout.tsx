@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Atmosphere from "../components/Atmosphere";
+import CursorCode from "../components/CursorCode";
 import { NotificationProvider } from "../components/NotificationProvider";
 import { AuthProvider } from "../lib/auth-context";
 import { ThemeProvider, themeInitScript } from "../lib/theme-context";
@@ -23,7 +24,7 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Selerim — Production-ready AI software, built to ship",
+  title: "Selerim | Production-ready AI software, built to ship",
   description:
     "A US-based studio building production-ready AI integrations for mobile and web. Open-source or AWS Bedrock. No vendor lock-in.",
 };
@@ -48,6 +49,7 @@ export default function RootLayout({
           <NotificationProvider>
             <AuthProvider>
               <Atmosphere />
+              <CursorCode />
               <Header />
               <main>{children}</main>
               <Footer />

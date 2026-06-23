@@ -9,7 +9,7 @@ import { Reveal, Stagger, StaggerItem } from './motion';
 
 export const CONTAINER = 'mx-auto max-w-[1320px] px-5 sm:px-7 lg:px-10';
 
-/** Compact page hero — clears the fixed header and sets the editorial tone. */
+/** Compact page hero. Clears the fixed header and sets the editorial tone. */
 export function PageHero({
   eyebrow,
   title,

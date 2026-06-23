@@ -104,32 +104,26 @@ type QuoteResult = {
   recommendation: string;
   assumptions: string[];
 };
-type QuoteResultModalProps = { result: QuoteResult; onClose: () => void; onGetQuote: () => void };
-
-function QuoteResultModal({ result, onClose, onGetQuote }: QuoteResultModalProps) {
+/** Rendered inline inside the modal (no nested fixed overlay, which clips on mobile). */
+function QuoteResultView({ result, onGetQuote }: { result: QuoteResult; onGetQuote: () => void }) {
   return (
-    <div className="fixed inset-0 z-[95] flex items-center justify-center overflow-y-auto bg-black/60 p-4 backdrop-blur-md sm:p-8">
-      <div className="glass-strong relative mx-auto w-full max-w-2xl rounded-[2rem] p-8 text-center sm:p-12">
-        <button className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full border border-line text-ink-subtle transition-colors hover:text-ink" onClick={onClose} aria-label="Close">
-          <XMarkIcon className="h-5 w-5" />
-        </button>
-        <p className="eyebrow mb-5">Your instant quote</p>
-        <div className="text-gradient font-serif text-6xl italic md:text-7xl">{result.priceLabel}</div>
-        <div className="mt-3 text-lg text-ink-muted">{result.rangeLabel}</div>
-        <div className="mt-2 text-xs uppercase tracking-[0.22em] text-ink-subtle">{result.hoursLabel}</div>
-        <p className="mx-auto mt-6 max-w-lg text-[0.97rem] text-ink">{result.recommendation}</p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          {result.assumptions.map((a) => (
-            <span key={a} className="rounded-full border border-line px-3 py-1 text-sm text-ink-muted">{a}</span>
-          ))}
-        </div>
-        <p className="mx-auto mt-6 max-w-md text-sm text-ink-subtle">
-          This is an estimate. We recommend a quick call to review your needs — final pricing may change after a detailed review.
-        </p>
-        <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-          <button onClick={onGetQuote} className="btn btn-brand h-12 px-7 text-base">Get detailed quote</button>
-          <a href="/contact" className="btn btn-ghost h-12 px-7 text-base">Contact us</a>
-        </div>
+    <div className="text-center">
+      <p className="eyebrow mb-5">Your instant quote</p>
+      <div className="text-gradient font-serif text-5xl italic sm:text-6xl md:text-7xl">{result.priceLabel}</div>
+      <div className="mt-3 text-lg text-ink-muted">{result.rangeLabel}</div>
+      <div className="mt-2 text-xs uppercase tracking-[0.22em] text-ink-subtle">{result.hoursLabel}</div>
+      <p className="mx-auto mt-6 max-w-lg text-[0.97rem] text-ink">{result.recommendation}</p>
+      <div className="mt-6 flex flex-wrap justify-center gap-2">
+        {result.assumptions.map((a) => (
+          <span key={a} className="rounded-full border border-line px-3 py-1 text-sm text-ink-muted">{a}</span>
+        ))}
+      </div>
+      <p className="mx-auto mt-6 max-w-md text-sm text-ink-subtle">
+        This is an estimate. We recommend a quick call to review your needs. Final pricing may change after a detailed review.
+      </p>
+      <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
+        <button onClick={onGetQuote} className="btn btn-brand h-12 px-7 text-base">Get detailed quote</button>
+        <a href="/contact" className="btn btn-ghost h-12 px-7 text-base">Contact us</a>
       </div>
     </div>
   );
@@ -341,9 +335,8 @@ const InstantQuoteForm: React.FC = () => {
           </form>
         )
       ) : (
-        <QuoteResultModal
+        <QuoteResultView
           result={result}
-          onClose={() => setResult(null)}
           onGetQuote={() => {
             setResult(null);
             setStep('form');
