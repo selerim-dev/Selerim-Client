@@ -24,9 +24,9 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Selerim | Production-ready AI software, built to ship",
+  title: "Selerim | Production-ready AI inside your product",
   description:
-    "A US-based studio building production-ready AI integrations for mobile and web. Open-source or AWS Bedrock. No vendor lock-in.",
+    "Selerim builds production-ready AI into real products and businesses: agents wired to your systems, RAG over your company data, MCP-style tool layers, and internal automation. We ship it and maintain it.",
 };
 
 export default function RootLayout({

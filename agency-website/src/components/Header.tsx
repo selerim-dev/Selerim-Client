@@ -71,8 +71,8 @@ export default function Header() {
         <div
           className={`absolute inset-0 -z-10 border-b transition-all duration-500 ${
             scrolled
-              ? 'border-line bg-[var(--surface)]/70 backdrop-blur-xl backdrop-saturate-150'
-              : 'border-transparent bg-transparent'
+              ? 'border-line bg-[var(--surface)]/55 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_12px_40px_-24px_var(--glass-shadow)]'
+              : 'border-transparent bg-[var(--surface)]/15 backdrop-blur-md backdrop-saturate-150'
           }`}
         />
         <nav className="mx-auto flex h-[72px] max-w-[1320px] items-center justify-between px-5 sm:px-7 lg:px-10">

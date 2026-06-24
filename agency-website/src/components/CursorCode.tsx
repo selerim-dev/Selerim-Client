@@ -35,7 +35,7 @@ function CodeBlock() {
 }
 
 export default function CursorCode() {
-  const ref = useRef<HTMLPreElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const el = ref.current;
@@ -90,10 +90,13 @@ export default function CursorCode() {
 
   // Repeat the block so the layer fills any viewport; overflow is clipped.
   return (
-    <pre ref={ref} className="cursor-code" aria-hidden="true">
-      {Array.from({ length: 10 }).map((_, i) => (
-        <CodeBlock key={i} />
-      ))}
-    </pre>
+    <div ref={ref} className="cursor-fx" aria-hidden="true">
+      <div className="cursor-lamp" />
+      <pre className="cursor-code">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <CodeBlock key={i} />
+        ))}
+      </pre>
+    </div>
   );
 }
