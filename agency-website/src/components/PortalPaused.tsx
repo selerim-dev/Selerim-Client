@@ -1,7 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import { gradientMain } from '../config/tokens';
 import { ADMIN_EMAIL } from '../lib/leads';
 
 type PortalPausedProps = {
@@ -11,59 +10,43 @@ type PortalPausedProps = {
 };
 
 export default function PortalPaused({
-  title = 'Private Portal Paused',
+  title = 'Private portal paused',
   description = 'Selerim is currently running as a marketing-first site while the old client portal is being retired from the public experience.',
-  compact = false,
 }: PortalPausedProps) {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-dark-blue px-4 py-16 text-white sm:px-6 lg:px-8">
-      <div className="bg-gradient-fullscreen">
-        <div className="absolute left-[-12%] top-[-10%] h-[42vh] w-[42vh] rounded-full bg-cyan-300/14 blur-[180px]" />
-        <div className="absolute right-[-8%] top-[18%] h-[40vh] w-[40vh] rounded-full bg-blue-400/14 blur-[180px]" />
-        <div className="absolute bottom-[-12%] left-[18%] h-[38vh] w-[38vh] rounded-full bg-white/10 blur-[180px]" />
-      </div>
-
-      <div className={`relative z-10 mx-auto ${compact ? 'max-w-4xl' : 'max-w-3xl'} pt-16`}>
-        <div className="glass-card border border-white/15 bg-white/[0.08] p-8 sm:p-12">
-          <div className="mb-6 inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm uppercase tracking-[0.24em] text-white/65">
-            Selerim Private Access
-          </div>
-          <h1 className="max-w-2xl text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-            {title}
+    <section className="relative flex min-h-[100svh] items-center justify-center px-5 py-32 sm:px-7">
+      <div className="mx-auto w-full max-w-2xl">
+        <div className="glass-strong overflow-hidden rounded-[2rem] p-8 sm:p-12">
+          <p className="eyebrow mb-7">Selerim private access</p>
+          <h1 className="display text-4xl text-ink-strong sm:text-5xl">
+            {title.replace(/\.$/, '')}
+            <span className="accent text-gradient">.</span>
           </h1>
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-white/72">
-            {description}
-          </p>
-          <div className="mt-8 grid gap-4 rounded-[28px] border border-white/12 bg-black/20 p-5 text-sm text-white/65 sm:grid-cols-3">
-            <div>
-              <div className="mb-1 text-white/90">Status</div>
-              <div>Portal UI hidden from the public site</div>
-            </div>
-            <div>
-              <div className="mb-1 text-white/90">Current path</div>
-              <div>Marketing, contact, and quote capture only</div>
-            </div>
-            <div>
-              <div className="mb-1 text-white/90">Contact</div>
-              <a className="text-cyan-200 hover:text-white" href={`mailto:${ADMIN_EMAIL}`}>{ADMIN_EMAIL}</a>
-            </div>
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-muted">{description}</p>
+
+          <div className="mt-9 grid gap-px overflow-hidden rounded-2xl border border-line text-sm sm:grid-cols-3">
+            {[
+              { k: 'Status', v: 'Portal hidden from the public site' },
+              { k: 'Current path', v: 'Marketing, contact & quote capture' },
+              { k: 'Contact', v: <a className="link-underline text-ink" href={`mailto:${ADMIN_EMAIL}`}>{ADMIN_EMAIL}</a> },
+            ].map((row) => (
+              <div key={row.k} className="bg-[var(--surface-2)]/40 p-5">
+                <div className="eyebrow mb-2 text-[0.6rem]">{row.k}</div>
+                <div className="text-ink-muted">{row.v}</div>
+              </div>
+            ))}
           </div>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link
-              href="/contact"
-              className={`rounded-full ${gradientMain} px-6 py-3 text-base font-semibold text-white shadow-lg transition hover:opacity-90`}
-            >
-              Start a Project
+
+          <div className="mt-9 flex flex-wrap gap-3">
+            <Link href="/contact" className="btn btn-brand h-12 px-7 text-base">
+              Start a project
             </Link>
-            <Link
-              href="/"
-              className="glass-button px-6 py-3 text-base font-semibold text-white"
-            >
-              Return Home
+            <Link href="/" className="btn btn-ghost h-12 px-7 text-base">
+              Return home
             </Link>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

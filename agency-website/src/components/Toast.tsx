@@ -9,11 +9,11 @@ interface ToastProps {
   duration?: number;
 }
 
-const typeStyles = {
-  success: 'bg-green-600 text-white border-green-400',
-  error: 'bg-red-600 text-white border-red-400',
-  info: 'bg-blue-600 text-white border-blue-400',
-  warning: 'bg-yellow-600 text-black border-yellow-400',
+const accentColor: Record<string, string> = {
+  success: '#3ecf8e',
+  error: '#ff6b6b',
+  info: 'var(--brand)',
+  warning: '#f5b14c',
 };
 
 // Sanitize error messages for user display
@@ -49,15 +49,25 @@ export const Toast: React.FC<ToastProps> = ({ message, type = 'info', onClose, d
 
   return (
     <div
-      className={`fixed top-6 right-6 z-50 min-w-[280px] max-w-xs px-6 py-4 rounded-xl shadow-lg border-l-4 flex items-center gap-3 animate-fade-in-up ${typeStyles[type]} backdrop-blur-md bg-opacity-90`}
+      className="glass-strong animate-fade-in-up fixed right-6 top-6 z-[90] flex min-w-[280px] max-w-sm items-start gap-3 overflow-hidden rounded-2xl py-4 pl-5 pr-4"
       role="alert"
     >
-      <span className="flex-1 text-lg font-medium break-words max-h-40 overflow-y-auto leading-relaxed pr-2">
+      <span
+        className="absolute inset-y-0 left-0 w-1"
+        style={{ background: accentColor[type] }}
+        aria-hidden
+      />
+      <span
+        className="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full"
+        style={{ background: accentColor[type] }}
+        aria-hidden
+      />
+      <span className="max-h-40 flex-1 overflow-y-auto break-words text-[0.95rem] leading-relaxed text-ink">
         {displayMessage}
       </span>
       <button
         onClick={onClose}
-        className="ml-4 text-white/70 hover:text-white focus:outline-none"
+        className="ml-2 text-ink-subtle transition-colors hover:text-ink focus:outline-none"
         aria-label="Close notification"
       >
         <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
