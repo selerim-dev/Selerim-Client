@@ -14,8 +14,9 @@ import {
 import AIHero from '../components/AIHero';
 import TestimonialCarousel from '../components/TestimonialCarousel';
 import { Reveal, Stagger, StaggerItem } from '../components/motion';
-import { CONTAINER, SectionHeader, CTABand } from '../components/site';
+import { CONTAINER, SectionHeader } from '../components/site';
 import { siteCopy } from '../config/siteCopy';
+import { bookingLinkProps } from '../lib/links';
 
 const WHAT_WE_BUILD = [
   {
@@ -35,7 +36,7 @@ const WHAT_WE_BUILD = [
   },
   {
     icon: CircleStackIcon,
-    title: 'RAG over company data',
+    title: 'RAG / company knowledge systems',
     body: 'Knowledge assistants grounded in your own documents, data, and policies, not the open internet.',
   },
   {
@@ -51,10 +52,10 @@ const WHAT_WE_BUILD = [
 ];
 
 const HOW_IT_WORKS = [
-  { title: 'Tell us your product', body: 'Share what you are building and where the real friction is today.' },
-  { title: 'We find the high-leverage AI', body: 'We map the use cases that move your metrics, not novelty features.' },
+  { title: 'Tell us your product or workflow', body: 'Share what you are building, what is manual today, or where your software falls short.' },
+  { title: 'We identify the highest-leverage AI opportunities', body: 'We map the use cases that move your metrics, not novelty features.' },
   { title: 'We build the MVP integration', body: 'Production code wired into your real systems, shipped behind your auth.' },
-  { title: 'We maintain and scale it', body: 'Evals, monitoring, and iteration as usage and load grow.' },
+  { title: 'We maintain, improve, and scale it', body: 'Evals, monitoring, and iteration as usage and load grow.' },
 ];
 
 const TESTIMONIALS = [
@@ -167,18 +168,29 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===================== CONTACT CTA ===================== */}
-      <CTABand
-        eyebrow="Founder-led, production-focused"
-        title="Want this inside your"
-        accent="product?"
-        primaryLabel="Book a 15-min intro"
-        secondary={
-          <Link href="/contact" className="btn btn-ghost h-12 px-7 text-base">
-            Send an inquiry
-          </Link>
-        }
-      />
+      {/* ===================== FINAL CTA ===================== */}
+      <section className={`${CONTAINER} py-20 md:py-28`}>
+        <Reveal>
+          <div className="glass-strong relative overflow-hidden rounded-[2rem] px-8 py-16 text-center md:px-16 md:py-20">
+            <p className="eyebrow mb-5">Founder-led, production-focused</p>
+            <h2 className="display mx-auto max-w-3xl text-4xl text-ink-strong sm:text-5xl">
+              Want useful AI inside your <span className="accent text-gradient">product or workflow?</span>
+            </h2>
+            <p className="mx-auto mt-6 max-w-2xl text-lg text-ink-muted">
+              Tell us what you&apos;re building, what&apos;s manual, or what&apos;s breaking. We&apos;ll help
+              identify where AI can actually create leverage.
+            </p>
+            <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link {...bookingLinkProps} className="btn btn-brand h-12 px-7 text-base">
+                Book a 15-minute intro
+              </Link>
+              <Link href="/contact" className="btn btn-ghost h-12 px-7 text-base">
+                Send an inquiry
+              </Link>
+            </div>
+          </div>
+        </Reveal>
+      </section>
     </>
   );
 }

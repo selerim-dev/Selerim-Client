@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { siteCopy } from '../config/siteCopy';
 import { ADMIN_EMAIL } from '../lib/leads';
 import { Reveal } from './motion';
+import { bookingLinkProps } from '../lib/links';
 
 const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   {
@@ -22,7 +23,6 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
     links: [
       { label: 'Pricing', href: '/pricing' },
       { label: 'Contact', href: '/contact' },
-      { label: 'Client login', href: '/login' },
     ],
   },
   {
@@ -45,11 +45,14 @@ export default function Footer() {
           <Reveal>
             <p className="eyebrow mb-6">Let&apos;s build</p>
             <h2 className="display max-w-4xl text-4xl text-ink sm:text-5xl md:text-6xl">
-              Have something worth <span className="accent text-gradient">shipping?</span>
+              Put useful AI inside your <span className="accent text-gradient">product.</span>
             </h2>
             <div className="mt-10 flex flex-wrap items-center gap-4">
-              <Link href="/contact" className="btn btn-brand h-12 px-7 text-base">
-                Start a project
+              <Link {...bookingLinkProps} className="btn btn-brand h-12 px-7 text-base">
+                Book a 15-minute intro
+              </Link>
+              <Link href="/contact" className="btn btn-ghost h-12 px-7 text-base">
+                Send an inquiry
               </Link>
               <a href={`mailto:${ADMIN_EMAIL}`} className="link-underline text-base">
                 {ADMIN_EMAIL}

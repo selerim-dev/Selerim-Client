@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import ThemeToggle from './ThemeToggle';
+import { bookingLinkProps } from '../lib/links';
 
 const NAV = [
   { href: '/case-studies', label: 'Work' },
@@ -108,8 +109,8 @@ export default function Header() {
               <ThemeToggle />
             </span>
             <span className="hidden md:inline-flex">
-              <Link href="/contact" className="btn btn-primary h-9 px-5 text-[0.9rem]">
-                Start a project
+              <Link {...bookingLinkProps} className="btn btn-primary h-9 px-5 text-[0.9rem]">
+                Book a 15-min intro
               </Link>
             </span>
             <button
@@ -182,11 +183,11 @@ export default function Header() {
                   }}
                 >
                   <Link
-                    href="/contact"
+                    {...bookingLinkProps}
                     onClick={() => setOpen(false)}
                     className="btn btn-brand h-14 w-full text-lg"
                   >
-                    Start a project
+                    Book a 15-min intro
                   </Link>
                 </motion.div>
               </motion.nav>

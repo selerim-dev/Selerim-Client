@@ -16,6 +16,7 @@ import {
   ArrowPathIcon,
 } from '@heroicons/react/24/outline';
 import { Reveal } from './motion';
+import { bookingLinkProps } from '../lib/links';
 
 const CONTAINER = 'mx-auto max-w-[1320px] px-5 sm:px-7 lg:px-10';
 
@@ -25,6 +26,7 @@ const EXAMPLES = [
   'Add an AI assistant to my mobile app',
   'Use my company data to answer internal questions',
   'Build an agent that connects to my CRM and backend',
+  'Modernize my existing app with AI features',
 ];
 
 const STEPS = [
@@ -97,7 +99,8 @@ function useTypewriter(phrases: string[], enabled: boolean) {
 }
 
 /** Emphasize the first sentence to make a block easier to scan. */
-function ProseSection({ text }: { text: string }) {
+function ProseSection({ text }: { text?: string }) {
+  if (!text) return null;
   const match = text.match(/^([\s\S]*?[.!?])(\s+)([\s\S]*)$/);
   const lead = match ? match[1] : text;
   const rest = match ? match[3] : '';
@@ -147,7 +150,15 @@ export default function AIHero() {
   const spineFill = useTransform(scrollYProgress, [0, 1], [0.05, 1]);
 
   const showPlaceholder = status === 'idle' && !focused && idea.length === 0;
-  const typed = useTypewriter(EXAMPLES, showPlaceholder);
+  const typed = useTypewriter(EXAMPLES, showPlaceholder && !reduce);
+  const statusMessage =
+    status === 'loading'
+      ? 'Generating your AI strategy. Please wait.'
+      : status === 'result'
+        ? 'Your AI strategy preview is ready.'
+        : status === 'error'
+          ? error
+          : '';
 
   // Flow the page to the loader on submit, then to the results when they land.
   useEffect(() => {
@@ -229,8 +240,9 @@ export default function AIHero() {
           transition={{ duration: 0.7, delay: 0.15, ease: EASE }}
           className="mt-6 max-w-2xl text-base leading-relaxed text-ink-muted sm:text-lg"
         >
-          Describe your product or business. Selerim maps the highest-leverage AI: agents wired to your
-          real systems, RAG over your company data, MCP-style tool layers, and internal automation.
+          Selerim helps teams design and build production-ready AI integrations: product features and
+          internal assistants, agents connected to your real systems, RAG over company data, and
+          MCP-style tool layers.
         </motion.p>
 
         {/* Prompt box */}
@@ -264,9 +276,9 @@ export default function AIHero() {
                 className="block w-full resize-none rounded-2xl bg-transparent px-5 pt-4 pb-2 text-lg leading-relaxed text-ink outline-none disabled:opacity-60"
               />
               {showPlaceholder && (
-                <div className="pointer-events-none absolute left-5 top-4 text-lg leading-relaxed text-ink-subtle">
-                  {typed}
-                  <span className="type-caret" />
+                <div className="pointer-events-none absolute left-5 top-4 text-lg leading-relaxed text-ink-subtle" aria-hidden="true">
+                  {reduce ? EXAMPLES[0] : typed}
+                  {!reduce && <span className="type-caret" />}
                 </div>
               )}
             </div>
@@ -315,6 +327,9 @@ export default function AIHero() {
 
         {/* Loading / result / error */}
         <div className="w-full max-w-2xl">
+          <p className="sr-only" role="status" aria-live="polite">
+            {statusMessage}
+          </p>
           {status === 'loading' && (
             <motion.div
               ref={loadingRef}
@@ -400,7 +415,9 @@ export default function AIHero() {
               </div>
 
               <p className="max-w-xl font-serif text-[1.85rem] italic leading-[1.15] sm:text-[2.4rem]">
-                <span className="text-gradient">{strategy.headline}</span>
+                <span className="text-gradient">
+                  {strategy.headline || 'Here is where AI can create real leverage.'}
+                </span>
               </p>
 
               <div ref={timelineRef} className="relative mt-12 pl-12 sm:pl-14">
@@ -421,7 +438,7 @@ export default function AIHero() {
 
                 <TimelineItem icon={ServerStackIcon} title="Systems to connect">
                   <div className="flex flex-wrap gap-2">
-                    {strategy.connections.map((c) => (
+                    {(strategy.connections ?? []).map((c) => (
                       <span
                         key={c}
                         className="rounded-lg border border-line bg-[var(--surface-2)]/40 px-3 py-1.5 text-sm text-ink backdrop-blur-sm"
@@ -438,7 +455,7 @@ export default function AIHero() {
 
                 <TimelineItem icon={RocketLaunchIcon} title="MVP build plan">
                   <ol className="space-y-3.5">
-                    {strategy.mvpPlan.map((stepText, i) => (
+                    {(strategy.mvpPlan ?? []).map((stepText, i) => (
                       <li key={stepText} className="flex gap-4 leading-relaxed text-ink">
                         <span className="text-gradient font-serif text-2xl italic leading-none">{i + 1}</span>
                         <span className="pt-0.5">{stepText}</span>
@@ -455,14 +472,21 @@ export default function AIHero() {
               <Reveal y={24}>
                 <div className="glass-strong card-glow mt-4 flex flex-col items-center justify-between gap-5 rounded-3xl p-7 text-center sm:flex-row sm:text-left md:p-8">
                   <div>
-                    <h3 className="text-xl font-medium tracking-tight text-ink">Want this inside your product?</h3>
+                    <h3 className="text-xl font-medium tracking-tight text-ink">
+                      Want this inside your product or workflow?
+                    </h3>
                     <p className="mt-1 text-sm text-ink-muted">
                       We&apos;ll turn this into a scoped, production build and maintain it with you.
                     </p>
                   </div>
-                  <Link href="/contact" className="btn btn-brand h-12 flex-shrink-0 px-7 text-base">
-                    Book a call <ArrowUpRightIcon className="h-4 w-4" />
-                  </Link>
+                  <div className="flex flex-shrink-0 flex-col gap-3 sm:flex-row">
+                    <Link {...bookingLinkProps} className="btn btn-brand h-12 px-6 text-base">
+                      Book a 15-minute intro <ArrowUpRightIcon className="h-4 w-4" />
+                    </Link>
+                    <Link href="/contact" className="btn btn-ghost h-12 px-6 text-base">
+                      Send an inquiry
+                    </Link>
+                  </div>
                 </div>
               </Reveal>
             </motion.div>

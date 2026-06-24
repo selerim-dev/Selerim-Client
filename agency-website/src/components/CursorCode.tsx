@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const K = (s: string) => <span className="tok-key">{s}</span>;
 const S = (s: string) => <span className="tok-str">{s}</span>;
@@ -36,8 +36,16 @@ function CodeBlock() {
 
 export default function CursorCode() {
   const ref = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // Render only on the client so this decorative code never appears in the
+  // server-rendered HTML that crawlers and text extractors read as content.
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
+    if (!mounted) return;
     const el = ref.current;
     if (!el) return;
 
@@ -86,11 +94,13 @@ export default function CursorCode() {
       window.removeEventListener('mousemove', onMove);
       document.removeEventListener('mouseleave', onLeave);
     };
-  }, []);
+  }, [mounted]);
+
+  if (!mounted) return null;
 
   // Repeat the block so the layer fills any viewport; overflow is clipped.
   return (
-    <div ref={ref} className="cursor-fx" aria-hidden="true">
+    <div ref={ref} className="cursor-fx" aria-hidden="true" role="presentation">
       <div className="cursor-lamp" />
       <pre className="cursor-code">
         {Array.from({ length: 10 }).map((_, i) => (

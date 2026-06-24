@@ -6,7 +6,8 @@ import { GlobeAltIcon, DevicePhoneMobileIcon, ArrowUpRightIcon } from '@heroicon
 import { siteCopy } from '../../config/siteCopy';
 import Scene from '../../components/Scene';
 import { Reveal, Stagger, StaggerItem } from '../../components/motion';
-import { CONTAINER, PageHero, SectionHeader, QuoteButton, CTABand } from '../../components/site';
+import { CONTAINER, PageHero, SectionHeader } from '../../components/site';
+import { bookingLinkProps } from '../../lib/links';
 
 export default function CaseStudiesPage() {
   const { intro, caseStudies, deliverables, cta } = siteCopy.work;
@@ -43,19 +44,19 @@ export default function CaseStudiesPage() {
                       <p className="text-[0.97rem] leading-relaxed text-ink-muted">{study.problem}</p>
                     </div>
                     <div>
-                      <p className="eyebrow mb-3">Solution</p>
+                      <p className="eyebrow mb-3">What we built</p>
                       <p className="text-[0.97rem] leading-relaxed text-ink-muted">{study.solution}</p>
                     </div>
                   </div>
 
                   <div className="mt-8 grid grid-cols-1 gap-8 border-t border-line pt-8 md:grid-cols-2">
                     <div>
-                      <p className="eyebrow mb-3">Outcome</p>
-                      <p className="text-[0.97rem] leading-relaxed text-ink">{study.outcome}</p>
+                      <p className="eyebrow mb-3">Technical scope</p>
+                      <p className="text-[0.97rem] leading-relaxed text-ink-subtle">{study.stack}</p>
                     </div>
                     <div>
-                      <p className="eyebrow mb-3">Stack</p>
-                      <p className="text-[0.97rem] leading-relaxed text-ink-subtle">{study.stack}</p>
+                      <p className="eyebrow mb-3">Why it mattered</p>
+                      <p className="text-[0.97rem] leading-relaxed text-ink">{study.outcome}</p>
                     </div>
                   </div>
 
@@ -101,15 +102,24 @@ export default function CaseStudiesPage() {
         </div>
       </Scene>
 
-      <Scene tone="dark">
-        <CTABand
-          eyebrow={cta.subtitle}
-          title="Have a similar"
-          accent="project?"
-          primaryLabel={cta.button}
-          secondary={<QuoteButton variant="ghost">Get a project estimate</QuoteButton>}
-        />
-      </Scene>
+      <section className={`${CONTAINER} py-16 md:py-24`}>
+        <Reveal>
+          <div className="glass-strong relative overflow-hidden rounded-[2rem] px-8 py-14 text-center md:px-16 md:py-16">
+            <p className="eyebrow mb-5">{cta.subtitle}</p>
+            <h2 className="display mx-auto max-w-3xl text-3xl text-ink-strong sm:text-4xl">
+              Have a similar <span className="accent text-gradient">project?</span>
+            </h2>
+            <div className="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <Link {...bookingLinkProps} className="btn btn-brand h-12 px-7 text-base">
+                Book a 15-minute intro
+              </Link>
+              <Link href="/contact" className="btn btn-ghost h-12 px-7 text-base">
+                Send an inquiry
+              </Link>
+            </div>
+          </div>
+        </Reveal>
+      </section>
     </>
   );
 }

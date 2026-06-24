@@ -8,6 +8,7 @@ import CursorCode from "../components/CursorCode";
 import { NotificationProvider } from "../components/NotificationProvider";
 import { AuthProvider } from "../lib/auth-context";
 import { ThemeProvider, themeInitScript } from "../lib/theme-context";
+import { pageMeta } from "../lib/seo";
 
 const interTight = Inter_Tight({
   subsets: ["latin"],
@@ -24,9 +25,14 @@ const instrumentSerif = Instrument_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Selerim | Production-ready AI inside your product",
-  description:
-    "Selerim builds production-ready AI into real products and businesses: agents wired to your systems, RAG over your company data, MCP-style tool layers, and internal automation. We ship it and maintain it.",
+  metadataBase: new URL("https://www.selerim.com"),
+  robots: { index: true, follow: true },
+  ...pageMeta({
+    title: "Selerim — Production-Ready AI Integrations for Products and Workflows",
+    description:
+      "Selerim helps teams add useful AI to existing products and workflows, including AI product features, internal assistants, RAG over company data, agentic workflows, and system integrations.",
+    path: "/",
+  }),
 };
 
 export default function RootLayout({
@@ -49,10 +55,12 @@ export default function RootLayout({
           <NotificationProvider>
             <AuthProvider>
               <Atmosphere />
-              <CursorCode />
               <Header />
               <main>{children}</main>
               <Footer />
+              {/* Decorative, client-only, presentational. Rendered last so it
+                  never precedes real content in the DOM. */}
+              <CursorCode />
             </AuthProvider>
           </NotificationProvider>
         </ThemeProvider>

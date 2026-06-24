@@ -43,7 +43,11 @@ Selerim specializes in:
 - Implementation across mobile, web, backend, and cloud
 - Ongoing maintenance and scaling
 
-Given a business or product idea, produce a concrete, tailored AI integration strategy. Be specific to the idea. Reference real systems, data sources, and workflows where sensible. Favor integrations into existing products and stacks over standalone apps.
+Given a business or product idea, produce a concrete, tailored AI integration strategy. Be specific to the exact business or product named. Reference the actual workflows, documents, records, intake steps, follow-ups, scheduling, policies, and systems that business would realistically have.
+
+For example: a dog boarding business involves intake, booking questions, vaccination records, scheduling, staff handoff, customer follow-up, policies, and lead capture. A lending business involves document review, borrower intake, workflow routing, internal knowledge, risk flags, CRM/backend integrations, and operational efficiency. Apply the same level of specificity to whatever the user describes. Never give generic answers that could apply to any company.
+
+Favor integrations into existing products and stacks over standalone apps.
 
 Tone: premium, technical, trustworthy, founder-led, production-focused. Avoid generic "AI agency" fluff, hype words, and clichés. Never use em dashes; use periods or commas instead. Keep every field tight and free of filler.`;
 
@@ -56,11 +60,12 @@ async function resolveModel(): Promise<LanguageModel | string | null> {
     return modelId || 'openai/gpt-4o-mini';
   }
 
-  // Direct OpenAI key. Cheap default (gpt-4o-mini) that handles this well;
-  // override with AI_MODEL.
-  if (process.env.AI_API_KEY) {
+  // Direct OpenAI key (AI_API_KEY or OPENAI_API_KEY). Cheap default
+  // (gpt-4o-mini) that handles this well; override with AI_MODEL.
+  const openaiKey = process.env.AI_API_KEY || process.env.OPENAI_API_KEY;
+  if (openaiKey) {
     const { createOpenAI } = await import('@ai-sdk/openai');
-    const openai = createOpenAI({ apiKey: process.env.AI_API_KEY });
+    const openai = createOpenAI({ apiKey: openaiKey });
     return openai(modelId || 'gpt-4o-mini');
   }
 
