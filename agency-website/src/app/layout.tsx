@@ -43,7 +43,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-theme="dark"
+      data-theme="light"
       className={`${interTight.variable} ${instrumentSerif.variable}`}
       suppressHydrationWarning
     >
@@ -51,7 +51,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body suppressHydrationWarning className="min-h-screen antialiased">
-        <ThemeProvider defaultMode="dark">
+        <ThemeProvider defaultMode="light">
           <NotificationProvider>
             <AuthProvider>
               <Atmosphere />

@@ -23,7 +23,7 @@ const STORAGE_KEY = 'selerim-theme';
 
 export function ThemeProvider({
   children,
-  defaultMode = 'dark',
+  defaultMode = 'light',
 }: {
   children: React.ReactNode;
   defaultMode?: ThemeMode;
@@ -73,4 +73,4 @@ export function useTheme() {
 }
 
 /** Inline, render-blocking script that sets the initial theme before paint (no FOUC). */
-export const themeInitScript = `(function(){try{var m=localStorage.getItem('${STORAGE_KEY}');document.documentElement.dataset.theme=(m==='light'||m==='dark')?m:'dark';}catch(e){document.documentElement.dataset.theme='dark';}})();`;
+export const themeInitScript = `(function(){try{var m=localStorage.getItem('${STORAGE_KEY}');document.documentElement.dataset.theme=(m==='light'||m==='dark')?m:'light';}catch(e){document.documentElement.dataset.theme='light';}})();`;
