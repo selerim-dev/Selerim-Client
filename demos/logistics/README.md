@@ -146,5 +146,6 @@ not general production/OCR/LLM accuracy claims.
   and unsupported/corrupt documents go to review; no OCR claim is made.
 
 See WALKTHROUGH.md for the recording script and POST-DRAFT.md for an unpublished
-post. Hosting, real LLM configuration, Loom recording, legal demo and site embeds
-remain later shipping steps.
+post. The [legal intake concept](../legal/README.md) now has a working local review
+workspace and separate acceptance results. Hosting, real LLM configuration,
+Loom recordings and site embeds remain shipping steps.
