@@ -77,7 +77,7 @@ export default function Intake() {
           ✓
         </span>
         <p className="eyebrow">You’re in the right place</p>
-        <h3>Thanks. Daniel will take it from here.</h3>
+        <h2>Thanks. Daniel will take it from here.</h2>
         <p>
           Expect a personal reply within 24 hours. We’ll review your workflow
           and confirm whether the $2,500 AI Opportunity Audit is a good fit.

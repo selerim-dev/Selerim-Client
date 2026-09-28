@@ -341,7 +341,7 @@ export function Trust() {
         </div>
         <div>
           <p className="eyebrow">Your direct point of contact</p>
-          <h3>Daniel Mireles</h3>
+          <h2>Daniel Mireles</h2>
           <p>Founder & senior software engineer</p>
           <span className="location">
             <span aria-hidden="true">◎</span> Houston, Texas · Working with US
