@@ -30,3 +30,13 @@ Tests mock the external delivery service. They never send inquiry emails. The fo
 - Video areas are placeholders until an actual concept walkthrough is available. Use an accessible, click-to-load player when adding video.
 - Retired `/success` redirects to `/case-studies`. Parked portal pages are noindex and excluded from the sitemap. `/api/strategy` is retired with HTTP 410.
 - The production site is connected to the repository's `main` branch in Vercel. Verify the preview/build before publishing, then check the custom domain and intake validation behavior.
+
+## Release verification
+
+The September 2026 overhaul was checked at 320, 390, 768, and 1440px widths.
+The nine public pages passed automated WCAG A/AA checks. Keyboard menu focus,
+Escape/focus restoration, dark mode, reduced motion, and intake validation,
+provider failure, and confirmation states were exercised in Chromium.
+Form delivery tests intercept the provider request; they do not verify receipt
+in the business inbox. Concept videos and measured results remain explicitly
+unpublished placeholders until genuine evidence is available.
