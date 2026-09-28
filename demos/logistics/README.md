@@ -3,8 +3,8 @@
 Working local logistics demo: fixture generation, read-only folder ingestion,
 PDF extraction, matching, gap checks, approval queue, fake outbox and audit log.
 OpenAI drafting is optional and requires an explicitly configured API key/model;
-the verified baseline uses offline templates. No hosted deployment or recording
-has been published. Every record remains fictional.
+the verified baseline uses offline templates. A captioned 3:24 narrated tour is packaged for the website. Interactive hosting
+and live-provider evaluation remain configuration-dependent. Every record remains fictional.
 
 ## Run
 
@@ -147,5 +147,5 @@ not general production/OCR/LLM accuracy claims.
 
 See WALKTHROUGH.md for the recording script and POST-DRAFT.md for an unpublished
 post. The [legal intake concept](../legal/README.md) now has a working local review
-workspace and separate acceptance results. Hosting, real LLM configuration,
-Loom recordings and site embeds remain shipping steps.
+workspace and separate acceptance results. The website embeds a narrated tour of captured states with synthetic voice.
+Private interactive hosting and live-provider evaluation remain pending.

@@ -16,4 +16,6 @@ On its synthetic fixture: 30/30 clean-document matches, all 11 document findings
 and 65 missing-document gaps detected, with no false positives. These are
 fixture results, not client outcomes or a production accuracy claim.
 
-Walkthrough: [add the reviewed recording link before publishing]
+Walkthrough: https://www.selerim.com/demos/logistics-walkthrough.mp4
+
+Both concepts: https://www.selerim.com/case-studies

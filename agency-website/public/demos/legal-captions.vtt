@@ -1,0 +1,112 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:05.275
+This is the matter room, a Selerim concept for preparing legal intake.
+
+00:00:05.275 --> 00:00:10.111
+It uses thirty fictional emails and their attachments, not client records.
+
+00:00:10.111 --> 00:00:19.342
+The task is to organize the materials, identify missing information, and give a human reviewer a factual brief with inspectable sources.
+
+00:00:19.342 --> 00:00:23.738
+This guided tour uses captured application states and synthetic narration.
+
+00:00:23.738 --> 00:00:25.936
+The current pipeline is deterministic.
+
+00:00:25.936 --> 00:00:33.409
+No live language model, real law firm inbox, or external messaging service is connected in this recording.
+
+00:00:34.909 --> 00:00:37.649
+The brief appears beside the source material.
+
+00:00:37.649 --> 00:00:42.346
+Each factual statement has a citation naming its document, page, and line.
+
+00:00:42.346 --> 00:00:47.042
+Selecting the stated request highlights the exact line in the intake form.
+
+00:00:47.042 --> 00:00:52.522
+The reviewer can also switch to the engagement letter or open the original file.
+
+00:00:52.522 --> 00:00:56.044
+The paper surface is clearly labeled as extracted text.
+
+00:00:56.044 --> 00:01:05.046
+A requested review date is simply a fact supplied in the form; this tool does not calculate legal deadlines or offer legal advice.
+
+00:01:06.546 --> 00:01:11.379
+The needs-information view separates matters that cannot pass the configured completeness checks.
+
+00:01:11.379 --> 00:01:17.421
+In this example, the company name in the engagement letter differs from the intake form.
+
+00:01:17.421 --> 00:01:23.463
+Other fixtures contain a missing engagement letter, an unsigned letter, or a missing contact email.
+
+00:01:23.463 --> 00:01:29.505
+The application flags the specific issue and offers a route to the local follow-up queue.
+
+00:01:29.505 --> 00:01:35.144
+It does not silently repair the documents, accept the client, or send a message.
+
+00:01:35.144 --> 00:01:38.366
+All twelve planted incomplete matters were routed correctly.
+
+00:01:39.866 --> 00:01:47.641
+For a complete intake, the reviewer checks the source materials and explicitly confirms that the brief has been reviewed.
+
+00:01:47.641 --> 00:01:52.143
+Approval then unlocks a separate action to file the reviewed intake.
+
+00:01:52.143 --> 00:01:57.463
+The application does not infer an attorney's decision from a document being present.
+
+00:01:57.463 --> 00:02:02.374
+This demonstration uses a local operator; it does not verify professional credentials.
+
+00:02:02.374 --> 00:02:07.285
+The server blocks approval for incomplete matters and blocks filing before approval.
+
+00:02:07.285 --> 00:02:12.605
+Changed source files also prevent the operation from completing under the old review.
+
+00:02:14.105 --> 00:02:19.119
+The filed view preserves the reviewed intake in the local demo.
+
+00:02:19.119 --> 00:02:26.868
+Filing does not establish an attorney-client relationship, clear a conflict, validate an engagement, or send any communication.
+
+00:02:26.868 --> 00:02:36.897
+The runtime retains selected fields, source citations, hashes, and review metadata rather than duplicating entire PDF and email bodies in the database.
+
+00:02:36.897 --> 00:02:40.088
+Original files remain in their matter folders.
+
+00:02:40.088 --> 00:02:46.925
+Access checks reject paths outside the matter and block documents that identify a different matter.
+
+00:02:46.925 --> 00:02:50.116
+Retention still requires an explicit operator policy.
+
+00:02:51.616 --> 00:02:56.489
+The activity log makes source views and review decisions inspectable.
+
+00:02:56.489 --> 00:03:00.388
+The separate held-out evaluation contained ten fictional matters.
+
+00:03:00.388 --> 00:03:12.083
+The parser classified eighteen of eighteen documents correctly, extracted one hundred of one hundred fields, and produced fifty eight of fifty eight source-linked statements.
+
+00:03:12.083 --> 00:03:16.956
+Tests opened the cited files to verify the quoted lines.
+
+00:03:16.956 --> 00:03:24.266
+These numbers measure the generated text-PDF fixtures, not real-world legal accuracy, OCR, or model quality.
+
+00:03:24.266 --> 00:03:27.677
+The concept illustrates preparation with human oversight.
+
+00:03:27.677 --> 00:03:34.987
+A production engagement begins by defining the specific workflow, access boundaries, and measurable acceptance checks.

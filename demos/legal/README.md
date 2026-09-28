@@ -7,7 +7,7 @@ Human review and local filing are distinct, server-enforced actions.
 
 **This is a local concept build, not client work.** It organizes submitted facts;
 it provides no legal advice, conflict clearance, deadline calculation, engagement
-validation or autonomous client acceptance. No external email or LLM is connected.
+validation or autonomous client acceptance. No external email is connected. The recorded baseline has no LLM connected.
 The deterministic parser is the measured baseline; do not present these results
 as LLM or production-document accuracy.
 
@@ -87,6 +87,20 @@ loads the actual PDF or email. All fonts and scripts are served locally.
 - Loopback binding, Host/Origin checks, per-run form tokens, escaped output and a
   restrictive CSP. No public tunnel or unauthenticated production exposure.
 
-Hosted authentication, live-model evaluation, Loom recordings and public embeds
-remain shipping steps. WALKTHROUGH.md and POST-DRAFT.md prepare those assets;
-they do not claim a recording or post has been published.
+A captioned 3:36 narrated tour is packaged in the website proof section. It uses
+captured application states and synthetic narration, not a Loom recording.
+Authenticated hosting and live-provider evaluation remain configuration-dependent.
+POST-DRAFT.md remains unpublished.
+
+## Optional live-model source ordering
+
+Securely configure `OPENAI_API_KEY`, choose an explicit model, and add
+`--llm-model MODEL` with a fresh state database. The model receives only the
+current fictional matter's verified statements and returns an ordering of their
+indexes. The application validates exact coverage, then assembles the original
+statements and citations. It cannot introduce model-written factual or legal
+claims. Extraction, completeness, routing, approval and filing stay deterministic.
+Responses use `store: false`; this is not a blanket zero-retention guarantee.
+Provider failures create no reviewable intake. Tests use a mock provider; a live
+provider evaluation is pending credentials. This is AI prioritization, not an
+LLM classification or freeform legal-summary accuracy claim.

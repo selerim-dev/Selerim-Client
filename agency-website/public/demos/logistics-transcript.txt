@@ -1,0 +1,27 @@
+# Logistics concept walkthrough
+
+Narrated tour of captured application states. Fictional data; deterministic baseline. Synthetic voice.
+
+## 00:00:00.000 — The exception desk
+
+This is the exception desk, a Selerim logistics concept built with fictional data. The problem is familiar: shipping documents arrive in different places, people match them by hand, and missing paperwork delays the next step. This guided tour uses captured states from the working application and synthetic narration. The current run uses deterministic PDF extraction and template drafts. It is not a live language model demonstration, and none of the names, shipments, or recipients represent real clients.
+
+## 00:00:34.398 — Document meets shipment record
+
+The fixture contains fifty shipment records and forty documents. Here, shipment eight has a weight discrepancy. The document says three thousand two hundred fifteen pounds, while the shipment record says two thousand seven hundred fifteen. Both values appear together so a reviewer can understand the exception. The source panel shows extracted fields and links to the original PDF. The system uses exact shipment references within the job. Missing or unknown references go to review instead of being guessed.
+
+## 00:01:07.649 — Approval is a separate decision
+
+The follow-up draft names the detected issue and asks for corrected or missing paperwork. A person reviews the evidence and chooses approve or reject. In this captured state, the reviewer has approved the draft, and a separate send action is now available. Approval does not itself send anything. That distinction is enforced by the server, not only by the appearance of a button. The acceptance tests also check that rejected drafts cannot be sent and changed evidence invalidates old approval.
+
+## 00:01:39.007 — A controlled transition
+
+The reviewer then chooses send to demo outbox. The application records the state change and shows that the draft was sent to the local simulation. There is no SMTP connection and no external email API behind this action. All recipients use a non-deliverable domain. This deliberately narrow transport makes the concept safe to demonstrate while still exercising the actual approval and sending state machine. Repeating the same send does not create another outbox entry.
+
+## 00:02:10.283 — An inspectable outbox
+
+The outbox preserves the approved recipient and message so the reviewer can inspect what the simulated action contained. This is fictional evidence, not a client result or a production integration. The system reads source records without changing them, limits file access to the current job, and logs its business actions. The model adapter, when separately configured, can help with wording. It has no approval or sending tool. This recorded run remains in the explicitly labeled template mode.
+
+## 00:02:42.894 — Measured on fictional fixtures
+
+The activity log connects the source, draft, human decision, and simulated send. Its local hash chain is verifiable, although a database owner could defeat those controls. On the actual fixture parser run, all thirty clean documents matched correctly. All eleven planted document findings and sixty five missing-document gaps were detected, with no false positives. These are deterministic fixture results, not a promise about arbitrary scans or real operations. The next production step is a scoped audit of one workflow, its data, security requirements, and acceptance criteria.

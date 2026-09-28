@@ -100,13 +100,14 @@ def analyze(matter, documents):
 
 
 class Engine:
-    def __init__(self, inputs, state):
+    def __init__(self, inputs, state, brief_writer=None):
         self.inputs = Path(inputs).resolve(strict=True)
         self.state = Path(state).resolve()
         if self.state == self.inputs or self.inputs in self.state.parents:
             raise ValueError('State must be outside read-only inputs')
         self.state.parent.mkdir(parents=True, exist_ok=True)
         self.lock = threading.RLock()
+        self.brief_writer = brief_writer
         self.job = json.loads(self.read('job.json'))
         if self.job.get('synthetic') is not True:
             raise ValueError('Fictional inputs required')
@@ -125,10 +126,13 @@ class Engine:
             CREATE TRIGGER IF NOT EXISTS no_event_delete BEFORE DELETE ON events BEGIN SELECT RAISE(ABORT,'append-only audit'); END;
             ''')
             current = dict(db.execute('SELECT key,value FROM meta'))
+            writer_mode = getattr(brief_writer,'model','deterministic') if brief_writer else 'deterministic'
+            if current and current.get('writer','deterministic') != writer_mode:
+                raise ValueError('Summary mode changed; use a fresh state database')
             if current and (current.get('job') != self.job_id or current.get('fingerprint') != self.fingerprint):
                 raise ValueError('State belongs to another job; use a fresh state database')
             if not current:
-                db.executemany('INSERT INTO meta VALUES (?,?)', [('job',self.job_id),('fingerprint',self.fingerprint)])
+                db.executemany('INSERT INTO meta VALUES (?,?)', [('job',self.job_id),('fingerprint',self.fingerprint),('writer',writer_mode)])
                 self.event(db,'job_opened',self.job_id,{'synthetic':True,'mode':'deterministic-extraction'})
 
     def read(self, relative, matter=None):
@@ -190,6 +194,11 @@ class Engine:
             for matter,version,payloads in batches:
                 docs = [extract(payload,doc,matter) for doc,_,payload in payloads if doc!='EMAIL']
                 result = analyze(matter,docs)
+                if self.brief_writer:
+                    result['summary'] = self.brief_writer(matter,result['summary'])
+                    result['summary_mode'] = 'ai-prioritized verified extracts'
+                else:
+                    result['summary_mode'] = 'deterministic extracts'
                 db.execute("INSERT INTO matters VALUES (?,?,?,'pending')",(matter,version,encoded(result)))
                 for doc,path,payload in payloads:
                     db.execute('INSERT INTO sources VALUES (?,?,?,?)',(matter,doc,path,digest(payload)))

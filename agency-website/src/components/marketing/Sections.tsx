@@ -142,7 +142,7 @@ export function Proof() {
         eyebrow="01 / The possibilities, made concrete"
         title="Real workflows."
         accent="Thoughtful possibilities."
-        description="Two concept builds show how an agent could fit into your operations. Illustrative designs—not client engagements or measured results."
+        description="Two working concept builds, demonstrated with fictional data. Watch the review flows and inspect the measured fixture results. These are not client engagements."
       />
       <div className="concept-grid">
         {concepts.map((c) => (
@@ -155,22 +155,17 @@ export function Proof() {
                 </span>
               </div>
               <h3>{c.title}</h3>
-              <div className="concept-flow" aria-label="Proposed workflow">
-                {c.steps.map((step, i) => (
-                  <div key={step}>
-                    <span>{String(i + 1).padStart(2, "0")}</span>
-                    <p>{step}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="video-placeholder">
-                <span className="video-icon" aria-hidden="true">
-                  ▷
-                </span>
-                <div>
-                  <strong>Video walkthrough</strong>
-                  <p>Coming soon · concept preview</p>
+              <div className="concept-video">
+                <video controls playsInline preload="none" poster={c.poster} width="1440" height="960" aria-label={`${c.name}: narrated concept walkthrough`}>
+                  <source src={c.video} type="video/mp4" />
+                  <track kind="captions" src={c.captions} srcLang="en" label="English" />
+                  <a href={c.video}>Download the walkthrough</a>
+                </video>
+                <div className="concept-video-caption">
+                  <span>Fictional data · deterministic baseline</span>
+                  <a href={c.transcript}>Read transcript ↗</a>
                 </div>
+                <p className="concept-recording-note">Narrated tour of captured application states. Synthetic voice; no live model in this recording.</p>
               </div>
             </div>
             <div className="concept-body">
@@ -179,13 +174,13 @@ export function Proof() {
               <dl>
                 <dt>The problem</dt>
                 <dd>{c.problem}</dd>
-                <dt>What the agent would do</dt>
+                <dt>What the concept does</dt>
                 <dd>{c.action}</dd>
                 <dt>Security by design</dt>
                 <dd>{c.security}</dd>
               </dl>
               <div className="concept-metric">
-                <span className="eyebrow">Outcome metric to validate</span>
+                <span className="eyebrow">Measured fixture result</span>
                 <strong>{c.metric}</strong>
                 <p>{c.measure}</p>
               </div>

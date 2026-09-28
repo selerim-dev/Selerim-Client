@@ -5,6 +5,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, urlencode, urlparse
 from .engine import Engine
+from .drafting import OpenAIBrief
 from .ui import render
 
 BASE=Path(__file__).parent
@@ -86,8 +87,9 @@ if __name__=='__main__':
     parser.add_argument('--inputs',required=True)
     parser.add_argument('--state',required=True)
     parser.add_argument('--port',type=int,default=8092)
+    parser.add_argument('--llm-model',help='Explicit OpenAI model for source ordering; optional')
     args=parser.parse_args()
-    engine=Engine(args.inputs,args.state)
+    engine=Engine(args.inputs,args.state,OpenAIBrief(args.llm_model) if args.llm_model else None)
     engine.process()
     server=make_server(engine,args.port)
     print(f'Fictional legal intake: http://127.0.0.1:{server.server_port}',flush=True)

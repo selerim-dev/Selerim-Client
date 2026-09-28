@@ -18,4 +18,6 @@ work or general legal-document accuracy.
 
 Concept build. Fictional data only. Local prototype; no LLM active.
 
-[Add the verified walkthrough link after publishing.]
+Walkthrough: https://www.selerim.com/demos/legal-walkthrough.mp4
+
+Both concepts: https://www.selerim.com/case-studies

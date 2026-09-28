@@ -48,3 +48,8 @@ our deterministic fixture pipeline; it is not an accuracy claim for real legal
 work or an LLM. This build has no live model, external email or real client data.”
 
 End on the source-backed brief, with the Selerim concept label visible.
+
+## Shipping asset
+
+The website embeds a captioned, synthetic-voice tour of captured application states.
+This is not a continuous live recording or a Loom upload. See `../media/README.md`.

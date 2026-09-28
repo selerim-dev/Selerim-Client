@@ -6,7 +6,7 @@ export default function Concepts() {
         eyebrow="Concepts / Possibilities, not promises"
         title="See where an agent"
         accent="could fit."
-        description="Illustrative workflow designs for logistics and legal operations. These are concept builds, not client work, live demos, or measured performance claims."
+        description="Working logistics and legal concepts, shown with fictional data and measured fixture checks. Watch the narrated tours. These are not client work or live-model performance claims."
       />
       <Proof />
       <Closing />

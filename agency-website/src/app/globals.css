@@ -2802,3 +2802,10 @@ em {
 .legal-content a {
   text-decoration: underline;
 }
+
+/* Recorded concept walkthroughs: no autoplay or initial video download. */
+.concept-video { margin-top: 24px; }
+.concept-video video { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; background: #202333; border: 1px solid var(--border); border-radius: 8px; }
+.concept-video-caption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding-top: 11px; font-size: 11px; color: var(--muted); }
+.concept-video-caption a { text-decoration: underline; text-underline-offset: 3px; }
+.concept-recording-note { margin-top: 8px; font-size: 10px; line-height: 1.6; color: var(--muted); }

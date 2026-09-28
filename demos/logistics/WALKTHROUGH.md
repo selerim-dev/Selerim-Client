@@ -57,3 +57,8 @@ synthetic test results, not production accuracy or measured time savings.
 “The useful workflow is documents in, exceptions surfaced, and a person in
 control of what goes out. A real engagement starts by checking your data,
 permissions, and acceptance criteria through the AI Opportunity Audit.”
+
+## Shipping asset
+
+The website embeds a captioned, synthetic-voice tour of captured application states.
+This is not a continuous live recording or a Loom upload. See `../media/README.md`.
