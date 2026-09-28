@@ -33,7 +33,7 @@ def make_server(engine, port=8092):
             url=urlparse(self.path)
             params=parse_qs(url.query)
             assets={'/assets/legal.css':(BASE/'legal.css','text/css; charset=utf-8'),
-                    '/assets/workspace.js':(SHARED/'workspace.js','text/javascript; charset=utf-8'),
+                    '/assets/workspace.js':(BASE/'reader.js','text/javascript; charset=utf-8'),
                     **{'/assets/'+name:(SHARED/name,'font/woff2') for name in ('inter-tight.woff2','instrument-serif.woff2','instrument-serif-italic.woff2')}}
             if url.path in assets:
                 path,kind=assets[url.path]

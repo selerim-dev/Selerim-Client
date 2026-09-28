@@ -52,11 +52,11 @@ for the measured results and their limits.
 
 ## Interaction and design
 
-The Selerim typography, lavender identity, icons, command menu, keyboard behavior,
-and approval-form patterns are reused from the logistics workspace. This concept
-adds an editorial brief, numbered facts, page/line citations, a warm paper source
-reader, and a distinct completeness check. No stock legal imagery or ornamental
-scales of justice. The working interaction is the visual centerpiece.
+Selerim's fonts and wordmark connect the concepts, while legal has its own visual
+language: an ivory canvas, ink-blue record panel, olive details, horizontal matter
+index, and serif-led memorandum. Navigation runs across the top. The source sits
+on a warm paper surface with a highlighted citation line. Keyboard controls and
+server-enforced review actions remain consistent with logistics.
 
 - Select a cited statement to highlight the exact extracted line.
 - Switch between the original intake form, engagement letter and email.
