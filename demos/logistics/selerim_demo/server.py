@@ -3,6 +3,7 @@ import argparse
 import json
 import secrets
 import threading
+from pathlib import Path
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from urllib.parse import parse_qs, urlparse
 from .engine import Engine, digest
@@ -23,7 +24,7 @@ def make_server(engine, port):
             self.send_header('Content-Length', str(len(body)))
             self.send_header('Cache-Control', 'no-store')
             self.send_header('X-Content-Type-Options', 'nosniff')
-            self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'")
+            self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'self'; script-src 'self'; font-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'")
             self.end_headers()
             self.wfile.write(body)
 
@@ -31,6 +32,14 @@ def make_server(engine, port):
             if not self.allowed_host():
                 return self.reply(403, 'Invalid host')
             path = urlparse(self.path)
+            assets = {
+                '/assets/workspace.css': (Path(__file__).parent / 'workspace.css', 'text/css; charset=utf-8'),
+                '/assets/workspace.js': (Path(__file__).parent / 'assets/workspace.js', 'text/javascript; charset=utf-8'),
+                **{'/assets/' + name: (Path(__file__).parent / 'assets' / name, 'font/woff2') for name in ['inter-tight.woff2', 'instrument-serif.woff2', 'instrument-serif-italic.woff2']},
+            }
+            if path.path in assets:
+                file, kind = assets[path.path]
+                return self.reply(200, file.read_bytes(), kind)
             if path.path == '/':
                 return self.reply(200, render(engine, token, params=parse_qs(path.query)))
             if path.path == '/document':
@@ -71,7 +80,7 @@ def make_server(engine, port):
             except (ValueError, KeyError) as exc:
                 return self.reply(409, render(engine, token, str(exc)))
             self.send_response(303)
-            self.send_header('Location', '/?draft=' + str(int(values.get('draft', ['0'])[0] or '0')) if action != 'process' else '/')
+            self.send_header('Location', '/?draft=' + str(int(values.get('draft', ['0'])[0] or '0')) + '&state=' + {'approve':'approved','send':'sent','reject':'pending'}.get(action,'pending') + '&notice=' + {'approve':'approved','send':'sent','reject':'rejected'}.get(action,'processed') if action != 'process' else '/?notice=processed')
             self.end_headers()
     return ThreadingHTTPServer(('127.0.0.1', port), Handler)
 
