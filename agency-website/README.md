@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Selerim agency website
 
-## Getting Started
+Next.js 15 App Router marketing website for https://www.selerim.com. The deployment root is `agency-website/` inside `selerim-dev/Selerim-Client`.
 
-First, run the development server:
+## Develop and verify
 
-```bash
+Use Node 22.18+ (or Node 24 LTS) for the TypeScript test runner.
+
+```sh
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run lint
+npm test
+npm run build
+npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Content lives in `src/lib/marketing.ts`; shared page sections are in `src/components/marketing/`. The design uses Inter Tight, Instrument Serif, and the existing Selerim light/dark palette. Motion is progressive enhancement: server-rendered text is visible without JavaScript and reduced-motion users get static content.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Lead capture
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The browser validates `src/lib/intake-schema.ts` before submitting directly to Web3Forms over HTTPS, as required by its free integration. It never sends intake data to an AI model. The existing `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` must be configured in the Vercel project. This provider access key is intended for browser use; do not commit its value. The provider performs server-side spam checks. A honeypot, required-field validation, bounded inputs, and duplicate-submit prevention are included. Missing configuration and provider failures show an actionable error rather than false success. The UI retains entered values and provides a direct email fallback.
 
-## Learn More
+Tests mock the external delivery service. They never send inquiry emails. The form success message sets a 24-hour personal-response expectation and describes scope agreement, invoice, and kickoff. No payment is collected on the website.
 
-To learn more about Next.js, take a look at the following resources:
+## Publishing content
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- All prices and offer durations are defined centrally; keep USD, scope, dependencies, and third-party costs explicit.
+- Concept builds must stay labeled as concepts. Proposed metrics are not measured outcomes. No client names or testimonials should be published without verified facts and permission.
+- Video areas are placeholders until an actual concept walkthrough is available. Use an accessible, click-to-load player when adding video.
+- Retired `/success` redirects to `/case-studies`. Parked portal pages are noindex and excluded from the sitemap. `/api/strategy` is retired with HTTP 410.
+- The production site is connected to the repository's `main` branch in Vercel. Verify the preview/build before publishing, then check the custom domain and intake validation behavior.

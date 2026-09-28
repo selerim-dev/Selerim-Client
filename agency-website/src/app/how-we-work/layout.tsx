@@ -1,13 +1,10 @@
-import type { Metadata } from 'next';
-import { pageMeta } from '../../lib/seo';
-
-export const metadata: Metadata = pageMeta({
-  title: 'How Selerim Works — From Idea to Production AI',
+import { pageMeta } from "@/lib/seo";
+export const metadata = pageMeta({
+  title: "Audit, Blueprint, Build, Handover | Selerim",
   description:
-    'A transparent, founder-led process for turning a product or workflow into a production-ready AI integration: discovery, build, ship, and ongoing iteration.',
-  path: '/how-we-work',
+    "A clear, async-first process: a 14-day opportunity audit, an agreed blueprint, a fixed-price 30-day agent build, and a complete handover.",
+  path: "/how-we-work",
 });
-
-export default function HowWeWorkLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return children;
 }

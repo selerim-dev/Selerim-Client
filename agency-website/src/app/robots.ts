@@ -1,26 +1,8 @@
-import type { MetadataRoute } from 'next';
-
-const BASE = 'https://www.selerim.com';
-
+import type { MetadataRoute } from "next";
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-      // Non-public / parked surfaces and the API are kept out of search.
-      disallow: [
-        '/api/',
-        '/login',
-        '/dashboard',
-        '/owner',
-        '/account-setup',
-        '/admin-setup',
-        '/invite',
-        '/forgot-password',
-        '/reset-password',
-      ],
-    },
-    sitemap: `${BASE}/sitemap.xml`,
-    host: BASE,
+    rules: { userAgent: "*", allow: "/", disallow: "/api/" },
+    sitemap: "https://www.selerim.com/sitemap.xml",
+    host: "https://www.selerim.com",
   };
 }

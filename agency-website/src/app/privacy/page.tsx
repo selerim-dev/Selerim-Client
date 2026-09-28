@@ -1,28 +1,39 @@
-'use client';
-
-import React from 'react';
-import { LegalDoc } from '../../components/site';
-
-const SECTIONS = [
-  { h: 'Information collection', p: 'We collect information you provide directly to us, such as when you create an account, fill out a form, or communicate with us. We may also collect information automatically through cookies and similar technologies.' },
-  { h: 'Use of information', p: 'We use your information to provide, maintain, and improve our services, communicate with you, and comply with legal obligations. We may also send you updates and marketing communications, which you can opt out of at any time.' },
-  { h: 'Cookies', p: 'We use cookies and similar technologies to enhance your experience, analyze usage, and deliver personalized content. You can control cookies through your browser settings.' },
-  { h: 'Data security', p: 'We implement reasonable security measures to protect your information from unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the internet or electronic storage is 100% secure.' },
-  { h: 'Third-party services', p: 'We may use third-party services to help operate our business and the site. These third parties may have access to your information only to perform tasks on our behalf and are obligated not to disclose or use it for other purposes.' },
-  { h: 'User rights', p: 'You have the right to access, correct, or delete your personal information. To exercise these rights, please contact us at the email provided below.' },
-  { h: 'Children’s privacy', p: 'Our services are not directed to children under 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal information, please contact us to have it removed.' },
-  { h: 'Changes to policy', p: 'We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page. Continued use of the site constitutes acceptance of the new policy.' },
-  {
-    h: 'Contact information',
-    p: (
-      <>
-        If you have any questions about this Privacy Policy or our data practices, please contact us at{' '}
-        <a href="mailto:admin@selerim.com" className="link-underline text-ink">admin@selerim.com</a>.
-      </>
-    ),
-  },
-];
-
-export default function PrivacyPage() {
-  return <LegalDoc eyebrow="Legal" title="Privacy" accent="policy." updated="How we handle your data." sections={SECTIONS} />;
+import Legal from "@/components/marketing/Legal";
+export default function Privacy() {
+  return (
+    <Legal
+      kind="Privacy policy."
+      description="A practical explanation of the information this website handles."
+      sections={[
+        {
+          title: "Information you choose to share",
+          text: "The audit intake collects your name, email, company, revenue band, workflow description, systems, timeline, and budget band. We use these details to review your inquiry, respond, and discuss a potential engagement. Do not submit confidential documents, credentials, or personal information about your customers or clients through this form.",
+        },
+        {
+          title: "How inquiries are delivered",
+          text: "The website is hosted on Vercel. Intake information is validated in your browser and sent through Web3Forms to the Selerim inbox. These providers process the information needed to host the site and deliver your inquiry. Hosting and security services may process technical information such as IP addresses and request details.",
+        },
+        {
+          title: "No AI processing of the intake",
+          text: "This intake does not send your answers to an AI model. The former public strategy generator is no longer available. Any model use involving your business data is discussed separately as part of an engagement, including access, provider settings, and retention requirements.",
+        },
+        {
+          title: "Preferences and site storage",
+          text: "The site stores your chosen light or dark appearance in your browser’s local storage. This version of the site does not add advertising trackers or marketing analytics. Service providers may maintain technical logs for hosting, security, and delivery.",
+        },
+        {
+          title: "Access and retention",
+          text: "Inquiry details are used for evaluating and responding to your request and, if applicable, arranging an engagement. We limit access to what is needed for those purposes. Project data handling and retention are agreed separately before sensitive system access. Contact us to ask about information held about you or to request correction or deletion, subject to applicable recordkeeping obligations.",
+        },
+        {
+          title: "Confidential projects",
+          text: "An initial inquiry is not a place to exchange sensitive records. We can arrange an NDA and agree on an appropriate exchange method before reviewing confidential material. A project’s security requirements, access permissions, and third-party processing are defined in its scope.",
+        },
+        {
+          title: "Changes and contact",
+          text: "We may update this page as the website or its providers change. The date above identifies this version. For privacy questions or requests, contact admin@selerim.com.",
+        },
+      ]}
+    />
+  );
 }

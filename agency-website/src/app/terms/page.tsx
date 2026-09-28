@@ -1,20 +1,43 @@
-'use client';
-
-import React from 'react';
-import { LegalDoc } from '../../components/site';
-
-const SECTIONS = [
-  { h: 'Acceptance of terms', p: 'By accessing or using the Selerim website and services, you agree to be bound by these Terms & Conditions. If you do not agree, please do not use our site or services.' },
-  { h: 'Use of service', p: 'You agree to use the website and services only for lawful purposes and in accordance with these Terms. You may not use our services for any illegal or unauthorized purpose.' },
-  { h: 'Intellectual property', p: 'All content, trademarks, logos, and data on this site are the property of Selerim or its licensors. You may not copy, reproduce, or distribute any content without our written permission.' },
-  { h: 'User responsibilities', p: 'You are responsible for maintaining the confidentiality of your account and password and for restricting access to your device. You agree to accept responsibility for all activities that occur under your account.' },
-  { h: 'Disclaimers', p: 'The website and services are provided “as is” and “as available” without warranties of any kind, either express or implied. Selerim does not warrant that the site will be error-free or uninterrupted.' },
-  { h: 'Limitation of liability', p: 'To the fullest extent permitted by law, Selerim shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible losses resulting from your use of, or inability to use, the service.' },
-  { h: 'Indemnification', p: 'You agree to indemnify and hold harmless Selerim, its affiliates, and their respective officers, directors, employees, and agents from any claims, damages, obligations, losses, liabilities, costs, or debt arising from your use of the site or violation of these Terms.' },
-  { h: 'Governing law', p: 'These Terms & Conditions are governed by and construed in accordance with the laws of the jurisdiction in which Selerim operates, without regard to its conflict of law provisions.' },
-  { h: 'Changes to terms', p: 'Selerim reserves the right to update or modify these Terms & Conditions at any time. Continued use of the site after any changes constitutes acceptance of those changes.' },
-];
-
-export default function TermsPage() {
-  return <LegalDoc eyebrow="Legal" title="Terms &" accent="conditions." updated="The fine print for using Selerim." sections={SECTIONS} />;
+import Legal from "@/components/marketing/Legal";
+export default function Terms() {
+  return (
+    <Legal
+      kind="Terms & conditions."
+      description="The terms for using this website. Paid work is governed by a separate service agreement."
+      sections={[
+        {
+          title: "Using this website",
+          text: "You may use the site to learn about Selerim and submit a genuine business inquiry. Do not attempt to disrupt the site, misuse its forms, or submit information you are not authorized to share.",
+        },
+        {
+          title: "Inquiries and paid engagements",
+          text: "Submitting the intake is not a purchase, does not reserve a start date, and does not create a service agreement. Before paid work begins, we agree on scope, deliverables, fees, timing, access requirements, and acceptance terms in writing. An invoice and agreed kickoff follow that discussion.",
+        },
+        {
+          title: "Prices, timelines, and scope",
+          text: "Published prices are in US dollars. The AI Opportunity Audit is $2,500 for a 14-day engagement. A 30-Day Agent Build is quoted at a fixed price of $7,500–$15,000 for one workflow or agent. Timelines depend on the agreed kickoff, required access, and timely client input. Optional care is $1,500–$3,000 per month for an agreed scope. Third-party usage and hosting are separate.",
+        },
+        {
+          title: "Concept builds and outcomes",
+          text: "Concept builds are illustrative designs, not completed client engagements or live product demonstrations. Proposed outcome metrics have not been measured. They do not guarantee savings, revenue, accuracy, or other results. Project success measures and evaluation criteria are agreed before a build.",
+        },
+        {
+          title: "Ownership and third-party services",
+          text: "The service agreement defines ownership of custom code and deliverables, account access, and handover. Our engagement model provides client ownership of custom deliverables, keys, and documentation. Open-source libraries and third-party products remain subject to their own licenses and terms. Website content and branding belong to Selerim or their respective owners.",
+        },
+        {
+          title: "Review, acceptance, and support",
+          text: "A build includes an evaluation harness and agreed acceptance checks. Work is reviewed against its defined scope before sign-off. Remedies, change requests, payment terms, and any support commitments are stated in the service agreement. Optional care is separate from the build; the studio does not provide a general 24/7 on-call service.",
+        },
+        {
+          title: "Website availability and general information",
+          text: "We aim to keep information accurate and the site available, but website content is provided as general information and may change. The website is not legal, regulatory, or compliance advice. Specific commitments and responsibilities for an engagement must be agreed in writing.",
+        },
+        {
+          title: "Contact",
+          text: "Questions about the website or a potential engagement can be sent to admin@selerim.com. Selerim is based in Houston, Texas.",
+        },
+      ]}
+    />
+  );
 }

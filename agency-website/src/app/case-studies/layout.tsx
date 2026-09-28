@@ -1,13 +1,10 @@
-import type { Metadata } from 'next';
-import { pageMeta } from '../../lib/seo';
-
-export const metadata: Metadata = pageMeta({
-  title: 'Selerim Work — Shipped Products and AI-Enabled Software',
+import { pageMeta } from "@/lib/seo";
+export const metadata = pageMeta({
+  title: "AI Agent Concept Builds | Selerim",
   description:
-    'See real Selerim work across mobile apps, web products, backend systems, and AI-enabled product experiences.',
-  path: '/case-studies',
+    "Explore clearly labeled logistics and legal AI agent concepts: workflows, security boundaries, and outcome metrics to validate. Not client case studies.",
+  path: "/case-studies",
 });
-
-export default function CaseStudiesLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return children;
 }

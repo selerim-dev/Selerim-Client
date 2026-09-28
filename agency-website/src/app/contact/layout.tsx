@@ -1,13 +1,10 @@
-import type { Metadata } from 'next';
-import { pageMeta } from '../../lib/seo';
-
-export const metadata: Metadata = pageMeta({
-  title: 'Contact Selerim — Build AI Into Your Product or Workflow',
+import { pageMeta } from "@/lib/seo";
+export const metadata = pageMeta({
+  title: "Request an AI Opportunity Audit | Selerim",
   description:
-    'Tell Selerim what you are building or trying to improve. Get help with AI integrations, product engineering, workflow automation, and app modernization.',
-  path: '/contact',
+    "Tell us about your workflow. Request a $2,500, 14-day AI Opportunity Audit. Founder-led, async-first, with a reply within 24 hours.",
+  path: "/contact",
 });
-
-export default function ContactLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return children;
 }

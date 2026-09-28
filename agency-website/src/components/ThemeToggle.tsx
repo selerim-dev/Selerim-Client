@@ -1,34 +1,34 @@
-'use client';
-
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { SunIcon, MoonIcon } from '@heroicons/react/24/outline';
-import { useTheme } from '../lib/theme-context';
-
-export default function ThemeToggle({ className = '' }: { className?: string }) {
+"use client";
+import { useTheme } from "@/lib/theme-context";
+export default function ThemeToggle() {
   const { resolved, toggle } = useTheme();
-  const isDark = resolved === 'dark';
-
   return (
     <button
+      className="theme-toggle"
       type="button"
       onClick={toggle}
-      aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
-      title={isDark ? 'Light mode' : 'Dark mode'}
-      className={`group relative inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-line text-ink-muted transition-colors duration-300 hover:border-line-strong hover:text-ink ${className}`}
+      aria-label={
+        resolved === "dark" ? "Switch to light mode" : "Switch to dark mode"
+      }
     >
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.span
-          key={isDark ? 'moon' : 'sun'}
-          initial={{ opacity: 0, rotate: -90, scale: 0.6 }}
-          animate={{ opacity: 1, rotate: 0, scale: 1 }}
-          exit={{ opacity: 0, rotate: 90, scale: 0.6 }}
-          transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute"
-        >
-          {isDark ? <MoonIcon className="h-[18px] w-[18px]" /> : <SunIcon className="h-[18px] w-[18px]" />}
-        </motion.span>
-      </AnimatePresence>
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        aria-hidden="true"
+      >
+        {resolved === "dark" ? (
+          <path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z" />
+        ) : (
+          <>
+            <circle cx="12" cy="12" r="4" />
+            <path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5" />
+          </>
+        )}
+      </svg>
     </button>
   );
 }

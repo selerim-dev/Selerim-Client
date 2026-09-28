@@ -1,13 +1,10 @@
-import type { Metadata } from 'next';
-import { pageMeta } from '../../lib/seo';
-
-export const metadata: Metadata = pageMeta({
-  title: 'Selerim Pricing — AI Strategy, Integration Sprints, and Product Engineering',
+import { pageMeta } from "@/lib/seo";
+export const metadata = pageMeta({
+  title: "AI Audit & Agent Build Pricing | Selerim",
   description:
-    'Simple starting points for AI opportunity audits, AI integration sprints, and ongoing product engineering support.',
-  path: '/pricing',
+    "$2,500 AI Opportunity Audit in 14 days. Fixed $7,500–$15,000 30-day agent builds. Optional care from $1,500 per month.",
+  path: "/pricing",
 });
-
-export default function PricingLayout({ children }: { children: React.ReactNode }) {
-  return <>{children}</>;
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return children;
 }

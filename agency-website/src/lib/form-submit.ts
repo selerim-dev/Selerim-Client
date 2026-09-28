@@ -1,43 +1,19 @@
 const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
-
 type FormPayload = Record<string, string>;
 
-type Web3FormsResponse = {
-  success: boolean;
-  message?: string;
-};
-
-function getAccessKey() {
-  const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
-
-  if (!accessKey) {
-    throw new Error('Form submissions are not configured yet. Add NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY to enable the live form endpoint.');
-  }
-
-  return accessKey;
-}
-
+/** Browser-only delivery, as required by the existing Web3Forms integration. */
 export async function submitWebsiteForm(payload: FormPayload) {
-  const accessKey = getAccessKey();
-
+  const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+  if (!accessKey) throw new Error('Please email admin@selerim.com to request your audit.');
   const response = await fetch(WEB3FORMS_ENDPOINT, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Accept: 'application/json',
-    },
-    body: JSON.stringify({
-      access_key: accessKey,
-      botcheck: '',
-      ...payload,
-    }),
+    headers: { Accept: 'application/json' },
+    body: new URLSearchParams({ ...payload, access_key: accessKey, botcheck: '' }),
+    signal: AbortSignal.timeout(20000),
   });
-
-  const result = (await response.json()) as Web3FormsResponse;
-
-  if (!response.ok || !result.success) {
-    throw new Error(result.message || 'Unable to submit the form right now.');
+  const result = await response.json();
+  if (!response.ok || result.success !== true) {
+    throw new Error('We could not confirm delivery. Please try again or email admin@selerim.com.');
   }
-
   return result;
 }
