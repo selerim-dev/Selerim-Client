@@ -1,15 +1,18 @@
 # Shipment document agent — synthetic dataset v1
 
-First milestone only: generator, fixtures and deterministic scorer. The agent,
-approval queue, runtime audit log, hosted demos, recordings and site embeds are
-not implemented by this milestone. No network, API keys or paid services used.
+Working local logistics demo: fixture generation, read-only folder ingestion,
+PDF extraction, matching, gap checks, approval queue, fake outbox and audit log.
+OpenAI drafting is optional and requires an explicitly configured API key/model;
+the verified baseline uses offline templates. No hosted deployment or recording
+has been published. Every record remains fictional.
 
 ## Run
 
-Python 3.9+ standard library, no installation needed:
+Python 3.9+; the generator needs only the standard library. The agent needs pypdf:
 
 ```sh
 cd demos/logistics
+python3 -m pip install -r requirements.txt
 python3 -m selerim_demo.generate --output generated/seed-42 --seed 42
 python3 -m unittest discover -s tests -v
 ```
@@ -83,12 +86,65 @@ missed/extra gaps and duplicate prediction IDs. Oracle replay verifies scoring
 logic only; it is **not measured agent accuracy**. Field-level extraction metrics
 can use `expected_fields` when the parser/agent is implemented.
 
-## Next
+## Run the approval UI
 
-Implement a read-only job-scoped folder watcher, PDF extraction, matching, gap
-checks, drafting and the approval queue. Every action needs a linked audit event.
-A local fake outbox must enforce explicit human approval and idempotent sends.
-No real outbound delivery is required for the fictional walkthrough. This
-fixture generator has no send capability and makes no claim that those runtime
-security controls have been implemented or verified. Reuse the queue for the
-legal demo after logistics passes its full acceptance checks.
+```sh
+python3 -m selerim_demo.server \
+  --inputs generated/seed-42/inputs \
+  --state generated/runtime/demo.sqlite --port 8091
+```
+
+Open http://127.0.0.1:8091. The watcher checks the synthetic inbox manifest every
+two seconds; refresh the page to see updates. Use `--no-watch` for a manual
+walkthrough. Failures pause the watcher to prevent automatic LLM retries/costs;
+resolve the issue and click Check inbox folder to resume. State persists across
+restarts. Use a new state path for a fresh demo; no destructive reset endpoint.
+
+For optional OpenAI wording, securely configure `OPENAI_API_KEY` in the process
+environment and add `--llm-model YOUR_MODEL_ID` with a new state path. Only the
+synthetic shipment ID and issue list are transmitted, with `store: false`. This
+setting is not a blanket zero-retention guarantee. No tools or sending powers
+are provided to the model. Provider errors remain failures; there is no silent
+fallback that pretends to be AI. Existing drafts are not regenerated on refresh.
+API integration tests use a mock provider; a live provider run remains pending.
+API reference: https://developers.openai.com/api/docs/guides/text
+
+## Batch acceptance
+
+```sh
+python3 -m selerim_demo.run --inputs generated/seed-42/inputs \
+  --state generated/acceptance/state.sqlite \
+  --output generated/acceptance/predictions.json
+python3 -m selerim_demo.evaluate \
+  --expected generated/seed-42/evaluation/expected.json \
+  --predictions generated/acceptance/predictions.json
+```
+
+The engine never opens the oracle. The actual parser run passed 30/30 clean
+matches, all 11 findings, all 65 gaps, and no false positives. Field extraction
+matches fixture values exactly. A separate held-out job is tested with training
+records and documents physically absent. These are synthetic fixture results,
+not general production/OCR/LLM accuracy claims.
+
+## Security and boundaries
+
+- Read-only SQLite source connection; runtime state lives outside inputs.
+- Job-ID checks, path/symlink rejection, fixed record/config snapshot, append-only
+  inbox events and immutable ingested document bytes.
+- Human approval and sending are separate, server-enforced state transitions.
+  Rejection blocks sends; new evidence invalidates approvals; retries are
+  idempotent. Only `.invalid` demo recipients may enter the fake outbox.
+- Business actions include job/document/draft-linked audit events. Database
+  triggers reject audit updates/deletes, and the chained hashes are verifiable.
+  A database owner can still defeat these controls; this is not remote immutable
+  storage or a compliance certification.
+- Loopback binding, Host/Origin checks, per-run action token, escaped HTML and
+  restrictive browser headers. This is a single-operator local demo, not a
+  production authenticated service or OS sandbox. Do not expose its port through
+  a public tunnel; deployment needs authentication and job isolation first.
+- No real inbox account or SMTP/API mail transport is connected. Scanned PDFs
+  and unsupported/corrupt documents go to review; no OCR claim is made.
+
+See WALKTHROUGH.md for the recording script and POST-DRAFT.md for an unpublished
+post. Hosting, real LLM configuration, Loom recording, legal demo and site embeds
+remain later shipping steps.
