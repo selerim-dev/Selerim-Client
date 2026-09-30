@@ -60,5 +60,5 @@ permissions, and acceptance criteria through the AI Opportunity Audit.”
 
 ## Shipping asset
 
-The website embeds a captioned, synthetic-voice tour of captured application states.
+The website embeds a captioned, music-only product tour built from captured application states.
 This is not a continuous live recording or a Loom upload. See `../media/README.md`.

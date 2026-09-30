@@ -156,7 +156,7 @@ export function Proof() {
               </div>
               <h3>{c.title}</h3>
               <div className="concept-video">
-                <video controls playsInline preload="none" poster={c.poster} width="1440" height="960" aria-label={`${c.name}: narrated concept walkthrough`}>
+                <video controls playsInline preload="none" poster={c.poster} width="1920" height="1280" aria-label={`${c.name}: concept product tour`}>
                   <source src={c.video} type="video/mp4" />
                   <track kind="captions" src={c.captions} srcLang="en" label="English" />
                   <a href={c.video}>Download the walkthrough</a>
@@ -165,7 +165,7 @@ export function Proof() {
                   <span>Fictional data · deterministic baseline</span>
                   <a href={c.transcript}>Read transcript ↗</a>
                 </div>
-                <p className="concept-recording-note">Narrated tour of captured application states. Synthetic voice; no live model in this recording.</p>
+                <p className="concept-recording-note">Music-only product tour of the local concept app, captured from its real screens. No narration; no live model in this recording.</p>
               </div>
             </div>
             <div className="concept-body">

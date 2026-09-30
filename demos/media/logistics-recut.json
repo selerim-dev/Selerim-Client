@@ -1,0 +1,405 @@
+{
+ "voice": {
+  "ref": null,
+  "exaggeration": 0.8,
+  "cfg": 0.3,
+  "temperature": 0.8,
+  "tempo": 0.92
+ },
+ "nav": {
+  "outbox_nav": [
+   16,
+   352,
+   211,
+   392
+  ],
+  "audit_nav": [
+   16,
+   396,
+   211,
+   436
+  ],
+  "rest": [
+   780,
+   860,
+   780,
+   860
+  ]
+ },
+ "scenes": [
+  {
+   "title": "Cold open",
+   "beats": [
+    {
+     "card": "title",
+     "text": "Your team spends hours every week matching delivery paperwork to shipments by hand."
+    },
+    {
+     "state": "empty",
+     "cam": "full",
+     "text": "Here's what that looks like when an agent does the grunt work — and a person stays in charge.",
+     "cursor": [
+      {
+       "at": 0,
+       "to": "rest",
+       "jump": true
+      },
+      {
+       "at": 0.2,
+       "to": "inbox",
+       "state": "empty_hover"
+      },
+      {
+       "at": "and a person",
+       "click": true,
+       "state": "loaded"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "The exception desk",
+   "beats": [
+    {
+     "cam": [
+      "badge"
+     ],
+     "hl": "badge",
+     "text": "Quick note before we start: this is a concept build, not a client project.",
+     "cursor": [
+      {
+       "at": 0.1,
+       "to": "rest"
+      }
+     ]
+    },
+    {
+     "hl": "badge",
+     "text": "Every name, shipment, and document you're about to see is fictional."
+    },
+    {
+     "cam": "full",
+     "text": "The problem is real, though."
+    },
+    {
+     "cam": [
+      "queue"
+     ],
+     "hl": "queue",
+     "text": "Shipping documents land in different inboxes and folders."
+    },
+    {
+     "hl": "queue",
+     "text": "Someone has to match each one to its shipment, spot what's missing, and chase it down.",
+     "cursor": [
+      {
+       "at": 0.4,
+       "to": "row0008"
+      }
+     ]
+    },
+    {
+     "cam": "full",
+     "text": "That's the work this agent takes on.",
+     "cursor": [
+      {
+       "at": 0.5,
+       "click": true,
+       "state": "case"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Document meets shipment record",
+   "beats": [
+    {
+     "cam": [
+      "strip"
+     ],
+     "hl": "strip",
+     "text": "Fifty shipment records, forty documents.",
+     "cursor": [
+      {
+       "at": 0.1,
+       "to": "rest"
+      }
+     ]
+    },
+    {
+     "cam": [
+      "evidence"
+     ],
+     "hl": "comparison",
+     "label": "3,215 vs 2,715 lb",
+     "say": "Here's shipment eight: the paperwork says three thousand two hundred fifteen pounds, the record says two thousand seven hundred fifteen.",
+     "text": "Here's shipment eight: the paperwork says 3,215 pounds, the record says 2,715."
+    },
+    {
+     "hl": "comparison",
+     "text": "The agent puts both numbers side by side so a reviewer sees the mismatch instantly — with a link back to the original PDF.",
+     "then": [
+      {
+       "at": "with a link",
+       "cam": [
+        "evidence",
+        "openpdf"
+       ],
+       "hl": "openpdf",
+       "label": "Original PDF"
+      }
+     ],
+     "cursor": [
+      {
+       "at": "with a link",
+       "to": "openpdf",
+       "state": "case_pdfhover"
+      }
+     ]
+    },
+    {
+     "state": "docs",
+     "cam": [
+      "d037",
+      "d038"
+     ],
+     "hl": [
+      "d037",
+      "d038"
+     ],
+     "label": "No matching shipment",
+     "text": "And when a reference doesn't match anything? It goes to a human for review."
+    },
+    {
+     "hl": [
+      "d037",
+      "d038"
+     ],
+     "label": "No matching shipment",
+     "text": "Nothing gets guessed."
+    }
+   ]
+  },
+  {
+   "title": "Approval is a separate decision",
+   "beats": [
+    {
+     "state": "case",
+     "cam": [
+      "message"
+     ],
+     "hl": "message",
+     "text": "The agent drafts the follow-up email naming the issue.",
+     "cursor": [
+      {
+       "at": 0,
+       "to": "rest",
+       "jump": true
+      }
+     ]
+    },
+    {
+     "cam": [
+      "message",
+      "actions"
+     ],
+     "hl": [
+      "approve",
+      "reject"
+     ],
+     "text": "A person reviews the evidence and hits approve or reject.",
+     "cursor": [
+      {
+       "at": 0.5,
+       "to": "approve",
+       "state": "case_approvehover"
+      }
+     ]
+    },
+    {
+     "cam": [
+      "toast"
+     ],
+     "hl": "toast",
+     "label": "Nothing sent yet",
+     "text": "Notice: approving doesn't send anything.",
+     "cursor": [
+      {
+       "at": 0,
+       "click": true,
+       "state": "approved"
+      }
+     ]
+    },
+    {
+     "cam": [
+      "actions"
+     ],
+     "hl": "actions",
+     "label": "Separate send action",
+     "text": "That's a separate action, enforced by the system — not just the button."
+    },
+    {
+     "cam": [
+      "pipeline"
+     ],
+     "hl": "pipeline",
+     "text": "Rejected drafts can't be sent, and if the evidence changes, old approvals expire."
+    }
+   ]
+  },
+  {
+   "title": "Sending, safely",
+   "beats": [
+    {
+     "cam": [
+      "actions"
+     ],
+     "text": "The reviewer sends it to a demo outbox — a local simulation.",
+     "cursor": [
+      {
+       "at": 0.1,
+       "to": "send",
+       "state": "approved_sendhover"
+      },
+      {
+       "at": 0.9,
+       "click": true,
+       "state": "sent"
+      }
+     ],
+     "then": [
+      {
+       "at": "a local simulation",
+       "cam": [
+        "toast"
+       ],
+       "hl": "toast",
+       "label": "Local simulation"
+      }
+     ]
+    },
+    {
+     "cam": [
+      "recipient"
+     ],
+     "hl": "recipient",
+     "label": ".invalid domain",
+     "text": "No real email ever leaves; every recipient is on a non-deliverable domain."
+    },
+    {
+     "cam": [
+      "pipeline"
+     ],
+     "hl": "pipeline",
+     "text": "Safe to demo, but the real approval and send logic is running underneath."
+    }
+   ]
+  },
+  {
+   "title": "Inspectable outbox",
+   "beats": [
+    {
+     "cam": "full",
+     "text": "The outbox keeps the approved message so anyone can inspect exactly what went out.",
+     "cursor": [
+      {
+       "at": 0,
+       "to": "outbox_nav"
+      },
+      {
+       "at": 0.6,
+       "click": true,
+       "state": "outbox"
+      }
+     ],
+     "then": [
+      {
+       "at": "so anyone",
+       "cam": [
+        "entry",
+        "body"
+       ],
+       "hl": [
+        "entry",
+        "body"
+       ]
+      }
+     ]
+    },
+    {
+     "cam": "full",
+     "text": "The agent reads source records without changing them, only touches files in the current job, and logs every action.",
+     "cursor": [
+      {
+       "at": 0,
+       "to": "audit_nav"
+      },
+      {
+       "at": 0.6,
+       "click": true,
+       "state": "audit"
+      }
+     ],
+     "then": [
+      {
+       "at": "and logs",
+       "cam": [
+        "chain",
+        "r1",
+        "r2"
+       ],
+       "hl": [
+        "r1",
+        "r2"
+       ],
+       "label": "Human approved → outbox written"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "Measured results",
+   "beats": [
+    {
+     "card": "results",
+     "reveal": 0,
+     "text": "On the test fixtures: all 30 clean documents matched.",
+     "say": "On the test fixtures: all thirty clean documents matched."
+    },
+    {
+     "card": "results",
+     "reveal": 2,
+     "text": "All 11 planted issues and 65 missing-document gaps caught.",
+     "say": "All eleven planted issues and sixty-five missing-document gaps caught."
+    },
+    {
+     "card": "results",
+     "reveal": 3,
+     "text": "Zero false positives."
+    },
+    {
+     "card": "results",
+     "reveal": 4,
+     "text": "Those are deterministic results on fictional data — not a promise about your operation."
+    },
+    {
+     "card": "results",
+     "reveal": 4,
+     "text": "But they show the shape of what's possible."
+    },
+    {
+     "card": "end",
+     "text": "If paperwork is eating your team's week, the next step is a two-week audit of one workflow."
+    },
+    {
+     "card": "end",
+     "text": "Link's below."
+    }
+   ]
+  }
+ ]
+}

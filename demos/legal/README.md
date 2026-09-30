@@ -87,8 +87,8 @@ loads the actual PDF or email. All fonts and scripts are served locally.
 - Loopback binding, Host/Origin checks, per-run form tokens, escaped output and a
   restrictive CSP. No public tunnel or unauthenticated production exposure.
 
-A captioned 3:36 narrated tour is packaged in the website proof section. It uses
-captured application states and synthetic narration, not a Loom recording.
+A captioned 0:58 music-only product tour is packaged in the website proof section.
+It is built from 3x captures of the real local app states, not a Loom recording.
 Authenticated hosting and live-provider evaluation remain configuration-dependent.
 POST-DRAFT.md remains unpublished.
 

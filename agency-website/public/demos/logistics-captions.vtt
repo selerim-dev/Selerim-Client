@@ -1,109 +1,40 @@
 WEBVTT
 
-00:00:00.000 --> 00:00:05.554
-This is the exception desk, a Selerim logistics concept built with fictional data.
+00:00:00.000 --> 00:00:02.000
+[Upbeat instrumental music]
 
-00:00:05.554 --> 00:00:14.954
-The problem is familiar: shipping documents arrive in different places, people match them by hand, and missing paperwork delays the next step.
+00:00:00.300 --> 00:00:03.985
+Still matching shipping paperwork to shipments by hand?
 
-00:00:14.954 --> 00:00:20.508
-This guided tour uses captured states from the working application and synthetic narration.
+00:00:04.085 --> 00:00:08.170
+Selerim studio — Shipment document agent. Paperwork matched. A person stays in charge. Concept build, fictional data.
 
-00:00:20.508 --> 00:00:24.781
-The current run uses deterministic PDF extraction and template drafts.
+00:00:10.470 --> 00:00:14.298
+Check inbox: 40 documents read, 38 exceptions flagged.
 
-00:00:24.781 --> 00:00:32.898
-It is not a live language model demonstration, and none of the names, shipments, or recipients represent real clients.
+00:00:14.798 --> 00:00:17.398
+Weight mismatch: 3,215 lb on the paperwork, 2,715 lb on the record.
 
-00:00:34.398 --> 00:00:38.062
-The fixture contains fifty shipment records and forty documents.
+00:00:18.198 --> 00:00:20.398
+Linked to the source PDF.
 
-00:00:38.062 --> 00:00:40.911
-Here, shipment eight has a weight discrepancy.
+00:00:20.826 --> 00:00:24.411
+No matching shipment? It goes to a person. Nothing gets guessed.
 
-00:00:40.911 --> 00:00:48.645
-The document says three thousand two hundred fifteen pounds, while the shipment record says two thousand seven hundred fifteen.
+00:00:24.761 --> 00:00:26.161
+A person decides.
 
-00:00:48.645 --> 00:00:53.123
-Both values appear together so a reviewer can understand the exception.
+00:00:27.311 --> 00:00:30.638
+Draft approved. Approving never sends — sending is a separate action.
 
-00:00:53.123 --> 00:00:58.008
-The source panel shows extracted fields and links to the original PDF.
+00:00:33.138 --> 00:00:36.766
+Sent to a demo outbox. No real email leaves — every recipient is on a non-deliverable .invalid domain.
 
-00:00:58.008 --> 00:01:01.671
-The system uses exact shipment references within the job.
+00:00:37.166 --> 00:00:40.751
+Activity log: every action, logged.
 
-00:01:01.671 --> 00:01:06.149
-Missing or unknown references go to review instead of being guessed.
+00:00:41.151 --> 00:00:46.879
+On fictional test fixtures: 30/30 clean documents matched, 11/11 planted issues caught, 65/65 missing-document gaps caught, 0 false positives.
 
-00:01:07.649 --> 00:01:12.874
-The follow-up draft names the detected issue and asks for corrected or missing paperwork.
-
-00:01:12.874 --> 00:01:16.606
-A person reviews the evidence and chooses approve or reject.
-
-00:01:16.606 --> 00:01:23.324
-In this captured state, the reviewer has approved the draft, and a separate send action is now available.
-
-00:01:23.324 --> 00:01:25.563
-Approval does not itself send anything.
-
-00:01:25.563 --> 00:01:31.162
-That distinction is enforced by the server, not only by the appearance of a button.
-
-00:01:31.162 --> 00:01:37.507
-The acceptance tests also check that rejected drafts cannot be sent and changed evidence invalidates old approval.
-
-00:01:39.007 --> 00:01:42.226
-The reviewer then chooses send to demo outbox.
-
-00:01:42.226 --> 00:01:49.066
-The application records the state change and shows that the draft was sent to the local simulation.
-
-00:01:49.066 --> 00:01:54.297
-There is no SMTP connection and no external email API behind this action.
-
-00:01:54.297 --> 00:01:56.712
-All recipients use a non-deliverable domain.
-
-00:01:56.712 --> 00:02:04.759
-This deliberately narrow transport makes the concept safe to demonstrate while still exercising the actual approval and sending state machine.
-
-00:02:04.759 --> 00:02:08.783
-Repeating the same send does not create another outbox entry.
-
-00:02:10.283 --> 00:02:17.556
-The outbox preserves the approved recipient and message so the reviewer can inspect what the simulated action contained.
-
-00:02:17.556 --> 00:02:22.404
-This is fictional evidence, not a client result or a production integration.
-
-00:02:22.404 --> 00:02:30.485
-The system reads source records without changing them, limits file access to the current job, and logs its business actions.
-
-00:02:30.485 --> 00:02:34.526
-The model adapter, when separately configured, can help with wording.
-
-00:02:34.526 --> 00:02:37.354
-It has no approval or sending tool.
-
-00:02:37.354 --> 00:02:41.394
-This recorded run remains in the explicitly labeled template mode.
-
-00:02:42.894 --> 00:02:48.461
-The activity log connects the source, draft, human decision, and simulated send.
-
-00:02:48.461 --> 00:02:54.956
-Its local hash chain is verifiable, although a database owner could defeat those controls.
-
-00:02:54.956 --> 00:03:00.524
-On the actual fixture parser run, all thirty clean documents matched correctly.
-
-00:03:00.524 --> 00:03:07.946
-All eleven planted document findings and sixty five missing-document gaps were detected, with no false positives.
-
-00:03:07.946 --> 00:03:14.441
-These are deterministic fixture results, not a promise about arbitrary scans or real operations.
-
-00:03:14.441 --> 00:03:22.792
-The next production step is a scoped audit of one workflow, its data, security requirements, and acceptance criteria.
+00:00:46.979 --> 00:00:53.106
+Less paperwork. More possibility. Start with a two-week audit of one workflow — get an AI opportunity audit at selerim.com.

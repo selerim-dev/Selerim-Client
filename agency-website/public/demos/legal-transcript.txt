@@ -1,27 +1,20 @@
 # Legal concept walkthrough
 
-Narrated tour of captured application states. Fictional data; deterministic baseline. Synthetic voice.
+Music-only product tour of the local concept application (no narration). Fictional data; deterministic baseline.
+Music: "Party Pop" by AtlasAudio (Pixabay Content License).
 
-## 00:00:00.000 — The matter room
+## On-screen text
 
-This is the matter room, a Selerim concept for preparing legal intake. It uses thirty fictional emails and their attachments, not client records. The task is to organize the materials, identify missing information, and give a human reviewer a factual brief with inspectable sources. This guided tour uses captured application states and synthetic narration. The current pipeline is deterministic. No live language model, real law firm inbox, or external messaging service is connected in this recording.
-
-## 00:00:34.909 — Every claim has a source
-
-The brief appears beside the source material. Each factual statement has a citation naming its document, page, and line. Selecting the stated request highlights the exact line in the intake form. The reviewer can also switch to the engagement letter or open the original file. The paper surface is clearly labeled as extracted text. A requested review date is simply a fact supplied in the form; this tool does not calculate legal deadlines or offer legal advice.
-
-## 00:01:06.546 — Incomplete matters stay visible
-
-The needs-information view separates matters that cannot pass the configured completeness checks. In this example, the company name in the engagement letter differs from the intake form. Other fixtures contain a missing engagement letter, an unsigned letter, or a missing contact email. The application flags the specific issue and offers a route to the local follow-up queue. It does not silently repair the documents, accept the client, or send a message. All twelve planted incomplete matters were routed correctly.
-
-## 00:01:39.866 — The review gate
-
-For a complete intake, the reviewer checks the source materials and explicitly confirms that the brief has been reviewed. Approval then unlocks a separate action to file the reviewed intake. The application does not infer an attorney's decision from a document being present. This demonstration uses a local operator; it does not verify professional credentials. The server blocks approval for incomplete matters and blocks filing before approval. Changed source files also prevent the operation from completing under the old review.
-
-## 00:02:14.105 — Filed does not mean accepted
-
-The filed view preserves the reviewed intake in the local demo. Filing does not establish an attorney-client relationship, clear a conflict, validate an engagement, or send any communication. The runtime retains selected fields, source citations, hashes, and review metadata rather than duplicating entire PDF and email bodies in the database. Original files remain in their matter folders. Access checks reject paths outside the matter and block documents that identify a different matter. Retention still requires an explicit operator policy.
-
-## 00:02:51.616 — Evidence and limits
-
-The activity log makes source views and review decisions inspectable. The separate held-out evaluation contained ten fictional matters. The parser classified eighteen of eighteen documents correctly, extracted one hundred of one hundred fields, and produced fifty eight of fifty eight source-linked statements. Tests opened the cited files to verify the quoted lines. These numbers measure the generated text-PDF fixtures, not real-world legal accuracy, OCR, or model quality. The concept illustrates preparation with human oversight. A production engagement begins by defining the specific workflow, access boundaries, and measurable acceptance checks.
+- 00:00 — 30 new matters. 86 attachments. Who reads it all first?
+- 00:05 — Selerim studio — The matter room. Legal intake, organized. Every statement sourced. Concept build, fictional data.
+- 00:09 — 30 matters organized. 12 need information.
+- 00:15 — Every claim, its source: click a statement, see the exact line.
+- 00:20 — The engagement letter statement links to page 1, line 5.
+- 00:23 — Needs information: contact email missing. Flagged, not guessed.
+- 00:27 — Routed to the local follow-up queue. No email sent.
+- 00:30 — A person reviews first.
+- 00:33 — Approved — filing is a separate step.
+- 00:36 — Filed locally. Not client acceptance. Nothing sent.
+- 00:40 — Activity log: every decision leaves a trace.
+- 00:45 — On held-out fictional matters: 18/18 documents classified, 100/100 fields extracted, 58/58 source-linked statements; 12/12 incomplete matters routed in the full fixture.
+- 00:51 — A little order. A clearer perspective. Start with a two-week audit of one workflow — get an AI opportunity audit at selerim.com.
